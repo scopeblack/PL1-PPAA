@@ -22,15 +22,16 @@ public class Portal {
         this.niños = ni;
     }
     
-    // Funcion para entrar al portal de la zona elegida desde el sótano
-    public void entrarPortal(Nino n) throws InterruptedException, BrokenBarrierException{
+    public void formarGrupoYEntrar(Nino n) throws InterruptedException, BrokenBarrierException{
         System.out.println(n.getIdentificador() + " está esperando para entrar al portal del " + nombre);
         barrera.await();
         synchronized(niños){
+            Thread.sleep(1000); //Cada niño del grupo tarda 1 segundo en entrar
             niños.add(n);
             niños.notifyAll();
         }
     }
+    
     
     public void regresar(Nino n){
         synchronized (niños) {

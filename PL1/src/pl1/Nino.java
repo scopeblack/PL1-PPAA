@@ -34,10 +34,11 @@ public class Nino extends Thread{
             try{
                 String zonaUpsideDown = zonasUpsideDown[i];
                 sleep((long)(1000 + 1000*Math.random())); // Tiempo preparándose en el sótano
-                hawkins.getSotanoByers().irUpsideDown(this, zonaUpsideDown);
-                sleep((long)(3000 + 2000*Math.random()));
-                upsideDown.getZona(zonaUpsideDown).salir(this);
-                hawkins.getSotanoByers().salir(this);
+                hawkins.getSotanoByers().irUpsideDown(this, zonaUpsideDown);    //Entra al sótano y empieza a formar grupo para entrar al Upside Down
+                hawkins.getSotanoByers().salir(this);   //Sale del sótano (y decrementa el contador)
+                System.out.println("N" + id + " Ha pasado el portal y ha llegado a: " + zonaUpsideDown);
+                sleep((long)(3000 + 2000*Math.random()));   //Tiempo en el Upside Down
+                upsideDown.getZona(zonaUpsideDown).salir(this);     //Salir del Upside Down
             }catch(InterruptedException | BrokenBarrierException e){e.printStackTrace();}
         }
     }
