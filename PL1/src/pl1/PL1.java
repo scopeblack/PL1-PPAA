@@ -4,6 +4,8 @@
  */
 package pl1;
 
+import java.util.ArrayList;
+
 public class PL1 {
 
     /**
@@ -12,29 +14,42 @@ public class PL1 {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        
-        
-        new Demogorgon(0).start();
+        // Arrays que tendrán los ids de los niños que hay en cada zona
+        ArrayList<Nino> niñosBosque = new ArrayList<>();
+        ArrayList<Nino> niñosAlcantarillado = new ArrayList<>();
+        ArrayList<Nino> niñosLaboratorio = new ArrayList<>();
+        ArrayList<Nino> niñosCentroComercial = new ArrayList<>();
+
+        Portal portalBosque = new Portal(2, "Bosque", niñosBosque);
+        Portal portalCentroComercial = new Portal(4, "Centro Comercial", niñosCentroComercial);
+        Portal portalAlcantarillado = new Portal(2, "Alcantarillado", niñosAlcantarillado);
+        Portal portalLaboratorio = new Portal(3, "Laboratorio", niñosLaboratorio);
         ZonaHawkins callePrincipal= new ZonaHawkins();
         ZonaHawkins radioWSQK= new ZonaHawkins();
-        ZonaHawkins sotanoByers= new ZonaHawkins();
+        // ZonaHawkins sotanoByers= new ZonaHawkins();
+        Sotano sotanoByers = new Sotano(portalBosque, portalAlcantarillado, portalCentroComercial, portalLaboratorio);
+        Hawkins hawkins = new Hawkins(callePrincipal, radioWSQK, sotanoByers);
         
-        Portal portal1
+
         
         
-        ZonaUpsideDown bosque = new ZonaUpsideDown();
-        ZonaUpsideDown laboratorio = new ZonaUpsideDown();
-        ZonaUpsideDown centroComercial = new ZonaUpsideDown();
-        ZonaUpsideDown alcantarillado = new ZonaUpsideDown();
+        ZonaUpsideDown bosque = new ZonaUpsideDown(portalBosque, niñosBosque);
+        ZonaUpsideDown laboratorio = new ZonaUpsideDown(portalLaboratorio, niñosLaboratorio);
+        ZonaUpsideDown centroComercial = new ZonaUpsideDown(portalCentroComercial, niñosCentroComercial);
+        ZonaUpsideDown alcantarillado = new ZonaUpsideDown(portalAlcantarillado, niñosAlcantarillado);
         
         Colmena colmena = new Colmena();
         
-        GestorEventos gestor = new GestorEventos();
-        
+        UpsideDown upsideDown = new UpsideDown(bosque, laboratorio, centroComercial, alcantarillado, colmena);
+        new Vecna(hawkins, upsideDown).start();
+
+        GestorEventos gestor = new GestorEventos(hawkins, upsideDown);
+        new Demogorgon(0, hawkins, upsideDown).start();
+
         try{
             for(int i=0; i<1500; i++){
 
-                new Nino(i).start();
+                new Nino(i, hawkins, upsideDown).start();
                 Thread.sleep(500 + (int)(Math.random()*1500));
             }
         }

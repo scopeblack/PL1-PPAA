@@ -1,0 +1,81 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package pl1;
+
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ *
+ * @author daniel
+ */
+public class UpsideDown {
+    ZonaUpsideDown bosque;
+    ZonaUpsideDown laboratorio;
+    ZonaUpsideDown centroComercial;
+    ZonaUpsideDown alcantarillado;
+    Colmena colmena;
+    private AtomicInteger contadorNiñosColmena = new AtomicInteger(0);
+    private AtomicInteger contadorDemogorgons = new AtomicInteger(0);
+
+    Semaphore niñosColmena = new Semaphore(0, true); // Semáforo para que Vecna cree un demogorgon por cada 8 niños capturados
+    
+    public UpsideDown(ZonaUpsideDown b, ZonaUpsideDown l, ZonaUpsideDown c, ZonaUpsideDown a, Colmena co){
+        this.bosque = b;
+        this.laboratorio = l;
+        this.centroComercial = c;
+        this.alcantarillado = a;
+        this.colmena = co;
+    }
+    
+    public synchronized ZonaUpsideDown getZona(String zona){
+        switch(zona){
+            case "bosque":
+                return bosque;
+            case "laboratorio":
+                return laboratorio;
+            case "centroComercial":
+                return centroComercial;
+            case "alcantarillado":
+                return alcantarillado;
+        }
+        return null;
+    }
+
+    public ZonaUpsideDown getBosque() {
+        return bosque;
+    }
+
+    public ZonaUpsideDown getLaboratorio() {
+        return laboratorio;
+    }
+
+    public ZonaUpsideDown getCentroComercial() {
+        return centroComercial;
+    }
+
+    public ZonaUpsideDown getAlcantarillado() {
+        return alcantarillado;
+    }
+
+    public Colmena getColmena() {
+        return colmena;
+    }
+    
+    
+    // Cada 8 permisos en el semáforo, significa que 8 niños han sido capturados, por lo que Vecna crea un nuevo Demogorgon
+    public void crearDemogorgon(Hawkins h) throws InterruptedException{
+        niñosColmena.acquire(8);
+        Demogorgon d = new Demogorgon(contadorDemogorgons.incrementAndGet(), h, this);
+        d.start();
+        System.out.println("Vecna ha creado a " + d.getIdentificador());
+    }
+    
+    // Por cada niño capturado, se añade 1 permiso al semáforo
+    public synchronized void enviarNiñoColmena(Nino n){
+        colmena.enviarNiñoColmena(n);
+        niñosColmena.release();
+    }
+}

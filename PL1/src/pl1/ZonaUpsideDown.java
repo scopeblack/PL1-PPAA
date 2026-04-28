@@ -4,10 +4,35 @@
  */
 package pl1;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Alejandro
  */
 public class ZonaUpsideDown {
+    private Portal portal;
+    private ArrayList<Nino> niños;
+    public ZonaUpsideDown(Portal p, ArrayList<Nino> n){
+        this.portal = p;
+        this.niños = n;
+    }
     
+    public void salir(Nino n){
+        portal.regresar(n);
+    }
+    
+    public Nino atacar() throws InterruptedException{
+        Nino n = null;
+        synchronized(niños){
+            while(niños.size() < 1){
+                niños.wait((long)(4000 + 1000*Math.random()));
+            }
+            // Hay que implementar lo de la probabilidad de éxito, no se si irá aquí o donde
+            int i = (int)(niños.size() * Math.random());
+            n = niños.get(i);
+            niños.remove(n);
+        }
+        return n;
+    }
 }
