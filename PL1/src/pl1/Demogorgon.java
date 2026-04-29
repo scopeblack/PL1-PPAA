@@ -50,6 +50,7 @@ public class Demogorgon extends Thread {
                         sleep((long)(500 + 500*Math.random())); // Tiempo en llevar al niño a la colmena
                     }else{
                         System.out.println("El ataque de " +  identificador + " no tuvo éxito");
+                        niño.getSemaphore().release();
                     }
                 }else{
                     System.out.println("El ataque de " +  identificador + " no tuvo éxito");

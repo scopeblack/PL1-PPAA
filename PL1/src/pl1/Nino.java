@@ -5,6 +5,9 @@
 package pl1;
 
 import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,6 +19,7 @@ public class Nino extends Thread{
     private Hawkins hawkins;
     private UpsideDown upsideDown;
     private double tiempo = 0;
+    private Semaphore encerrado = new Semaphore(1);
     public Nino(int id, Hawkins h, UpsideDown u){
         this.id=id;
         this.identificador= "N"+id;
@@ -45,8 +49,19 @@ public class Nino extends Thread{
                 sleep((long)(3000 + 2000*Math.random()));   //Tiempo en el Upside Down
                 upsideDown.getZona(zonaUpsideDown).salir(this);     //Salir del Upside Down
             }catch(InterruptedException | BrokenBarrierException e){
-                e.printStackTrace();
+                //e.printStackTrace();
                 esperar((long)(tiempo));
+                try {
+                    encerrado.acquire(2);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+                finally{
+                    encerrado.release(1);
+                }
+                
+                
+                
             }
         }
     }
@@ -57,4 +72,7 @@ public class Nino extends Thread{
         }catch(InterruptedException e){e.printStackTrace();}
     }
     
+    public Semaphore getSemaphore(){
+        return encerrado;
+    }
 }
