@@ -15,6 +15,7 @@ public class Nino extends Thread{
     private String identificador;
     private Hawkins hawkins;
     private UpsideDown upsideDown;
+    private double tiempo = 0;
     public Nino(int id, Hawkins h, UpsideDown u){
         this.id=id;
         this.identificador= "N"+id;
@@ -24,6 +25,10 @@ public class Nino extends Thread{
     
     public String getIdentificador(){
         return identificador;
+    }
+    
+    public void setTiempo(double t){
+        tiempo = t;
     }
     
     public void run(){
@@ -39,7 +44,17 @@ public class Nino extends Thread{
                 System.out.println("N" + id + " Ha pasado el portal y ha llegado a: " + zonaUpsideDown);
                 sleep((long)(3000 + 2000*Math.random()));   //Tiempo en el Upside Down
                 upsideDown.getZona(zonaUpsideDown).salir(this);     //Salir del Upside Down
-            }catch(InterruptedException | BrokenBarrierException e){e.printStackTrace();}
+            }catch(InterruptedException | BrokenBarrierException e){
+                e.printStackTrace();
+                esperar((long)(tiempo));
+            }
         }
     }
+    
+    public void esperar(double t){
+        try{
+            sleep((long)(t));
+        }catch(InterruptedException e){e.printStackTrace();}
+    }
+    
 }

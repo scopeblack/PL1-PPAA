@@ -22,7 +22,7 @@ public class ZonaUpsideDown {
         portal.regresar(n);
     }
     
-    public Nino atacar() throws InterruptedException{
+    public Nino elegir() throws InterruptedException{
         Nino n = null;
         synchronized(niños){
             while(niños.size() < 1){
@@ -34,5 +34,16 @@ public class ZonaUpsideDown {
             niños.remove(n);
         }
         return n;
+    }
+    
+    public boolean atacar(Nino n){
+        boolean capturado = (Math.random() <= 1);
+        // probabilidad -> Modifica flag capturado
+        if(!capturado){
+            synchronized (niños) {
+                niños.add(n);
+            }
+        }
+        return capturado;
     }
 }
