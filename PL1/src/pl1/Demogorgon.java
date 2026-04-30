@@ -32,6 +32,7 @@ public class Demogorgon extends Thread {
             try{
                 String zonaUpsideDown = zonasUpsideDown[i];
                 ZonaUpsideDown zona = upsideDown.getZona(zonaUpsideDown);
+                System.out.println(identificador + " Ha llegado a: " + zonaUpsideDown);
                 // Lo de atacar no creo que sea así, ya que lo captura y luego espera, en vez de capturarlo durante 0.5-1.5 segundos, pero ya se hará
                 Nino niño = zona.elegir();
                 double tiempo = 500 + 1000*Math.random();
@@ -43,7 +44,7 @@ public class Demogorgon extends Thread {
                     niño.isInterrupted();
                     if(capturado){
                         System.out.println("----------------------------------");
-                        System.out.println(identificador + " acaba de capturar a " + niño.getIdentificador());
+                        System.out.println(identificador + " acaba de capturar a " + niño.getIdentificador() + " en: " + zonaUpsideDown);
                         System.out.println("----------------------------------");
                         capturas++;
                         upsideDown.enviarNiñoColmena(niño);
