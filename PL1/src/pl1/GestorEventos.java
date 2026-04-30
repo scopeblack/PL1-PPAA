@@ -4,6 +4,8 @@
  */
 package pl1;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Alejandro
@@ -23,6 +25,19 @@ public class GestorEventos extends Thread {
     }
     
     public void intervencionEleven(){
+        int sangre = hawkins.getRadioWSBK().getSangre();
+        ArrayList<Nino> niños = upsideDown.getColmena().getNiños();
+        System.out.println("Eleven ha sido invocada. Va a liberar a " + sangre + "niños");
+        int k = 0;
+        while(niños.size() > 0 && sangre > 0){
+            k++;
+            Nino n = niños.get((int)(niños.size()*Math.random()));
+            niños.remove(n);
+            upsideDown.getColmena().sacarNiñoColmena(n);
+            sangre--;
+            n.getSemaphore().release(); // Liberar al niño del semáforo en el que está bloqueado
+        }
+        hawkins.getRadioWSBK().setSangre(hawkins.getRadioWSBK().getSangre() - k);
     }
     
     public void redMental(){
@@ -35,20 +50,24 @@ public class GestorEventos extends Thread {
                 sleep((long)(30000 + Math.random()*30000));
                 switch (i) {
                     case 0:
-                        apagonLaboratorio();
+                        // apagonLaboratorio();
+                        intervencionEleven();
                         break;
                     case 1:
-                        tormentaUpsideDown();
+                        // tormentaUpsideDown();
+                        intervencionEleven();
                         break;
                     case 2:
                         intervencionEleven();
                         break;
                     case 3:
-                        redMental();
+                        // redMental();
+                        intervencionEleven();
                         break;
                     default:
                         throw new AssertionError();
                 }
+                i = (int)(4*Math.random());
             }catch(InterruptedException e){e.printStackTrace();}
         }
     }

@@ -12,6 +12,12 @@ public class PL1 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        try {
+            System.setOut(new java.io.PrintStream(System.out, true, "UTF-8"));
+        } catch (java.io.UnsupportedEncodingException e) {
+            System.out.println("Error de codificación");
+        }
         // TODO code application logic here
         
         // Arrays que tendrán los ids de los niños que hay en cada zona
@@ -44,6 +50,7 @@ public class PL1 {
         new Vecna(hawkins, upsideDown).start();
 
         GestorEventos gestor = new GestorEventos(hawkins, upsideDown);
+        gestor.start();
         new Demogorgon(0, hawkins, upsideDown).start();
 
         try{

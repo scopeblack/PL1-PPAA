@@ -33,4 +33,13 @@ public class RadioWSQK {
         niños.remove(n);
         System.out.println(n.getIdentificador() + " sale de la RadioWSQK. Niños en la RadioWSQK: " + niños.size());
     }
+    
+    public int getSangre(){
+        int sangre = contadorSangre.get();
+        return sangre;
+    }
+    
+    public void setSangre(int n){
+        contadorSangre.set(n);
+    }
 }
