@@ -7,6 +7,7 @@ package pl1;
 import java.util.ArrayList;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.Semaphore;
 
 /**
  *
@@ -16,6 +17,7 @@ public class Portal {
     private CyclicBarrier barrera;
     private String nombre;
     private ArrayList<Nino> niños;
+    private Semaphore entrando = new Semaphore(1);
     public Portal(int CAP, String n, ArrayList<Nino> ni){
         this.barrera = new CyclicBarrier(CAP);
         this.nombre = n;
@@ -25,11 +27,13 @@ public class Portal {
     public void formarGrupoYEntrar(Nino n) throws InterruptedException, BrokenBarrierException{
         System.out.println(n.getIdentificador() + " está esperando para entrar al portal del " + nombre);
         barrera.await();
+        entrando.acquire();
+        Thread.sleep(1000); //Cada niño del grupo tarda 1 segundo en entrar
         synchronized(niños){
-            Thread.sleep(1000); //Cada niño del grupo tarda 1 segundo en entrar
             niños.add(n);
             niños.notifyAll();
         }
+        entrando.release();
     }
     
     
