@@ -48,6 +48,15 @@ public class Nino extends Thread{
                 System.out.println("N" + id + " Ha pasado el portal y ha llegado a: " + zonaUpsideDown);
                 sleep((long)(3000 + 2000*Math.random()));   //Tiempo en el Upside Down
                 upsideDown.getZona(zonaUpsideDown).salir(this);     //Salir del Upside Down
+                hawkins.getRadioWSBK().entrar(this);
+                hawkins.getRadioWSBK().depositarSangre(this);
+                sleep(2000 + (long)(Math.random()*2000));
+                hawkins.getRadioWSBK().salir(this);
+                hawkins.getCallePrincipal().entrar(this);
+                sleep((long)(3000 + 2000*Math.random()));   //Tiempo en la Calle Principal
+                hawkins.getCallePrincipal().salir(this);
+                i = (int)(4*Math.random());
+
             }catch(InterruptedException | BrokenBarrierException e){
                 //e.printStackTrace();
                 esperar((long)(tiempo));

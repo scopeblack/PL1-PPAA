@@ -9,21 +9,21 @@ package pl1;
  * @author daniel
  */
 public class Hawkins {
-    private ZonaHawkins radioWSBK;
-    private ZonaHawkins callePrincipal;
+    private RadioWSQK radioWSBK;
+    private CallePrincipal callePrincipal;
     private Sotano sotanoByers;
     
-    public Hawkins(ZonaHawkins c, ZonaHawkins r, Sotano s){
+    public Hawkins(CallePrincipal c, RadioWSQK r, Sotano s){
         this.radioWSBK = r;
         this.callePrincipal = c;
         this.sotanoByers = s;
     }
 
-    public ZonaHawkins getRadioWSBK() {
+    public RadioWSQK getRadioWSBK() {
         return radioWSBK;
     }
 
-    public ZonaHawkins getCallePrincipal() {
+    public CallePrincipal getCallePrincipal() {
         return callePrincipal;
     }
 

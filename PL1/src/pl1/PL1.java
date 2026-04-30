@@ -24,9 +24,9 @@ public class PL1 {
         Portal portalCentroComercial = new Portal(4, "Centro Comercial", niñosCentroComercial);
         Portal portalAlcantarillado = new Portal(2, "Alcantarillado", niñosAlcantarillado);
         Portal portalLaboratorio = new Portal(3, "Laboratorio", niñosLaboratorio);
-        ZonaHawkins callePrincipal= new ZonaHawkins();
-        ZonaHawkins radioWSQK= new ZonaHawkins();
-        // ZonaHawkins sotanoByers= new ZonaHawkins();
+        CallePrincipal callePrincipal= new CallePrincipal();
+        RadioWSQK radioWSQK= new RadioWSQK();
+        // CallePrincipal sotanoByers= new CallePrincipal();
         Sotano sotanoByers = new Sotano(portalBosque, portalAlcantarillado, portalCentroComercial, portalLaboratorio);
         Hawkins hawkins = new Hawkins(callePrincipal, radioWSQK, sotanoByers);
         
