@@ -4,6 +4,10 @@
  */
 package pl1;
 
+import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Alejandro
@@ -14,6 +18,7 @@ public class Demogorgon extends Thread {
     private Hawkins hawkins;
     private UpsideDown upsideDown;
     private int capturas = 0;
+    private Semaphore paralizado= new Semaphore(1);
     public Demogorgon(int id, Hawkins h, UpsideDown u){
         this.id=id;
         this.identificador= "D"+id;
@@ -40,24 +45,42 @@ public class Demogorgon extends Thread {
                     niño.setTiempo(tiempo);
                     niño.interrupt();
                     boolean capturado = zona.atacar(niño);
-                    sleep((long)(tiempo));
-                    niño.isInterrupted();
-                    if(capturado){
-                        System.out.println("----------------------------------");
-                        System.out.println(identificador + " acaba de capturar a " + niño.getIdentificador() + " en: " + zonaUpsideDown);
-                        System.out.println("----------------------------------");
-                        capturas++;
-                        upsideDown.enviarNiñoColmena(niño);
-                        sleep((long)(500 + 500*Math.random())); // Tiempo en llevar al niño a la colmena
-                    }else{
-                        System.out.println("El ataque de " +  identificador + " no tuvo éxito");
-                        niño.getSemaphore().release();
+                    try{
+                        sleep((long)(tiempo));
+                        }
+                    catch(InterruptedException ex){
+                        paralizado.acquire(); //HAY QUE ACABAR ESTO!
                     }
+                        niño.isInterrupted();
+                        if(capturado){
+                            System.out.println("----------------------------------");
+                            System.out.println(identificador + " acaba de capturar a " + niño.getIdentificador() + " en: " + zonaUpsideDown);
+                            System.out.println("----------------------------------");
+                            capturas++;
+                            upsideDown.enviarNiñoColmena(niño);
+                            sleep((long)(500 + 500*Math.random())); // Tiempo en llevar al niño a la colmena
+                        }else{
+                            System.out.println("El ataque de " +  identificador + " no tuvo éxito");
+                            niño.getSemaphore().release();
+                        }
+                    
                 }else{
                     System.out.println("El ataque de " +  identificador + " no tuvo éxito");
                 }
                 i = (int)(4*Math.random());
-            }catch(InterruptedException e){e.printStackTrace();}
+            }catch(InterruptedException e){
+                e.printStackTrace();
+                try {
+                    paralizado.acquire(1);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Demogorgon.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+            finally{
+                paralizado.release(1);
+            }
+            
         }
     }
     

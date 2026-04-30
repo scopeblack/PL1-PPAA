@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class ZonaUpsideDown {
     private Portal portal;
     private ArrayList<Nino> niños;
+    private ArrayList<Demogorgon> demogorgons;
     public ZonaUpsideDown(Portal p, ArrayList<Nino> n){
         this.portal = p;
         this.niños = n;
