@@ -4,6 +4,7 @@
  */
 package pl1;
 
+import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -18,7 +19,9 @@ public class UpsideDown {
     ZonaUpsideDown alcantarillado;
     Colmena colmena;
     private AtomicInteger contadorNiñosColmena = new AtomicInteger(0);
-    private AtomicInteger contadorDemogorgons = new AtomicInteger(0);
+    private AtomicInteger contadorDemogorgons = new AtomicInteger(1);
+    private ArrayList<Demogorgon> demogorgons = new ArrayList<>();
+
 
     Semaphore niñosColmena = new Semaphore(0, true); // Semáforo para que Vecna cree un demogorgon por cada 8 niños capturados
     
@@ -68,8 +71,9 @@ public class UpsideDown {
     // Cada 8 permisos en el semáforo, significa que 8 niños han sido capturados, por lo que Vecna crea un nuevo Demogorgon
     public void crearDemogorgon(Hawkins h) throws InterruptedException{
         niñosColmena.acquire(8);
-        Demogorgon d = new Demogorgon(contadorDemogorgons.incrementAndGet(), h, this);
+        Demogorgon d = new Demogorgon(contadorDemogorgons.getAndIncrement(), h, this);
         d.start();
+        demogorgons.add(d);
         System.out.println("Vecna ha creado a " + d.getIdentificador());
     }
     
@@ -77,5 +81,13 @@ public class UpsideDown {
     public synchronized void enviarNiñoColmena(Nino n){
         colmena.enviarNiñoColmena(n);
         niñosColmena.release();
+    }
+    
+    public synchronized ArrayList getDemogorgons(){
+        return demogorgons;
+    }
+    
+    public int getContadorDemogorgons(){
+        return contadorDemogorgons.get();
     }
 }

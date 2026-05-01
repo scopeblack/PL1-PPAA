@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public class ZonaUpsideDown {
     private Portal portal;
     private ArrayList<Nino> niños;
-    private ArrayList<Demogorgon> demogorgons;
     public ZonaUpsideDown(Portal p, ArrayList<Nino> n){
         this.portal = p;
         this.niños = n;
@@ -38,13 +37,16 @@ public class ZonaUpsideDown {
     }
     
     public boolean atacar(Nino n){
-        boolean capturado = (Math.random() <= 1);
-        // probabilidad -> Modifica flag capturado
+        boolean capturado = (Math.random() <= 4/5);
         if(!capturado){
             synchronized (niños) {
                 niños.add(n);
             }
         }
         return capturado;
+    }
+    
+    public synchronized ArrayList getNiños(){
+        return niños;
     }
 }

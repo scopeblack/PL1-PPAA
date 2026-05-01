@@ -42,4 +42,8 @@ public class RadioWSQK {
     public void setSangre(int n){
         contadorSangre.set(n);
     }
+    
+    public synchronized ArrayList getNiños(){
+        return niños;
+    }
 }

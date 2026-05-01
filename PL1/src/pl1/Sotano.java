@@ -4,6 +4,7 @@
  */
 package pl1;
 
+import java.util.ArrayList;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -17,6 +18,7 @@ public class Sotano {
     private Portal portalLaboratorio;
     private Portal portalCentroComercial;
     private AtomicInteger contadorNiñosSotano = new AtomicInteger(0);
+    private ArrayList<Nino> niños = new ArrayList<>();
     
     public Sotano(Portal... portal){
         this.portalBosque=portal[0];
@@ -24,14 +26,32 @@ public class Sotano {
         this.portalCentroComercial=portal[2];
         this.portalLaboratorio=portal[3];
     }
+
+    public Portal getPortalBosque() {
+        return portalBosque;
+    }
+
+    public Portal getPortalAlcantarillado() {
+        return portalAlcantarillado;
+    }
+
+    public Portal getPortalLaboratorio() {
+        return portalLaboratorio;
+    }
+
+    public Portal getPortalCentroComercial() {
+        return portalCentroComercial;
+    }
     
     public void salir(Nino n){
+        niños.remove(n);
         System.out.println(n.getIdentificador() + " sale del sótano. Niños en el sótano: " + contadorNiñosSotano.decrementAndGet());
     }
     public void regresar(Nino n){
         System.out.println(n.getIdentificador() + " regresa al sótano. Niños en el sótano: " + contadorNiñosSotano.decrementAndGet());
     }
     public void irUpsideDown(Nino n, String zona) throws InterruptedException, BrokenBarrierException{
+        niños.add(n);
         String id = n.getIdentificador();
         System.out.println(id + " acaba de entrar al sótano. Niños en el sótano: " + contadorNiñosSotano.incrementAndGet());
         switch(zona){
@@ -61,6 +81,10 @@ public class Sotano {
     }
     private void irCentroComercial(Nino n) throws InterruptedException, BrokenBarrierException{
         portalCentroComercial.formarGrupoYEntrar(n);
+    }
+    
+    public synchronized ArrayList getNiños(){
+        return niños;
     }
     
     

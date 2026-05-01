@@ -49,7 +49,7 @@ public class Demogorgon extends Thread {
                         sleep((long)(tiempo));
                         }
                     catch(InterruptedException ex){
-                        paralizado.acquire(); //HAY QUE ACABAR ESTO!
+                        paralizado.acquire(2); //HAY QUE ACABAR ESTO!
                     }
                         niño.isInterrupted();
                         if(capturado){

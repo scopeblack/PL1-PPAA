@@ -5,6 +5,8 @@
 package pl1;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PL1 {
 
@@ -51,6 +53,24 @@ public class PL1 {
 
         GestorEventos gestor = new GestorEventos(hawkins, upsideDown);
         gestor.start();
+        
+        Interfaz interfaz = new Interfaz();
+
+        interfaz.setInicial(hawkins, upsideDown, gestor);
+        interfaz.setVisible(true);
+
+
+        new Thread(() -> {
+            while(true) {
+                interfaz.actualizarDatos();
+
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    break; 
+                }
+            }
+        }).start();
         new Demogorgon(0, hawkins, upsideDown).start();
 
         try{

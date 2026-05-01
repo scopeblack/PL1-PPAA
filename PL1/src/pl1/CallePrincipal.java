@@ -23,5 +23,9 @@ public class CallePrincipal {
         niños.add(n);
         System.out.println(n.getIdentificador() + " regresa al sótano. Niños en el sótano: " + niños.size());
     }
+    
+    public synchronized ArrayList getNiños(){
+        return niños;
+    }
           
 }

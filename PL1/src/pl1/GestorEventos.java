@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class GestorEventos extends Thread {
     private Hawkins hawkins;
     private UpsideDown upsideDown;
+    private String eventoActivo = null;
     public GestorEventos(Hawkins h, UpsideDown u){
         this.hawkins = h;
         this.upsideDown = u;
@@ -25,9 +26,10 @@ public class GestorEventos extends Thread {
     }
     
     public void intervencionEleven(){
+        eventoActivo = "Intervención de Eleven";
         int sangre = hawkins.getRadioWSBK().getSangre();
         ArrayList<Nino> niños = upsideDown.getColmena().getNiños();
-        System.out.println("Eleven ha sido invocada. Va a liberar a " + sangre + "niños");
+        System.out.println("Eleven ha sido invocada. Va a liberar a " + sangre + " niños");
         int k = 0;
         while(niños.size() > 0 && sangre > 0){
             k++;
@@ -43,6 +45,9 @@ public class GestorEventos extends Thread {
     public void redMental(){
     }
     
+    public String getEvento(){
+        return eventoActivo;
+    }
     public void run(){
         int i = (int)(4*Math.random());
         while(true){

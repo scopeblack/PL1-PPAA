@@ -41,6 +41,8 @@ public class Nino extends Thread{
         
         while(true){
             try{
+                hawkins.getCallePrincipal().entrar(this);
+                hawkins.getCallePrincipal().salir(this);
                 String zonaUpsideDown = zonasUpsideDown[i];
                 sleep((long)(1000 + 1000*Math.random())); // Tiempo preparándose en el sótano
                 hawkins.getSotanoByers().irUpsideDown(this, zonaUpsideDown);    //Entra al sótano y empieza a formar grupo para entrar al Upside Down
@@ -83,5 +85,9 @@ public class Nino extends Thread{
     
     public Semaphore getSemaphore(){
         return encerrado;
+    }
+    
+    public String toString(){
+        return identificador;
     }
 }
