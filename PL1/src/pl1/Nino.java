@@ -22,6 +22,7 @@ public class Nino extends Thread{
     private double tiempo = 0;
     private AtomicBoolean capturado= new AtomicBoolean(false);
     private Semaphore encerrado = new Semaphore(1);
+    //private Semaphore perseguido = new Semaphore(0);
     private AtomicBoolean enUpsideDown = new AtomicBoolean(false);
     public Nino(int id, Hawkins h, UpsideDown u){
         this.id=id;
@@ -44,7 +45,18 @@ public class Nino extends Thread{
     public void run() {
     String[] zonasUpsideDown = {"bosque", "alcantarillado", "laboratorio", "centroComercial"};
     int i = (int)(4*Math.random());
-
+    
+    // HAWKINS
+    
+            hawkins.getCallePrincipal().entrar(this);   //Spawn de los niños
+            try{
+            sleep(250);
+            }
+            catch(InterruptedException ex){
+                ex.printStackTrace();
+            }
+            hawkins.getCallePrincipal().salir(this);
+    
     while(true) {
         try {
             // ESPERA EN COLMENA
@@ -55,11 +67,8 @@ public class Nino extends Thread{
                 }
             }
 
-            // HAWKINS
-            hawkins.getCallePrincipal().entrar(this);
-            sleep(250);
-            hawkins.getCallePrincipal().salir(this);
 
+            enUpsideDown.set(false);
             hawkins.getSotanoByers().entrar(this);
             sleep((long)(1000 + 1000*Math.random()));
 
@@ -74,17 +83,20 @@ public class Nino extends Thread{
                 zonaActual.entrar(this);
 
                 try {
-                    sleep((long)(3000 + 2000 * Math.random())); 
+                    sleep((long)(3000 + 2000 * Math.random()));     //Deambula por el UD
                 } catch (InterruptedException e) {
+                    
                     esperar(tiempo); // Tiempo de ataque
+                    //perseguido.acquire();   //Esperamos a que el Demogorgon nos capture o desista.
                 } finally {
-                    // Justo antes de salir, marcamos que ya NO estamos en el UD
-                    enUpsideDown.set(false);
+                    //enUpsideDown.set(false);
                     zonaActual.salir(this);
+                    if (capturado.get()){ System.out.println("He sido capturado me salto el while restante"); continue;}  //Entramos en el wait de la colmena
+
                 }
 
-                if (capturado.get()) continue;
-
+                if (capturado.get()){ System.out.println("He sido capturado me salto el while restante"); continue;}  //Entramos en el wait de la colmena
+                enUpsideDown.set(false);
             // REGRESO A HAWKINS
             hawkins.getRadioWSBK().entrar(this);
             hawkins.getRadioWSBK().depositarSangre(this);
@@ -98,6 +110,7 @@ public class Nino extends Thread{
             i = (int)(4*Math.random());
 
         } catch (InterruptedException | BrokenBarrierException e) {
+            e.printStackTrace();
             Thread.interrupted();
         }
     }

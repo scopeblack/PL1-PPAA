@@ -44,20 +44,29 @@ public class Demogorgon extends Thread {
                 double tAtaque = 500 + 1000 * Math.random();
                 niño.setTiempo(tAtaque);
                 niño.interrupt(); 
-
+                
+                boolean exito = (Math.random() <= 1.0/3.0);
+                if(exito) niño.setCapturado();  //Determinamos la captura antes del sleep para que no haya condiciones de carrera.
+                
                 sleep((long)tAtaque); 
 
-                boolean exito = (Math.random() <= 1.0/3.0);
+
                 if(exito) {
-                    niño.setCapturado();
+                    System.out.println("----------------------------" + identificador + ": Ha capturado a " + niño.getIdentificador() + 
+                            " en: " + zonaNombre + "----------------------------");
+                    
+                    //niño.setCapturado();
                     upsideDown.enviarNiñoColmena(niño);
                 } else {
                     // AQUÍ ESTABA EL ERROR:
                     // Solo lo devolvemos si el niño no ha salido ya por el finally
-                    zona.devolverSiNoCapturado(niño, false);
+                    System.out.println("----------------------------" + identificador + ": Ha fallado al capturar a " + niño.getIdentificador() + 
+                            " en: " + zonaNombre + "----------------------------");
+                    
+                    zona.devolverSiNoCapturado(niño, false);    //El demogorgon deja de perseguirlo
                 }
             }
-            i = (int)(4*Math.random());
+            i = (int)(4*Math.random());     //Elige su próximo destino
         } catch(InterruptedException e) {
             // Manejo de parálisis (Eleven)
             try {
