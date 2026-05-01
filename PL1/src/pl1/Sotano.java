@@ -48,12 +48,16 @@ public class Sotano {
         System.out.println(n.getIdentificador() + " sale del sótano. Niños en el sótano: " + contadorNiñosSotano.decrementAndGet());
     }
     public void regresar(Nino n){
-        System.out.println(n.getIdentificador() + " regresa al sótano. Niños en el sótano: " + contadorNiñosSotano.decrementAndGet());
+        System.out.println(n.getIdentificador() + " regresa al sótano. Niños en el sótano: " + contadorNiñosSotano.incrementAndGet());
     }
-    public void irUpsideDown(Nino n, String zona) throws InterruptedException, BrokenBarrierException{
+    
+    public synchronized void entrar(Nino n){
         niños.add(n);
         String id = n.getIdentificador();
         System.out.println(id + " acaba de entrar al sótano. Niños en el sótano: " + contadorNiñosSotano.incrementAndGet());
+    }
+    
+    public void irUpsideDown(Nino n, String zona) throws InterruptedException, BrokenBarrierException{
         switch(zona){
             case "bosque":
                 irBosque(n);
@@ -83,7 +87,7 @@ public class Sotano {
         portalCentroComercial.formarGrupoYEntrar(n);
     }
     
-    public synchronized ArrayList getNiños(){
+    public ArrayList getNiños(){
         return niños;
     }
     

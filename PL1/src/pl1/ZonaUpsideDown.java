@@ -25,19 +25,21 @@ public class ZonaUpsideDown {
     public Nino elegir() throws InterruptedException{
         Nino n = null;
         synchronized(niños){
-            while(niños.size() < 1){
+            if(niños.size() < 1){
                 niños.wait((long)(4000 + 1000*Math.random()));
             }
-            // Hay que implementar lo de la probabilidad de éxito, no se si irá aquí o donde
-            int i = (int)(niños.size() * Math.random());
-            n = niños.get(i);
-            niños.remove(n);
+            if(niños.size() > 0){
+                // Hay que implementar lo de la probabilidad de éxito, no se si irá aquí o donde
+                int i = (int)(niños.size() * Math.random());
+                n = niños.get(i);
+                niños.remove(n);
+            }
         }
         return n;
     }
     
     public boolean atacar(Nino n){
-        boolean capturado = (Math.random() <= 4/5);
+        boolean capturado = (Math.random() <= 1.0/3.0);
         if(!capturado){
             synchronized (niños) {
                 niños.add(n);

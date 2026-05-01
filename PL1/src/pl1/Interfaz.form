@@ -88,6 +88,7 @@
                           </Group>
                           <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                           <Component id="demogorgons" min="-2" max="-2" attributes="0"/>
+                          <Component id="cantidadNiñosColmena" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   </Group>
@@ -108,7 +109,10 @@
                           <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
-                      <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cantidadNiñosColmena" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace min="99" pref="99" max="-2" attributes="0"/>
                       <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="93" max="-2" attributes="0"/>
@@ -425,6 +429,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="demogorgons">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel20"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="cantidadNi&#xf1;osColmena">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel20"/>
       </Properties>

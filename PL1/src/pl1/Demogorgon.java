@@ -49,7 +49,10 @@ public class Demogorgon extends Thread {
                         sleep((long)(tiempo));
                         }
                     catch(InterruptedException ex){
-                        paralizado.acquire(2); //HAY QUE ACABAR ESTO!
+                        System.out.println("----------------------------------");
+                        System.out.println("DVIUAHIJOPovbjvvjbiajokskpco");
+                        System.out.println("----------------------------------"); 
+                        // paralizado.acquire(2); //HAY QUE ACABAR ESTO!
                     }
                         niño.isInterrupted();
                         if(capturado){
@@ -71,15 +74,15 @@ public class Demogorgon extends Thread {
             }catch(InterruptedException e){
                 e.printStackTrace();
                 try {
-                    paralizado.acquire(1);
+                    paralizado.acquire(2);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Demogorgon.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+                finally{
+                    paralizado.release(1);
+                }
             }
-            finally{
-                paralizado.release(1);
-            }
+
             
         }
     }

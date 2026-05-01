@@ -33,25 +33,33 @@ public class Portal {
     
     public void formarGrupoYEntrar(Nino n) throws InterruptedException, BrokenBarrierException{
         System.out.println(n.getIdentificador() + " está esperando para entrar al portal del " + nombre);
+        try{
         formar.acquire();
         synchronized (niñosEnPortal) {
             niñosEnPortal.add(n);
         }
         barrera.await();
-        entrando.acquire();
-        k.incrementAndGet();
-        Thread.sleep(1000); //Cada niño del grupo tarda 1 segundo en entrar
-        synchronized(niños){
-            niños.add(n);
-            niños.notifyAll();
+        try{
+            entrando.acquire();
+            Thread.sleep(1000); //Cada niño del grupo tarda 1 segundo en entrar
+            synchronized(niños){
+                niños.add(n);
+                niños.notifyAll();
+            }
+
+
+        }catch(InterruptedException e){}
+        finally{
+            entrando.release();
+            synchronized (niñosEnPortal) {
+                niñosEnPortal.remove(n);
+            }
         }
-        synchronized (niñosEnPortal) {
-            niñosEnPortal.remove(n);
-        }
-        entrando.release();
-        if(k.get() == CAP){
-            k.set(0);
-            formar.release(CAP);
+        }finally{
+            if(k.incrementAndGet() == CAP){
+                k.set(0);
+                formar.release(CAP);
+            }
         }
     }
     

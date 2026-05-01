@@ -56,18 +56,18 @@ public class GestorEventos extends Thread {
                 switch (i) {
                     case 0:
                         // apagonLaboratorio();
-                        intervencionEleven();
+                        //intervencionEleven();
                         break;
                     case 1:
                         // tormentaUpsideDown();
-                        intervencionEleven();
+                        //intervencionEleven();
                         break;
                     case 2:
-                        intervencionEleven();
+                        //intervencionEleven();
                         break;
                     case 3:
                         // redMental();
-                        intervencionEleven();
+                        //intervencionEleven();
                         break;
                     default:
                         throw new AssertionError();

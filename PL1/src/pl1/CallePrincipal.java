@@ -17,11 +17,11 @@ public class CallePrincipal {
     
     public synchronized void salir(Nino n){
         niños.remove(n);
-        System.out.println(n.getIdentificador() + " sale del sótano. Niños en el sótano: " + niños.size());
+        System.out.println(n.getIdentificador() + " sale de la Calle Principal. Niños en la Calle Principal: " + niños.size());
     }
     public synchronized void entrar(Nino n){
         niños.add(n);
-        System.out.println(n.getIdentificador() + " regresa al sótano. Niños en el sótano: " + niños.size());
+        System.out.println(n.getIdentificador() + " entra a la Calle Principal. Niños en la Calle Principal: " + niños.size());
     }
     
     public synchronized ArrayList getNiños(){

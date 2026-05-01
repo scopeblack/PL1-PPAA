@@ -67,16 +67,16 @@ public class PL1 {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ex) {
-                    break; 
+                    // break; 
                 }
             }
         }).start();
-        new Demogorgon(0, hawkins, upsideDown).start();
+        new Demogorgon(1, hawkins, upsideDown).start();
 
         try{
             for(int i=0; i<1500; i++){
 
-                new Nino(i, hawkins, upsideDown).start();
+                new Nino(i+1, hawkins, upsideDown).start();
                 Thread.sleep(500 + (int)(Math.random()*1500));
             }
         }

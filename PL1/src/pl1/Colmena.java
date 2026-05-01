@@ -29,4 +29,8 @@ public class Colmena {
     public synchronized ArrayList getNiños(){
         return niños;
     }
+    
+    public synchronized int getCantidadNiños(){
+        return niños.size();
+    }
 }

@@ -71,7 +71,7 @@ public class UpsideDown {
     // Cada 8 permisos en el semáforo, significa que 8 niños han sido capturados, por lo que Vecna crea un nuevo Demogorgon
     public void crearDemogorgon(Hawkins h) throws InterruptedException{
         niñosColmena.acquire(8);
-        Demogorgon d = new Demogorgon(contadorDemogorgons.getAndIncrement(), h, this);
+        Demogorgon d = new Demogorgon(contadorDemogorgons.incrementAndGet(), h, this);
         d.start();
         demogorgons.add(d);
         System.out.println("Vecna ha creado a " + d.getIdentificador());

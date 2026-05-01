@@ -48,6 +48,8 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel17.setForeground(java.awt.Color.RED);                        // SANGRE
         jLabel18.setForeground(new java.awt.Color(255, 200, 0));           // EVENTO EN CURSO
         demogorgons.setForeground(java.awt.Color.RED);                        // Contador de Demogorgons
+        cantidadNiñosColmena.setForeground(java.awt.Color.RED);                        // Contador de Demogorgons
+
 
     }
     
@@ -100,6 +102,7 @@ public class Interfaz extends javax.swing.JFrame {
         evento = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         demogorgons = new javax.swing.JLabel();
+        cantidadNiñosColmena = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -203,6 +206,8 @@ public class Interfaz extends javax.swing.JFrame {
 
         demogorgons.setText("jLabel20");
 
+        cantidadNiñosColmena.setText("jLabel20");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -261,7 +266,8 @@ public class Interfaz extends javax.swing.JFrame {
                                 .addComponent(evento, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel19)
-                            .addComponent(demogorgons))
+                            .addComponent(demogorgons)
+                            .addComponent(cantidadNiñosColmena))
                         .addGap(15, 15, 15))))
         );
         layout.setVerticalGroup(
@@ -276,7 +282,9 @@ public class Interfaz extends javax.swing.JFrame {
                             .addComponent(jLabel15)
                             .addComponent(jLabel16))
                         .addGap(80, 80, 80)
-                        .addComponent(jLabel13)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(cantidadNiñosColmena))
                         .addGap(99, 99, 99)
                         .addComponent(jLabel14)
                         .addGap(93, 93, 93)
@@ -376,6 +384,7 @@ public class Interfaz extends javax.swing.JFrame {
         portalCentroComercial.setText(hawkins.getSotanoByers().getPortalCentroComercial().getNiños().toString());
         evento.setText(gestor.getEvento());
         demogorgons.setText(upsideDown.getContadorDemogorgons() + "");
+        cantidadNiñosColmena.setText(upsideDown.getColmena().getCantidadNiños() + "");
     }
     /**
      * @param args the command line arguments
@@ -416,6 +425,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField alcantarillado;
     private javax.swing.JTextField bosque;
     private javax.swing.JTextField callePrincipal;
+    private javax.swing.JLabel cantidadNiñosColmena;
     private javax.swing.JTextField centroComercial;
     private javax.swing.JLabel demogorgons;
     private javax.swing.JTextField evento;
