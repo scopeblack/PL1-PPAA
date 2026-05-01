@@ -44,28 +44,27 @@ public class Demogorgon extends Thread {
                 if(niño != null){
                     niño.setTiempo(tiempo);
                     niño.interrupt();
-                    boolean capturado = zona.atacar(niño);
                     try{
-                        sleep((long)(tiempo));
+                        sleep((long)(tiempo));  //Tiempo de ataque
                         }
                     catch(InterruptedException ex){
                         System.out.println("----------------------------------");
-                        System.out.println("DVIUAHIJOPovbjvvjbiajokskpco");
+                        System.out.println("Me paralizaron wey");
                         System.out.println("----------------------------------"); 
                         // paralizado.acquire(2); //HAY QUE ACABAR ESTO!
                     }
-                        niño.isInterrupted();
-                        if(capturado){
-                            System.out.println("----------------------------------");
-                            System.out.println(identificador + " acaba de capturar a " + niño.getIdentificador() + " en: " + zonaUpsideDown);
-                            System.out.println("----------------------------------");
-                            capturas++;
-                            upsideDown.enviarNiñoColmena(niño);
-                            sleep((long)(500 + 500*Math.random())); // Tiempo en llevar al niño a la colmena
-                        }else{
-                            System.out.println("El ataque de " +  identificador + " no tuvo éxito");
-                            niño.getSemaphore().release();
-                        }
+                    boolean capturado = zona.atacar(niño); //El éxito del ataque se determina antes de la persecución.
+                    if(capturado){
+                        niño.setCapturado();
+                        System.out.println("----------------------------------");
+                        System.out.println(identificador + " acaba de capturar a " + niño.getIdentificador() + " en: " + zonaUpsideDown);
+                        System.out.println("----------------------------------");
+                        capturas++;
+                        upsideDown.enviarNiñoColmena(niño);
+                        sleep((long)(500 + 500*Math.random())); // Tiempo en encerrar al niño en la colmena
+                    }else{
+                        System.out.println("El ataque de " +  identificador + " no tuvo éxito");
+                    }
                     
                 }else{
                     System.out.println("El ataque de " +  identificador + " no tuvo éxito");

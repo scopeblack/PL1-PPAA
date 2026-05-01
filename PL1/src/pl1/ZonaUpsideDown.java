@@ -5,6 +5,7 @@
 package pl1;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -12,8 +13,8 @@ import java.util.ArrayList;
  */
 public class ZonaUpsideDown {
     private Portal portal;
-    private ArrayList<Nino> niños;
-    public ZonaUpsideDown(Portal p, ArrayList<Nino> n){
+    private List<Nino> niños;
+    public ZonaUpsideDown(Portal p, List<Nino> n){
         this.portal = p;
         this.niños = n;
     }
@@ -48,7 +49,7 @@ public class ZonaUpsideDown {
         return capturado;
     }
     
-    public synchronized ArrayList getNiños(){
+    public synchronized List getNiños(){
         return niños;
     }
 }

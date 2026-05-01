@@ -5,13 +5,15 @@
 package pl1;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
  * @author Alejandro
  */
 public class CallePrincipal {
-    private ArrayList<Nino> niños= new ArrayList<>();
+    private List<Nino> niños= new CopyOnWriteArrayList<>();
     public CallePrincipal(){    
     }
     
@@ -24,7 +26,7 @@ public class CallePrincipal {
         System.out.println(n.getIdentificador() + " entra a la Calle Principal. Niños en la Calle Principal: " + niños.size());
     }
     
-    public synchronized ArrayList getNiños(){
+    public synchronized List getNiños(){
         return niños;
     }
           

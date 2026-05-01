@@ -5,6 +5,8 @@
 package pl1;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -13,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class RadioWSQK {
     private AtomicInteger contadorSangre = new AtomicInteger(0);
-    private ArrayList<Nino> niños= new ArrayList<>();
+    private List<Nino> niños= new CopyOnWriteArrayList<>();
     public RadioWSQK(){    
     }
     
@@ -43,7 +45,7 @@ public class RadioWSQK {
         contadorSangre.set(n);
     }
     
-    public synchronized ArrayList getNiños(){
+    public synchronized List getNiños(){
         return niños;
     }
 }

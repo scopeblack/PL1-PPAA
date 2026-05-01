@@ -4,7 +4,10 @@
  */
 package pl1;
 
+
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,10 +26,10 @@ public class PL1 {
         // TODO code application logic here
         
         // Arrays que tendrán los ids de los niños que hay en cada zona
-        ArrayList<Nino> niñosBosque = new ArrayList<>();
-        ArrayList<Nino> niñosAlcantarillado = new ArrayList<>();
-        ArrayList<Nino> niñosLaboratorio = new ArrayList<>();
-        ArrayList<Nino> niñosCentroComercial = new ArrayList<>();
+        List<Nino> niñosBosque = new CopyOnWriteArrayList<>();
+        List<Nino> niñosAlcantarillado = new CopyOnWriteArrayList<>();
+        List<Nino> niñosLaboratorio = new CopyOnWriteArrayList<>();
+        List<Nino> niñosCentroComercial = new CopyOnWriteArrayList<>();
 
         Portal portalBosque = new Portal(2, "Bosque", niñosBosque);
         Portal portalCentroComercial = new Portal(4, "Centro Comercial", niñosCentroComercial);

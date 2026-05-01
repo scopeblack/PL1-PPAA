@@ -5,7 +5,9 @@
 package pl1;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -18,7 +20,7 @@ public class Sotano {
     private Portal portalLaboratorio;
     private Portal portalCentroComercial;
     private AtomicInteger contadorNiñosSotano = new AtomicInteger(0);
-    private ArrayList<Nino> niños = new ArrayList<>();
+    private List<Nino> niños = new CopyOnWriteArrayList<>();
     
     public Sotano(Portal... portal){
         this.portalBosque=portal[0];
@@ -75,19 +77,23 @@ public class Sotano {
     }
     
     private void irBosque(Nino n) throws InterruptedException, BrokenBarrierException{
+        salir(n);
         portalBosque.formarGrupoYEntrar(n);
     }
     private void irAlcantarillado(Nino n) throws InterruptedException, BrokenBarrierException{
+        salir(n);
         portalAlcantarillado.formarGrupoYEntrar(n);
     }
     private void irLaboratorio(Nino n) throws InterruptedException, BrokenBarrierException{
+        salir(n);
         portalLaboratorio.formarGrupoYEntrar(n);
     }
     private void irCentroComercial(Nino n) throws InterruptedException, BrokenBarrierException{
+        salir(n);
         portalCentroComercial.formarGrupoYEntrar(n);
     }
     
-    public ArrayList getNiños(){
+    public List getNiños(){
         return niños;
     }
     

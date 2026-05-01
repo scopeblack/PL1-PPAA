@@ -4,7 +4,9 @@
  */
 package pl1;
 
+import java.util.List;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -13,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Colmena {
     private AtomicInteger contador = new AtomicInteger(0);
-    private ArrayList<Nino> niños = new ArrayList<>();
+    private List<Nino> niños = new CopyOnWriteArrayList<>();
     public Colmena(){}
     
     public synchronized void enviarNiñoColmena(Nino n){
@@ -26,7 +28,7 @@ public class Colmena {
         System.out.println(n.getIdentificador() + " Ha sido liberado de la colmena por Eleven. Niños restantes en la colmena: " + niños.size());
     }
     
-    public synchronized ArrayList getNiños(){
+    public synchronized List getNiños(){
         return niños;
     }
     

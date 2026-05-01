@@ -5,6 +5,7 @@
 package pl1;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -28,7 +29,7 @@ public class GestorEventos extends Thread {
     public void intervencionEleven(){
         eventoActivo = "Intervención de Eleven";
         int sangre = hawkins.getRadioWSBK().getSangre();
-        ArrayList<Nino> niños = upsideDown.getColmena().getNiños();
+        List<Nino> niños = upsideDown.getColmena().getNiños();
         System.out.println("Eleven ha sido invocada. Va a liberar a " + sangre + " niños");
         int k = 0;
         while(niños.size() > 0 && sangre > 0){
