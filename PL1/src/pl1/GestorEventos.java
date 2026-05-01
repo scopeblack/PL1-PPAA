@@ -27,21 +27,23 @@ public class GestorEventos extends Thread {
     }
     
     public void intervencionEleven(){
-        eventoActivo = "Intervención de Eleven";
-        int sangre = hawkins.getRadioWSBK().getSangre();
-        List<Nino> niños = upsideDown.getColmena().getNiños();
-        System.out.println("Eleven ha sido invocada. Va a liberar a " + sangre + " niños");
-        int k = 0;
-        while(niños.size() > 0 && sangre > 0){
-            k++;
-            Nino n = niños.get((int)(niños.size()*Math.random()));
-            niños.remove(n);
-            upsideDown.getColmena().sacarNiñoColmena(n);
-            sangre--;
-            n.getSemaphore().release(); // Liberar al niño del semáforo en el que está bloqueado
-        }
-        hawkins.getRadioWSBK().setSangre(hawkins.getRadioWSBK().getSangre() - k);
+    eventoActivo = "Intervención de Eleven";
+    int sangre = hawkins.getRadioWSBK().getSangre();
+    List<Nino> listaColmena = upsideDown.getColmena().getNiños();
+    
+    System.out.println("Eleven liberando niños con " + sangre + " de sangre");
+    int liberados = 0;
+    
+    // Usamos un bucle controlado para evitar ConcurrentModificationException
+    while(listaColmena.size() > 0 && sangre > 0){
+        Nino n = listaColmena.get(0); 
+        upsideDown.getColmena().sacarNiñoColmena(n);
+        n.setLiberado(); // Esto hace el notify() interno en el Nino
+        sangre--;
+        liberados++;
     }
+    hawkins.getRadioWSBK().setSangre(hawkins.getRadioWSBK().getSangre() - liberados);
+}
     
     public void redMental(){
     }

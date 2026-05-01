@@ -13,41 +13,55 @@ import java.util.List;
  */
 public class ZonaUpsideDown {
     private Portal portal;
-    private List<Nino> niños;
+    private final List<Nino> niños;
+
     public ZonaUpsideDown(Portal p, List<Nino> n){
         this.portal = p;
         this.niños = n;
     }
-    
-    public void salir(Nino n){
-        portal.regresar(n);
-    }
-    
-    public Nino elegir() throws InterruptedException{
-        Nino n = null;
-        synchronized(niños){
-            if(niños.size() < 1){
-                niños.wait((long)(4000 + 1000*Math.random()));
+
+    public void entrar(Nino n) {
+        synchronized(niños) {
+            if (!niños.contains(n)) {
+                niños.add(n);
             }
-            if(niños.size() > 0){
-                // Hay que implementar lo de la probabilidad de éxito, no se si irá aquí o donde
+            niños.notifyAll();
+        }
+    }
+
+    public void salir(Nino n) {
+        synchronized(niños) {
+            niños.remove(n);
+        }
+    }
+
+    public Nino elegir() throws InterruptedException {
+        synchronized(niños) {
+            if (niños.isEmpty()) {
+                niños.wait((long)(4000 + 1000 * Math.random()));
+            }
+            if (!niños.isEmpty()) {
                 int i = (int)(niños.size() * Math.random());
-                n = niños.get(i);
-                niños.remove(n);
+                // IMPORTANTE: Sacamos al niño para que nadie más lo ataque
+                return niños.remove(i); 
             }
         }
-        return n;
+        return null;
     }
-    
-    public boolean atacar(Nino n){
-        boolean capturado = (Math.random() <= 1.0/3.0);
-        if(!capturado){
-            niños.add(n);
-        }
-        return capturado;
-    }
-    
     public List getNiños(){
         return niños;
+    }
+        
+    public void devolverSiNoCapturado(Nino n, boolean capturado) {
+        synchronized(niños) {
+            // Solo lo devolvemos si NO ha sido capturado Y si el niño
+            // todavía considera que está en el Upside Down (no se ha ido a Hawkins)
+            if (!capturado && n.estaEnUpsideDown()) {
+                if (!niños.contains(n)) {
+                    niños.add(n);
+                    niños.notifyAll();
+                }
+            }
+        }
     }
 }

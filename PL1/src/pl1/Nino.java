@@ -22,6 +22,7 @@ public class Nino extends Thread{
     private double tiempo = 0;
     private AtomicBoolean capturado= new AtomicBoolean(false);
     private Semaphore encerrado = new Semaphore(1);
+    private AtomicBoolean enUpsideDown = new AtomicBoolean(false);
     public Nino(int id, Hawkins h, UpsideDown u){
         this.id=id;
         int digitos = contarDigitos(id);
@@ -40,66 +41,67 @@ public class Nino extends Thread{
         tiempo = t;
     }
     
-    public void run(){
-        String[] zonasUpsideDown = {"bosque", "alcantarillado", "laboratorio", "centroComercial"};
-        int i = (int)(4*Math.random());
-        
-        while(true){
-            try{
-                synchronized (this) {
-                    while (capturado.get()) { 
-                        System.out.println(identificador + " está esperando en la COLMENA...");
-                        this.wait(); 
-                    }
-                }
-                hawkins.getCallePrincipal().entrar(this);
-                sleep(250);
-                hawkins.getCallePrincipal().salir(this);
-                
-                
-                String zonaUpsideDown = zonasUpsideDown[i];
-                hawkins.getSotanoByers().entrar(this);
-                sleep((long)(1000 + 1000*Math.random())); // Tiempo preparándose en el sótano
-                
-                hawkins.getSotanoByers().irUpsideDown(this, zonaUpsideDown);    // Empieza a formar grupo para entrar al Upside Down
-                //hawkins.getSotanoByers().salir(this);   // Sale del sótano (y decrementa el contador)
-                
-                System.out.println("N" + id + " Ha pasado el portal y ha llegado a: " + zonaUpsideDown);
-                
-                try{
-                    sleep((long)(3000 + 2000*Math.random()));   // Tiempo en el Upside Down
-                }catch(InterruptedException e){
-                    Thread.interrupted();
-                    esperar(tiempo);
-                    if(capturado.get()){
-                        continue;
-                    }
-                    setLiberado();
-                }
-                upsideDown.getZona(zonaUpsideDown).salir(this);     // Salir del Upside Down
-                
-                
-                hawkins.getRadioWSBK().entrar(this);
-                hawkins.getRadioWSBK().depositarSangre(this);
-                sleep(2000 + (long)(Math.random()*2000));
-                hawkins.getRadioWSBK().salir(this);
-                
-                hawkins.getCallePrincipal().entrar(this);
-                sleep((long)(3000 + 2000*Math.random()));   // Tiempo en la Calle Principal
-                hawkins.getCallePrincipal().salir(this);
-                
-                
-                i = (int)(4*Math.random());     //Vuelven a elegir una zona del Upside Down
+    public void run() {
+    String[] zonasUpsideDown = {"bosque", "alcantarillado", "laboratorio", "centroComercial"};
+    int i = (int)(4*Math.random());
 
-            }catch(InterruptedException | BrokenBarrierException e){
-                Thread.interrupted(); // Limpiar el flag de interrupción
-                esperar((long)(tiempo));
-                
-                
-                
+    while(true) {
+        try {
+            // ESPERA EN COLMENA
+            synchronized (this) {
+                while (capturado.get()) {
+                    System.out.println(identificador + " está esperando en la COLMENA...");
+                    this.wait(); 
+                }
             }
+
+            // HAWKINS
+            hawkins.getCallePrincipal().entrar(this);
+            sleep(250);
+            hawkins.getCallePrincipal().salir(this);
+
+            hawkins.getSotanoByers().entrar(this);
+            sleep((long)(1000 + 1000*Math.random()));
+
+            // ENTRADA AL UPSIDE DOWN
+                String zonaNombre = zonasUpsideDown[i];
+                ZonaUpsideDown zonaActual = upsideDown.getZona(zonaNombre);
+                
+                hawkins.getSotanoByers().irUpsideDown(this, zonaNombre);
+                
+                // Marcamos que entramos
+                enUpsideDown.set(true); 
+                zonaActual.entrar(this);
+
+                try {
+                    sleep((long)(3000 + 2000 * Math.random())); 
+                } catch (InterruptedException e) {
+                    esperar(tiempo); // Tiempo de ataque
+                } finally {
+                    // Justo antes de salir, marcamos que ya NO estamos en el UD
+                    enUpsideDown.set(false);
+                    zonaActual.salir(this);
+                }
+
+                if (capturado.get()) continue;
+
+            // REGRESO A HAWKINS
+            hawkins.getRadioWSBK().entrar(this);
+            hawkins.getRadioWSBK().depositarSangre(this);
+            sleep(2000 + (long)(Math.random()*2000));
+            hawkins.getRadioWSBK().salir(this);
+
+            hawkins.getCallePrincipal().entrar(this);
+            sleep((long)(3000 + 2000*Math.random()));
+            hawkins.getCallePrincipal().salir(this);
+
+            i = (int)(4*Math.random());
+
+        } catch (InterruptedException | BrokenBarrierException e) {
+            Thread.interrupted();
         }
     }
+}
     
     public void esperar(double t){
         Thread.interrupted(); // Limpiar el flag de interrupción pendiente
@@ -136,5 +138,9 @@ public class Nino extends Thread{
     
     public String toString(){
         return identificador;
+    }
+    
+    public boolean estaEnUpsideDown() {
+        return enUpsideDown.get();
     }
 }

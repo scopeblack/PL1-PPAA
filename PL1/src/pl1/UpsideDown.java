@@ -78,9 +78,16 @@ public class UpsideDown {
     }
     
     // Por cada niño capturado, se añade 1 permiso al semáforo
-    public synchronized void enviarNiñoColmena(Nino n){
-        colmena.enviarNiñoColmena(n);
-        niñosColmena.release();
+    // En la clase Colmena o UpsideDown
+    public synchronized void enviarNiñoColmena(Nino n) {
+        // Si el niño ya está marcado como capturado por OTRO Demogorgon,
+        // o ya existe en la lista, ignoramos esta segunda captura.
+        if (!colmena.getNiños().contains(n)) {
+            colmena.enviarNiñoColmena(n);
+            System.out.println("LOG: " + n.getIdentificador() + " añadido a la colmena.");
+        } else {
+            System.out.println("OJO: Se intentó duplicar a " + n.getIdentificador() + " en la colmena.");
+        }
     }
     
     public synchronized ArrayList getDemogorgons(){
