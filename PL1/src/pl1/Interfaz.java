@@ -4,6 +4,8 @@
  */
 package pl1;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  *
  * @author daniel
@@ -16,6 +18,7 @@ public class Interfaz extends javax.swing.JFrame {
     private Hawkins hawkins;
     private UpsideDown upsideDown;
     private GestorEventos gestor;
+    private AtomicInteger contadorNiños;
     public Interfaz() {
         initComponents();
         this.getContentPane().setBackground(new java.awt.Color(15, 15, 15));
@@ -43,6 +46,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel15.setForeground(labelColor);  // BOSQUE
         jLabel16.setForeground(labelColor);  // NIÑOS
         jLabel19.setForeground(labelColor);  // DEMOGORGONS
+        jLabel20.setForeground(labelColor);  // DEMOGORGONS
 
         // Estos dos aparte por ser especiales
         jLabel17.setForeground(java.awt.Color.RED);                        // SANGRE
@@ -53,10 +57,11 @@ public class Interfaz extends javax.swing.JFrame {
 
     }
     
-    public void setInicial(Hawkins h, UpsideDown u, GestorEventos g){
+    public void setInicial(Hawkins h, UpsideDown u, GestorEventos g, AtomicInteger a){
         this.hawkins = h;
         this.upsideDown = u;
         this.gestor = g;
+        this.contadorNiños = a;
     }
 
     /**
@@ -103,6 +108,8 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         demogorgons = new javax.swing.JLabel();
         cantidadNiñosColmena = new javax.swing.JLabel();
+        niños = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -208,62 +215,67 @@ public class Interfaz extends javax.swing.JFrame {
 
         cantidadNiñosColmena.setText("jLabel20");
 
+        niños.setText("jLabel20");
+
+        jLabel20.setText("NIÑOS");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(63, 63, 63)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(callePrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addComponent(jLabel5)
+                        .addComponent(jLabel7)
+                        .addComponent(radioWSQK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sotanoByers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel17))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(sangre)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(92, 92, 92)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(callePrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel7)
-                                .addComponent(radioWSQK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(sotanoByers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel17))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel8)
-                                .addComponent(jLabel9)
-                                .addComponent(jLabel11)
-                                .addComponent(jLabel10)
-                                .addComponent(portalBosque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(portalLaboratorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(portalAlcantarillado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(portalCentroComercial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(106, 106, 106)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel15)
-                            .addComponent(bosque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel14)
-                            .addComponent(laboratorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(alcantarillado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(centroComercial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(56, 56, 56)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel16)
-                            .addComponent(niñosColmena, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(evento, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel19)
-                            .addComponent(demogorgons)
-                            .addComponent(cantidadNiñosColmena))
-                        .addGap(15, 15, 15))))
+                            .addComponent(jLabel20)
+                            .addComponent(niños))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel8)
+                        .addComponent(jLabel9)
+                        .addComponent(jLabel11)
+                        .addComponent(jLabel10)
+                        .addComponent(portalBosque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(portalLaboratorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(portalAlcantarillado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(portalCentroComercial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(106, 106, 106)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel15)
+                    .addComponent(bosque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14)
+                    .addComponent(laboratorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(alcantarillado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(centroComercial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(56, 56, 56)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16)
+                    .addComponent(niñosColmena, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(evento, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel19)
+                    .addComponent(demogorgons)
+                    .addComponent(cantidadNiñosColmena))
+                .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,9 +353,13 @@ public class Interfaz extends javax.swing.JFrame {
                             .addComponent(demogorgons)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jLabel17)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel20))))
                 .addGap(18, 18, 18)
-                .addComponent(sangre)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sangre)
+                    .addComponent(niños))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -379,6 +395,7 @@ public class Interfaz extends javax.swing.JFrame {
         evento.setText(gestor.getEvento());
         demogorgons.setText(upsideDown.getContadorDemogorgons() + "");
         cantidadNiñosColmena.setText(upsideDown.getColmena().getCantidadNiños() + "");
+        niños.setText(contadorNiños.get() + "");
     }
     /**
      * @param args the command line arguments
@@ -435,6 +452,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -443,6 +461,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField laboratorio;
+    private javax.swing.JLabel niños;
     private javax.swing.JTextField niñosColmena;
     private javax.swing.JTextField portalAlcantarillado;
     private javax.swing.JTextField portalBosque;

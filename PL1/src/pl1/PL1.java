@@ -8,6 +8,7 @@ package pl1;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,9 +58,12 @@ public class PL1 {
         GestorEventos gestor = new GestorEventos(hawkins, upsideDown);
         gestor.start();
         
+        AtomicInteger contadorNiños = new AtomicInteger(0);
+
+        
         Interfaz interfaz = new Interfaz();
 
-        interfaz.setInicial(hawkins, upsideDown, gestor);
+        interfaz.setInicial(hawkins, upsideDown, gestor, contadorNiños);
         interfaz.setVisible(true);
 
 
@@ -78,8 +82,8 @@ public class PL1 {
 
         try{
             for(int i=0; i<1500; i++){
-
                 new Nino(i+1, hawkins, upsideDown).start();
+                contadorNiños.incrementAndGet();
                 Thread.sleep(500 + (int)(Math.random()*1500));
             }
         }
