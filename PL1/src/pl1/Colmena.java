@@ -18,21 +18,21 @@ public class Colmena {
     private List<Nino> niños = new CopyOnWriteArrayList<>();
     public Colmena(){}
     
-    public synchronized void enviarNiñoColmena(Nino n){
+    public void enviarNiñoColmena(Nino n){
         niños.add(n);
         System.out.println(n.getIdentificador() + " ha sido retenido en la colmena. Total de niños: " + niños.size());
     }
     
-    public synchronized void sacarNiñoColmena(Nino n){
+    public void sacarNiñoColmena(Nino n){
         niños.remove(n);
         System.out.println(n.getIdentificador() + " Ha sido liberado de la colmena por Eleven. Niños restantes en la colmena: " + niños.size());
     }
     
-    public synchronized List getNiños(){
+    public List getNiños(){
         return niños;
     }
     
-    public synchronized int getCantidadNiños(){
+    public int getCantidadNiños(){
         return niños.size();
     }
 }

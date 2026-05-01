@@ -53,7 +53,7 @@ public class Sotano {
         System.out.println(n.getIdentificador() + " regresa al sótano. Niños en el sótano: " + contadorNiñosSotano.incrementAndGet());
     }
     
-    public synchronized void entrar(Nino n){
+    public void entrar(Nino n){
         niños.add(n);
         String id = n.getIdentificador();
         System.out.println(id + " acaba de entrar al sótano. Niños en el sótano: " + contadorNiñosSotano.incrementAndGet());

@@ -42,14 +42,12 @@ public class ZonaUpsideDown {
     public boolean atacar(Nino n){
         boolean capturado = (Math.random() <= 1.0/3.0);
         if(!capturado){
-            synchronized (niños) {
-                niños.add(n);
-            }
+            niños.add(n);
         }
         return capturado;
     }
     
-    public synchronized List getNiños(){
+    public List getNiños(){
         return niños;
     }
 }

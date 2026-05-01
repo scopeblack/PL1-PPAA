@@ -53,6 +53,7 @@ public class Nino extends Thread{
                     }
                 }
                 hawkins.getCallePrincipal().entrar(this);
+                sleep(250);
                 hawkins.getCallePrincipal().salir(this);
                 
                 
@@ -65,7 +66,16 @@ public class Nino extends Thread{
                 
                 System.out.println("N" + id + " Ha pasado el portal y ha llegado a: " + zonaUpsideDown);
                 
-                sleep((long)(3000 + 2000*Math.random()));   // Tiempo en el Upside Down
+                try{
+                    sleep((long)(3000 + 2000*Math.random()));   // Tiempo en el Upside Down
+                }catch(InterruptedException e){
+                    Thread.interrupted();
+                    esperar(tiempo);
+                    if(capturado.get()){
+                        continue;
+                    }
+                    setLiberado();
+                }
                 upsideDown.getZona(zonaUpsideDown).salir(this);     // Salir del Upside Down
                 
                 

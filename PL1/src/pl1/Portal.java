@@ -36,7 +36,7 @@ public class Portal {
 public void formarGrupoYEntrar(Nino n) throws InterruptedException, BrokenBarrierException {
     System.out.println(n.getIdentificador() + " está esperando para entrar al portal del " + nombre);
     formar.acquire();
-    synchronized (niñosEnPortal) { niñosEnPortal.add(n); }
+    niñosEnPortal.add(n);
     try {
         barrera.await(); // Espera a que el grupo esté completo
     } catch (BrokenBarrierException | InterruptedException e) {
@@ -54,7 +54,7 @@ public void formarGrupoYEntrar(Nino n) throws InterruptedException, BrokenBarrie
 
     } finally {
         entrando.release();
-        synchronized (niñosEnPortal) { niñosEnPortal.remove(n); }
+        niñosEnPortal.remove(n);
         // Liberar el permiso de "formar" solo cuando todos han entrado
         if (k.incrementAndGet() == CAP) {
             k.set(0);
@@ -65,13 +65,11 @@ public void formarGrupoYEntrar(Nino n) throws InterruptedException, BrokenBarrie
     
     
     public void regresar(Nino n){
-        synchronized (niños) {
-            niños.remove(n);
-            System.out.println(n.getIdentificador() + " sale del Upside Down");
-        }
+        niños.remove(n);
+        System.out.println(n.getIdentificador() + " sale del Upside Down");
     }
     
-    public synchronized List getNiños(){
+    public List getNiños(){
         return niñosEnPortal;
     }
 }

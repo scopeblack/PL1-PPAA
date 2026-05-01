@@ -26,12 +26,12 @@ public class RadioWSQK {
         
     }
     
-    public synchronized void entrar(Nino n){
+    public void entrar(Nino n){
         niños.add(n);
         System.out.println(n.getIdentificador() + " acaba de entrar a RadioWSQK. Niños en la RadioWSQK: " + niños.size());
     }
     
-    public synchronized void salir(Nino n){
+    public void salir(Nino n){
         niños.remove(n);
         System.out.println(n.getIdentificador() + " sale de la RadioWSQK. Niños en la RadioWSQK: " + niños.size());
     }
@@ -45,7 +45,7 @@ public class RadioWSQK {
         contadorSangre.set(n);
     }
     
-    public synchronized List getNiños(){
+    public List getNiños(){
         return niños;
     }
 }
