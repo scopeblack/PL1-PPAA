@@ -81,7 +81,7 @@ public class PL1 {
         new Demogorgon(1, hawkins, upsideDown).start();
 
         try{
-            for(int i=0; i<10; i++){
+            for(int i=0; i<1500; i++){
                 new Nino(i+1, hawkins, upsideDown).start();
                 contadorNiños.incrementAndGet();
                 Thread.sleep(500 + (int)(Math.random()*1500));

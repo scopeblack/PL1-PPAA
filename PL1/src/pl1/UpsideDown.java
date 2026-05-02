@@ -5,6 +5,8 @@
 package pl1;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -84,6 +86,7 @@ public class UpsideDown {
         // o ya existe en la lista, ignoramos esta segunda captura.
         if (!colmena.getNiños().contains(n)) {
             colmena.enviarNiñoColmena(n);
+            niñosColmena.release();
             System.out.println("LOG: " + n.getIdentificador() + " añadido a la colmena.");
         } else {
             System.out.println("OJO: Se intentó duplicar a " + n.getIdentificador() + " en la colmena.");
@@ -96,5 +99,20 @@ public class UpsideDown {
     
     public int getContadorDemogorgons(){
         return contadorDemogorgons.get();
+    }
+    
+    public List getNiños(){
+        // Usamos ArrayList normal; es más rápido para una operación de "leer y olvidar"
+        List<Nino> todos = new ArrayList<>();
+
+        // Sincroniza cada lista al copiarla para evitar que 
+        // otro hilo la modifique mientras haces el addAll
+        synchronized(bosque.getNiños()) { todos.addAll(bosque.getNiños()); }
+        synchronized(alcantarillado.getNiños()) { todos.addAll(alcantarillado.getNiños()); }
+        synchronized(centroComercial.getNiños()) { todos.addAll(centroComercial.getNiños()); }
+        synchronized(laboratorio.getNiños()) { todos.addAll(laboratorio.getNiños()); }
+        synchronized(colmena.getNiños()) { todos.addAll(colmena.getNiños()); }
+
+        return todos;
     }
 }

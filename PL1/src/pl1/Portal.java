@@ -10,6 +10,7 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -25,6 +26,8 @@ public class Portal {
     private Semaphore formar;
     private int CAP;
     private AtomicInteger k = new AtomicInteger(0);
+    private AtomicBoolean apagon = new AtomicBoolean(false);
+    private Semaphore semApagon = new Semaphore(0);
     public Portal(int CAP, String n, List<Nino> ni){
         this.barrera = new CyclicBarrier(CAP);
         formar = new Semaphore(CAP);
@@ -41,6 +44,10 @@ public void formarGrupoYEntrar(Nino n) throws InterruptedException, BrokenBarrie
         barrera.await(); // Espera a que el grupo esté completo
     } catch (BrokenBarrierException | InterruptedException e) {
 
+    }
+    
+    if(apagon.get()){
+        semApagon.acquire();
     }
 
     try {
@@ -71,5 +78,17 @@ public void formarGrupoYEntrar(Nino n) throws InterruptedException, BrokenBarrie
     
     public List getNiños(){
         return niñosEnPortal;
+    }
+    
+    public int getCAP(){
+        return CAP;
+    }
+    
+    public void setApagon(boolean b){
+        apagon.set(b);
+    }
+    
+    public Semaphore getSemApagon(){
+        return semApagon;
     }
 }

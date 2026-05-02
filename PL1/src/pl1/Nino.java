@@ -24,6 +24,9 @@ public class Nino extends Thread{
     private Semaphore encerrado = new Semaphore(1);
     //private Semaphore perseguido = new Semaphore(0);
     private AtomicBoolean enUpsideDown = new AtomicBoolean(false);
+    private AtomicBoolean paralizadoPortales = new AtomicBoolean(false); // Evento Apagón del Laboratorio
+    private AtomicBoolean tormenta = new AtomicBoolean(false); // Evento Tormenta del Upside Down
+
     public Nino(int id, Hawkins h, UpsideDown u){
         this.id=id;
         int digitos = contarDigitos(id);
@@ -73,40 +76,58 @@ public class Nino extends Thread{
             sleep((long)(1000 + 1000*Math.random()));
 
             // ENTRADA AL UPSIDE DOWN
-                String zonaNombre = zonasUpsideDown[i];
-                ZonaUpsideDown zonaActual = upsideDown.getZona(zonaNombre);
-                
-                hawkins.getSotanoByers().irUpsideDown(this, zonaNombre);
-                
-                // Marcamos que entramos
-                enUpsideDown.set(true); 
-                zonaActual.entrar(this);
+            String zonaNombre = zonasUpsideDown[i];
+            ZonaUpsideDown zonaActual = upsideDown.getZona(zonaNombre);
 
+            hawkins.getSotanoByers().irUpsideDown(this, zonaNombre);
+
+            // Marcamos que entramos
+            enUpsideDown.set(true); 
+            zonaActual.entrar(this);
+            try{
+            do{ // Mientras esté activo el evento del apagón del laboratorio, no se puede mover de la zona
                 try {
-                    sleep((long)(3000 + 2000 * Math.random()));     //Deambula por el UD
+                    double tiempo = 3000 + 2000 * Math.random();
+                    if(tormenta.get()){ // Si está activa la tormenta del Upside Down, permanecen el doble de tiempo en la zona
+                        tiempo = tiempo*2;
+                        System.out.println(tiempo);
+                    }
+                    long tiempo1 = System.currentTimeMillis();
+                    sleep((long)(tiempo));     //Deambula por el UD
                 } catch (InterruptedException e) {
-                    
+                    long tiempo2 = System.currentTimeMillis();
                     esperar(tiempo); // Tiempo de ataque
                     //perseguido.acquire();   //Esperamos a que el Demogorgon nos capture o desista.
                 } finally {
                     //enUpsideDown.set(false);
-                    zonaActual.salir(this);
+                    // zonaActual.salir(this);
                     if (capturado.get()){ System.out.println("He sido capturado me salto el while restante"); continue;}  //Entramos en el wait de la colmena
 
                 }
+            }while(paralizadoPortales.get());
+            }finally{
+                zonaActual.salir(this);
 
                 if (capturado.get()){ System.out.println("He sido capturado me salto el while restante"); continue;}  //Entramos en el wait de la colmena
                 enUpsideDown.set(false);
+            }
             // REGRESO A HAWKINS
-            hawkins.getRadioWSBK().entrar(this);
-            hawkins.getRadioWSBK().depositarSangre(this);
-            sleep(2000 + (long)(Math.random()*2000));
-            hawkins.getRadioWSBK().salir(this);
 
-            hawkins.getCallePrincipal().entrar(this);
-            sleep((long)(3000 + 2000*Math.random()));
-            hawkins.getCallePrincipal().salir(this);
-
+            try{
+                hawkins.getRadioWSBK().entrar(this);
+                hawkins.getRadioWSBK().depositarSangre(this);
+                sleep(2000 + (long)(Math.random()*2000));
+            }catch(InterruptedException e){}
+            finally{
+                hawkins.getRadioWSBK().salir(this);
+            }
+            try{
+                hawkins.getCallePrincipal().entrar(this);
+                sleep((long)(3000 + 2000*Math.random()));
+            }catch(InterruptedException e){}
+            finally{
+                hawkins.getCallePrincipal().salir(this);
+            } 
             i = (int)(4*Math.random());
 
         } catch (InterruptedException | BrokenBarrierException e) {
@@ -155,5 +176,13 @@ public class Nino extends Thread{
     
     public boolean estaEnUpsideDown() {
         return enUpsideDown.get();
+    }
+    
+    public void setParalizadoPortales(boolean b){
+        paralizadoPortales.set(b);
+    }
+    
+    public void setTormenta(boolean b){
+        tormenta.set(b);
     }
 }
