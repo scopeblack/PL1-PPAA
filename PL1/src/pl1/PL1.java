@@ -31,6 +31,11 @@ public class PL1 {
         List<Nino> niñosAlcantarillado = new CopyOnWriteArrayList<>();
         List<Nino> niñosLaboratorio = new CopyOnWriteArrayList<>();
         List<Nino> niñosCentroComercial = new CopyOnWriteArrayList<>();
+        
+        List<Demogorgon> demosBosque = new CopyOnWriteArrayList<>();
+        List<Demogorgon> demosAlcantarillado = new CopyOnWriteArrayList<>();
+        List<Demogorgon> demosLaboratorio = new CopyOnWriteArrayList<>();
+        List<Demogorgon> demosCentroComercial = new CopyOnWriteArrayList<>();
 
         Portal portalBosque = new Portal(2, "Bosque", niñosBosque);
         Portal portalCentroComercial = new Portal(4, "Centro Comercial", niñosCentroComercial);
@@ -45,10 +50,10 @@ public class PL1 {
 
         
         
-        ZonaUpsideDown bosque = new ZonaUpsideDown(portalBosque, niñosBosque);
-        ZonaUpsideDown laboratorio = new ZonaUpsideDown(portalLaboratorio, niñosLaboratorio);
-        ZonaUpsideDown centroComercial = new ZonaUpsideDown(portalCentroComercial, niñosCentroComercial);
-        ZonaUpsideDown alcantarillado = new ZonaUpsideDown(portalAlcantarillado, niñosAlcantarillado);
+        ZonaUpsideDown bosque = new ZonaUpsideDown(portalBosque, niñosBosque, demosBosque);
+        ZonaUpsideDown laboratorio = new ZonaUpsideDown(portalLaboratorio, niñosLaboratorio, demosLaboratorio);
+        ZonaUpsideDown centroComercial = new ZonaUpsideDown(portalCentroComercial, niñosCentroComercial, demosCentroComercial);
+        ZonaUpsideDown alcantarillado = new ZonaUpsideDown(portalAlcantarillado, niñosAlcantarillado, demosAlcantarillado);
         
         Colmena colmena = new Colmena();
         

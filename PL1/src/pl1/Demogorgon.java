@@ -20,14 +20,18 @@ public class Demogorgon extends Thread {
     private Hawkins hawkins;
     private UpsideDown upsideDown;
     private int capturas = 0;
-    private Semaphore paralizado= new Semaphore(1); // Evento Intervención de Eleven
+    //private Semaphore paralizado= new Semaphore(1); // Evento Intervención de Eleven
     private AtomicBoolean paralizadoPortales = new AtomicBoolean(false); // Evento Apagón del Laboratorio
     private AtomicBoolean tormenta = new AtomicBoolean(false); // Evento Tormenta del Upside Down
     private AtomicBoolean conexionMindFlayer = new AtomicBoolean(false); // Evento La Red Mental
+    private AtomicBoolean paralizado = new AtomicBoolean(false); // Evento Intervención de Eleven
+    private ZonaUpsideDown zona;
 
     public Demogorgon(int id, Hawkins h, UpsideDown u){
         this.id=id;
-        this.identificador= "D"+id;
+        int digitos = contarDigitos(id);
+        int cantidadCeros = 4 - digitos;
+        this.identificador= "D" + "0".repeat(cantidadCeros) +id;
         this.hawkins = h;
         this.upsideDown =  u;
     }
@@ -42,7 +46,9 @@ public class Demogorgon extends Thread {
     while(true){
         try{
             String zonaNombre = "";
-            ZonaUpsideDown zona;
+            if(zona!=null){
+                zona.getDemogorgons().remove(this);
+            }
             if(conexionMindFlayer.get()){ // Evento del MindFlayer. Se calcula el máximo de niños de las 4 zonas
                 String z1 = "";
                 int max1 = 0;
@@ -75,6 +81,8 @@ public class Demogorgon extends Thread {
                 zonaNombre = zonasUpsideDown[i];
                 zona = upsideDown.getZona(zonaNombre);
             }
+            zona.getDemogorgons().add(this);
+            
             // Dentro del run del Demogorgon
             Nino niño = zona.elegir(); 
             if(niño != null) {
@@ -112,10 +120,7 @@ public class Demogorgon extends Thread {
             }
         } catch(InterruptedException e) {
             // Manejo de parálisis (Eleven)
-            try {
-                paralizado.acquire(2);
-            } catch (InterruptedException ex) {}
-            finally { paralizado.release(1); }
+            
         }
     }
 }
@@ -131,4 +136,18 @@ public class Demogorgon extends Thread {
         conexionMindFlayer.set(b);
     }
     
+    public void setParalizado(boolean b){
+        paralizado.set(b);
+    }
+    public String toString(){
+        return identificador;
+    }
+    public int contarDigitos(int n){
+    int k = 0;
+    while(n > 0){
+        k++;
+        n = Math.floorDiv(n, 10);
+    }
+    return k;
+    }
 }

@@ -14,10 +14,12 @@ import java.util.List;
 public class ZonaUpsideDown {
     private Portal portal;
     private final List<Nino> niños;
+    private final List<Demogorgon> demogorgons;
 
-    public ZonaUpsideDown(Portal p, List<Nino> n){
+    public ZonaUpsideDown(Portal p, List<Nino> n, List<Demogorgon> d){
         this.portal = p;
         this.niños = n;
+        this.demogorgons = d;
     }
 
     public void entrar(Nino n) {
@@ -34,6 +36,22 @@ public class ZonaUpsideDown {
             niños.remove(n);
         }
     }
+    
+    public void entrarDemo(Demogorgon d) {
+        synchronized(demogorgons) {
+            if (!demogorgons.contains(d)) {
+                demogorgons.add(d);
+            }
+            demogorgons.notifyAll();
+        }
+    }
+
+    public void salirDemo(Demogorgon d) {
+        synchronized(demogorgons) {
+            demogorgons.remove(d);
+        }
+    }
+    
 
     public Nino elegir() throws InterruptedException {
         synchronized(niños) {
@@ -50,6 +68,9 @@ public class ZonaUpsideDown {
     }
     public List getNiños(){
         return niños;
+    }
+    public List getDemogorgons(){
+        return demogorgons;
     }
         
     public void devolverSiNoCapturado(Nino n, boolean capturado) {
