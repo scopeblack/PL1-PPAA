@@ -83,9 +83,10 @@ public class PL1 {
                 }
             }
         }).start();
-        new Demogorgon(1, hawkins, upsideDown).start();
+        
 
         try{
+            upsideDown.crearAlpha(hawkins);
             for(int i=0; i<1500; i++){
                 new Nino(i+1, hawkins, upsideDown).start();
                 contadorNiños.incrementAndGet();

@@ -38,9 +38,9 @@ public class GestorEventos extends Thread {
         for(Demogorgon d: demos){
             d.setParalizadoPortales(true);
         }
-        // La duración, aunque no pone nada, será random
+        
         try{
-            sleep((long)(15000 + 1000+Math.random()));
+            sleep((long)(5000 + 5000*Math.random()));
         }catch(InterruptedException e){
             e.printStackTrace();
         }
@@ -87,7 +87,7 @@ public class GestorEventos extends Thread {
         }
         // Tiempo aleatorio de la duración del evento
         try{
-            sleep((long)(10000 + 1000*Math.random()));
+            sleep((long)(5000 + 5000*Math.random()));
         }catch(InterruptedException e){e.printStackTrace();}
         
         // Le decimos a los demogorgons y a los niños que el evento ha terminado
@@ -112,6 +112,13 @@ public class GestorEventos extends Thread {
     System.out.println("Eleven liberando niños con " + sangre + " de sangre");
     int liberados = 0;
     
+    List<Demogorgon> demos = upsideDown.getDemogorgons();
+        for(Demogorgon d: demos){
+            //System.out.println(d.getIdentificador() + " Ha sido paralizado");
+            d.setParalizado();
+            d.interrupt();
+        }
+    
     // Usamos un bucle controlado para evitar ConcurrentModificationException
     while(listaColmena.size() > 0 && sangre > 0){
         Nino n = listaColmena.get(0); 
@@ -123,8 +130,21 @@ public class GestorEventos extends Thread {
         sangre--;
         liberados++;
     }
+    
     hawkins.getRadioWSBK().setSangre(hawkins.getRadioWSBK().getSangre() - liberados);
     
+    try{
+            Thread.sleep(5000 + (long)(5000*Math.random()));
+        }
+        catch(InterruptedException ex){
+            ex.printStackTrace();
+        }
+    
+    //demos = upsideDown.getDemogorgons();
+        for(Demogorgon d: demos){
+            System.out.println(d.getIdentificador() + " Deja de estar paralizado por Eleven.");
+            d.Liberar();
+        }
     // EVENTO TERMINADO
     ultimoEventoActivo = "Intervenvión De Eleven";
     eventoActivo = null;
@@ -138,7 +158,7 @@ public class GestorEventos extends Thread {
             d.setConexionMindFlayer(true);
         }
         try{
-            sleep((long)(2000 + 3000*Math.random()));
+            sleep((long)(5000 + 5000*Math.random()));
         }catch(InterruptedException e){e.printStackTrace();}
         
         demos = upsideDown.getDemogorgons();
@@ -158,7 +178,7 @@ public class GestorEventos extends Thread {
         int i = (int)(4*Math.random());
         while(true){
             try{
-                sleep((long)(Math.random()*30000));
+                sleep(30000 + (long)(Math.random()*30000));
                 switch (i) {
                     case 0:
                         tormentaUpsideDown();
@@ -167,11 +187,11 @@ public class GestorEventos extends Thread {
                         break;
                     case 1:
                         //apagonLaboratorio();
-                        tormentaUpsideDown();
+                        //tormentaUpsideDown();
                         intervencionEleven();
                         break;
                     case 2:
-                        tormentaUpsideDown();
+                        //tormentaUpsideDown();
                         apagonLaboratorio();
                         //intervencionEleven();
                         break;

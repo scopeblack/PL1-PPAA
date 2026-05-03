@@ -97,6 +97,7 @@ public class Nino extends Thread{
                 } catch (InterruptedException e) {
                     long tiempo2 = System.currentTimeMillis();
                     esperar(tiempo); // Tiempo de ataque
+                    Thread.interrupted();   //Limpiar flag
                     //perseguido.acquire();   //Esperamos a que el Demogorgon nos capture o desista.
                 } finally {
                     //enUpsideDown.set(false);

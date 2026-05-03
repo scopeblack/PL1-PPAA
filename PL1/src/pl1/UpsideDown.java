@@ -21,7 +21,7 @@ public class UpsideDown {
     ZonaUpsideDown alcantarillado;
     Colmena colmena;
     private AtomicInteger contadorNiñosColmena = new AtomicInteger(0);
-    private AtomicInteger contadorDemogorgons = new AtomicInteger(1);
+    private AtomicInteger contadorDemogorgons = new AtomicInteger(0);
     private ArrayList<Demogorgon> demogorgons = new ArrayList<>();
 
 
@@ -91,6 +91,13 @@ public class UpsideDown {
         } else {
             System.out.println("OJO: Se intentó duplicar a " + n.getIdentificador() + " en la colmena.");
         }
+    }
+    
+    public void crearAlpha(Hawkins h) throws InterruptedException{
+        Demogorgon d = new Demogorgon(contadorDemogorgons.incrementAndGet(), h, this);
+        d.start();
+        demogorgons.add(d);
+        System.out.println("Vecna ha creado al Demogorgon Alpha " + d.getIdentificador());
     }
     
     public synchronized ArrayList getDemogorgons(){

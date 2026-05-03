@@ -26,6 +26,7 @@ public class Demogorgon extends Thread {
     private AtomicBoolean conexionMindFlayer = new AtomicBoolean(false); // Evento La Red Mental
     private AtomicBoolean paralizado = new AtomicBoolean(false); // Evento Intervención de Eleven
     private ZonaUpsideDown zona;
+    private String zonaNombre;
 
     public Demogorgon(int id, Hawkins h, UpsideDown u){
         this.id=id;
@@ -45,7 +46,15 @@ public class Demogorgon extends Thread {
     int i = (int)(4*Math.random());
     while(true){
         try{
-            String zonaNombre = "";
+            synchronized (this) {   //Si está paralizado...
+                while (paralizado.get()) {
+                    System.out.println(identificador + " está paralizado en "+ zonaNombre);
+                    this.wait(); 
+                }
+            }
+        } catch(InterruptedException ex){ ex.printStackTrace();}
+            //String zonaNombre = "";
+            Nino niño= null;
             if(zona!=null){
                 zona.getDemogorgons().remove(this);
             }
@@ -84,7 +93,8 @@ public class Demogorgon extends Thread {
             zona.getDemogorgons().add(this);
             
             // Dentro del run del Demogorgon
-            Nino niño = zona.elegir(); 
+            try{
+            niño = zona.elegir(); 
             if(niño != null) {
                 double tAtaque = 500 + 1000 * Math.random();
                 if(tormenta.get()){ // Si el evento tormenta del Upside Down está activo
@@ -114,16 +124,27 @@ public class Demogorgon extends Thread {
                     
                     zona.devolverSiNoCapturado(niño, false);    //El demogorgon deja de perseguirlo
                 }
+             }
+            } catch(InterruptedException ex){
+                Thread.interrupted(); // Limpiar flag
+                System.out.println(identificador + ": Ha sido paralizado por Eleven.");
+                if(niño != null) {
+                zona.devolverSiNoCapturado(niño, false);    //El demogorgon deja de perseguirlo
+                System.out.println("----------------------------" + identificador + ": Ha sido paralizado mientras capturaba a " + niño.getIdentificador() + 
+                                " en: " + zonaNombre + "----------------------------");
+                continue;
+                }
             }
+            
             if(!paralizadoPortales.get()){ // Si el evento de apagón del laboratorio está activo, se salta el cambio de zona y permanece en ella
                 i = (int)(4*Math.random());     //Elige su próximo destino
             }
-        } catch(InterruptedException e) {
+         //catch(InterruptedException e) {
             // Manejo de parálisis (Eleven)
             
+        
         }
     }
-}
     public void setParalizadoPortales(boolean b){
         paralizadoPortales.set(b);
     }
@@ -136,9 +157,14 @@ public class Demogorgon extends Thread {
         conexionMindFlayer.set(b);
     }
     
-    public void setParalizado(boolean b){
-        paralizado.set(b);
+    public void setParalizado(){
+        paralizado.set(true);
     }
+    public synchronized void Liberar(){
+        paralizado.set(false);
+        this.notify();
+    }
+    
     public String toString(){
         return identificador;
     }
