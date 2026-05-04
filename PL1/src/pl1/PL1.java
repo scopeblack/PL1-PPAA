@@ -88,7 +88,9 @@ public class PL1 {
         try{
             upsideDown.crearAlpha(hawkins);
             for(int i=0; i<1500; i++){
-                new Nino(i+1, hawkins, upsideDown).start();
+                Nino n = new Nino(i+1, hawkins, upsideDown);
+                hawkins.almacenarNino(n);
+                n.start();
                 contadorNiños.incrementAndGet();
                 Thread.sleep(500 + (int)(Math.random()*1500));
             }

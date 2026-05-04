@@ -27,6 +27,7 @@ public class Demogorgon extends Thread {
     private AtomicBoolean paralizado = new AtomicBoolean(false); // Evento Intervención de Eleven
     private ZonaUpsideDown zona;
     private String zonaNombre;
+    private AtomicBoolean pausado = new AtomicBoolean(false);
 
     public Demogorgon(int id, Hawkins h, UpsideDown u){
         this.id=id;
@@ -54,6 +55,7 @@ public class Demogorgon extends Thread {
             }
         } catch(InterruptedException ex){ ex.printStackTrace();}
             //String zonaNombre = "";
+            comprobarPausado();
             Nino niño= null;
             if(zona!=null){
                 zona.getDemogorgons().remove(this);
@@ -93,6 +95,7 @@ public class Demogorgon extends Thread {
             zona.getDemogorgons().add(this);
             
             // Dentro del run del Demogorgon
+            comprobarPausado();
             try{
             niño = zona.elegir(); 
             if(niño != null) {
@@ -108,7 +111,7 @@ public class Demogorgon extends Thread {
                 
                 sleep((long)tAtaque); 
 
-
+                comprobarPausado();
                 if(exito) {
                     System.out.println("----------------------------" + identificador + ": Ha capturado a " + niño.getIdentificador() + 
                             " en: " + zonaNombre + "----------------------------");
@@ -175,5 +178,19 @@ public class Demogorgon extends Thread {
         n = Math.floorDiv(n, 10);
     }
     return k;
+    }
+    
+    public void comprobarPausado(){
+        try{
+            synchronized (this) {
+                while(pausado.get()){
+                    this.wait();
+                }
+            }
+        }catch(InterruptedException e){}
+    }
+    
+    public void setPausado(boolean b){
+        pausado.set(b);
     }
 }

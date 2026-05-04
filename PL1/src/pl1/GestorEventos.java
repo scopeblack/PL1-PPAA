@@ -6,6 +6,7 @@ package pl1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  *
@@ -16,12 +17,15 @@ public class GestorEventos extends Thread {
     private UpsideDown upsideDown;
     private String eventoActivo = null;
     private String ultimoEventoActivo = null;
+    private AtomicBoolean pausado = new AtomicBoolean(false);
+
     public GestorEventos(Hawkins h, UpsideDown u){
         this.hawkins = h;
         this.upsideDown = u;
     }
     
     public void apagonLaboratorio(){
+        comprobarPausado();
         // Cambiamos el evento
         eventoActivo = "Apagón Del Laboratorio";
         
@@ -71,6 +75,7 @@ public class GestorEventos extends Thread {
     }
     
     public void tormentaUpsideDown(){
+        comprobarPausado();
         eventoActivo = "Tormenta Del Upside Down";
         // Le decimos a los demogorgons, mediante el flag tormenta, que el evento está activo y que su velocidad
         // de ataque se verá aumentada al doble (Reduciendo el tiempo entre ataques)
@@ -105,52 +110,54 @@ public class GestorEventos extends Thread {
     }
     
     public void intervencionEleven(){
-    eventoActivo = "Intervención De Eleven";
-    int sangre = hawkins.getRadioWSBK().getSangre();
-    List<Nino> listaColmena = upsideDown.getColmena().getNiños();
-    
-    System.out.println("Eleven liberando niños con " + sangre + " de sangre");
-    int liberados = 0;
-    
-    List<Demogorgon> demos = upsideDown.getDemogorgons();
-        for(Demogorgon d: demos){
-            //System.out.println(d.getIdentificador() + " Ha sido paralizado");
-            d.setParalizado();
-            d.interrupt();
+        comprobarPausado();
+        eventoActivo = "Intervención De Eleven";
+        int sangre = hawkins.getRadioWSBK().getSangre();
+        List<Nino> listaColmena = upsideDown.getColmena().getNiños();
+
+        System.out.println("Eleven liberando niños con " + sangre + " de sangre");
+        int liberados = 0;
+
+        List<Demogorgon> demos = upsideDown.getDemogorgons();
+            for(Demogorgon d: demos){
+                //System.out.println(d.getIdentificador() + " Ha sido paralizado");
+                d.setParalizado();
+                d.interrupt();
+            }
+
+        // Usamos un bucle controlado para evitar ConcurrentModificationException
+        while(listaColmena.size() > 0 && sangre > 0){
+            Nino n = listaColmena.get(0); 
+            upsideDown.getColmena().sacarNiñoColmena(n);
+            n.setLiberado(); // Esto hace el notify() interno en el Nino
+            //synchronized (n) { // Es necesario notificar al niño para que vuelva a comprobar la condición del while
+            //    n.notify(); // Ya lo hace la función setLiberado parece ser
+            //}
+            sangre--;
+            liberados++;
         }
-    
-    // Usamos un bucle controlado para evitar ConcurrentModificationException
-    while(listaColmena.size() > 0 && sangre > 0){
-        Nino n = listaColmena.get(0); 
-        upsideDown.getColmena().sacarNiñoColmena(n);
-        n.setLiberado(); // Esto hace el notify() interno en el Nino
-        synchronized (n) { // Es necesario notificar al niño para que vuelva a comprobar la condición del while
-            n.notify();
-        }
-        sangre--;
-        liberados++;
-    }
-    
-    hawkins.getRadioWSBK().setSangre(hawkins.getRadioWSBK().getSangre() - liberados);
-    
-    try{
-            Thread.sleep(5000 + (long)(5000*Math.random()));
-        }
-        catch(InterruptedException ex){
-            ex.printStackTrace();
-        }
-    
-    //demos = upsideDown.getDemogorgons();
-        for(Demogorgon d: demos){
-            System.out.println(d.getIdentificador() + " Deja de estar paralizado por Eleven.");
-            d.Liberar();
-        }
-    // EVENTO TERMINADO
-    ultimoEventoActivo = "Intervenvión De Eleven";
-    eventoActivo = null;
+
+        hawkins.getRadioWSBK().setSangre(hawkins.getRadioWSBK().getSangre() - liberados);
+
+        try{
+                Thread.sleep(5000 + (long)(5000*Math.random()));
+            }
+            catch(InterruptedException ex){
+                ex.printStackTrace();
+            }
+
+        //demos = upsideDown.getDemogorgons();
+            for(Demogorgon d: demos){
+                System.out.println(d.getIdentificador() + " Deja de estar paralizado por Eleven.");
+                d.Liberar();
+            }
+        // EVENTO TERMINADO
+        ultimoEventoActivo = "Intervenvión De Eleven";
+        eventoActivo = null;
 }
     
     public void redMental(){
+        comprobarPausado();
         eventoActivo = "La Red Mental";
         
         ArrayList<Demogorgon> demos = upsideDown.getDemogorgons();
@@ -164,7 +171,9 @@ public class GestorEventos extends Thread {
         demos = upsideDown.getDemogorgons();
         for(Demogorgon d: demos){
             d.setConexionMindFlayer(false);
-        }       
+        }
+        ultimoEventoActivo = "La Red Mental";
+        eventoActivo = null;
     }
     
     public String getEvento(){
@@ -208,5 +217,19 @@ public class GestorEventos extends Thread {
                 i = (int)(4*Math.random());
             }catch(InterruptedException e){e.printStackTrace();}
         }
+    }
+    
+    public void comprobarPausado(){
+        try{
+            synchronized (this) {
+                while(pausado.get()){
+                    this.wait();
+                }
+            }
+        }catch(InterruptedException e){}
+    }
+    
+    public void setPausado(boolean b){
+        pausado.set(b);
     }
 }

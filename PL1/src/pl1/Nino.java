@@ -26,7 +26,8 @@ public class Nino extends Thread{
     private AtomicBoolean enUpsideDown = new AtomicBoolean(false);
     private AtomicBoolean paralizadoPortales = new AtomicBoolean(false); // Evento Apagón del Laboratorio
     private AtomicBoolean tormenta = new AtomicBoolean(false); // Evento Tormenta del Upside Down
-
+    private boolean yaFuera = false;
+    private AtomicBoolean pausado = new AtomicBoolean(false);
     public Nino(int id, Hawkins h, UpsideDown u){
         this.id=id;
         int digitos = contarDigitos(id);
@@ -50,16 +51,17 @@ public class Nino extends Thread{
     int i = (int)(4*Math.random());
     
     // HAWKINS
-    
+            comprobarPausado();
             hawkins.getCallePrincipal().entrar(this);   //Spawn de los niños
             try{
-            sleep(250);
+            sleep(1000);
             }
             catch(InterruptedException ex){
                 ex.printStackTrace();
             }
+            comprobarPausado();
             hawkins.getCallePrincipal().salir(this);
-    
+            
     while(true) {
         try {
             // ESPERA EN COLMENA
@@ -70,14 +72,17 @@ public class Nino extends Thread{
                 }
             }
 
-
+            comprobarPausado();
+            
             enUpsideDown.set(false);
             hawkins.getSotanoByers().entrar(this);
             sleep((long)(1000 + 1000*Math.random()));
-
+            
             // ENTRADA AL UPSIDE DOWN
             String zonaNombre = zonasUpsideDown[i];
             ZonaUpsideDown zonaActual = upsideDown.getZona(zonaNombre);
+            
+            comprobarPausado();
 
             hawkins.getSotanoByers().irUpsideDown(this, zonaNombre);
 
@@ -85,41 +90,48 @@ public class Nino extends Thread{
             enUpsideDown.set(true); 
             zonaActual.entrar(this);
             try{
-            do{ // Mientras esté activo el evento del apagón del laboratorio, no se puede mover de la zona
-                try {
-                    double tiempo = 3000 + 2000 * Math.random();
-                    if(tormenta.get()){ // Si está activa la tormenta del Upside Down, permanecen el doble de tiempo en la zona
-                        tiempo = tiempo*2;
-                        System.out.println(tiempo);
+                do{ // Mientras esté activo el evento del apagón del laboratorio, no se puede mover de la zona
+                    try {
+                        double tiempo = 3000 + 2000 * Math.random();
+                        if(tormenta.get()){ // Si está activa la tormenta del Upside Down, permanecen el doble de tiempo en la zona
+                            tiempo = tiempo*2;
+                            System.out.println(tiempo);
+                        }
+                        long tiempo1 = System.currentTimeMillis();
+                        sleep((long)(tiempo));     //Deambula por el UD
+                    } catch (InterruptedException e) {
+                        long tiempo2 = System.currentTimeMillis();
+                        esperar(tiempo); // Tiempo de ataque
+                        Thread.interrupted();   //Limpiar flag
+                        //perseguido.acquire();   //Esperamos a que el Demogorgon nos capture o desista.
+                    } finally {
+                        if(!paralizadoPortales.get()){
+                            comprobarPausado();
+                            enUpsideDown.set(false);
+                            zonaActual.salir(this);
+                            yaFuera = true;
+                        }
+                        if (capturado.get()){ System.out.println("He sido capturado me salto el while restante"); continue;}  //Entramos en el wait de la colmena
+
                     }
-                    long tiempo1 = System.currentTimeMillis();
-                    sleep((long)(tiempo));     //Deambula por el UD
-                } catch (InterruptedException e) {
-                    long tiempo2 = System.currentTimeMillis();
-                    esperar(tiempo); // Tiempo de ataque
-                    Thread.interrupted();   //Limpiar flag
-                    //perseguido.acquire();   //Esperamos a que el Demogorgon nos capture o desista.
-                } finally {
-                    //enUpsideDown.set(false);
-                    // zonaActual.salir(this);
-                    if (capturado.get()){ System.out.println("He sido capturado me salto el while restante"); continue;}  //Entramos en el wait de la colmena
-
-                }
-            }while(paralizadoPortales.get());
+                }while(paralizadoPortales.get());
             }finally{
-                zonaActual.salir(this);
-
-                if (capturado.get()){ System.out.println("He sido capturado me salto el while restante"); continue;}  //Entramos en el wait de la colmena
-                enUpsideDown.set(false);
+                if(!yaFuera){
+                    comprobarPausado();
+                    zonaActual.salir(this);
+                    enUpsideDown.set(false);
+                    if (capturado.get()){ System.out.println("He sido capturado me salto el while restante"); continue;}  //Entramos en el wait de la colmena
+                }
             }
             // REGRESO A HAWKINS
-
+            
             try{
                 hawkins.getRadioWSBK().entrar(this);
                 hawkins.getRadioWSBK().depositarSangre(this);
                 sleep(2000 + (long)(Math.random()*2000));
             }catch(InterruptedException e){}
             finally{
+                comprobarPausado();
                 hawkins.getRadioWSBK().salir(this);
             }
             try{
@@ -127,6 +139,7 @@ public class Nino extends Thread{
                 sleep((long)(3000 + 2000*Math.random()));
             }catch(InterruptedException e){}
             finally{
+                comprobarPausado();
                 hawkins.getCallePrincipal().salir(this);
             } 
             i = (int)(4*Math.random());
@@ -185,5 +198,19 @@ public class Nino extends Thread{
     
     public void setTormenta(boolean b){
         tormenta.set(b);
+    }
+    
+    public void comprobarPausado(){
+        try{
+            synchronized (this) {
+                while(pausado.get()){
+                    this.wait();
+                }
+            }
+        }catch(InterruptedException e){}
+    }
+    
+    public void setPausado(boolean b){
+        pausado.set(b);
     }
 }

@@ -4,6 +4,9 @@
  */
 package pl1;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -117,6 +120,7 @@ public class Interfaz extends javax.swing.JFrame {
         laboratorioDemos = new javax.swing.JTextField();
         alcantarilladoDemos = new javax.swing.JTextField();
         centroComercialDemos = new javax.swing.JTextField();
+        PausarReaunudar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -252,6 +256,13 @@ public class Interfaz extends javax.swing.JFrame {
         centroComercialDemos.setText("jTextField1");
         centroComercialDemos.setPreferredSize(new java.awt.Dimension(200, 24));
 
+        PausarReaunudar.setText("PAUSAR");
+        PausarReaunudar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PausarReaunudarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -317,11 +328,17 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(bosqueDemos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(alcantarilladoDemos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(15, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(556, 556, 556)
+                .addComponent(PausarReaunudar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(64, 64, 64)
+                .addGap(22, 22, 22)
+                .addComponent(PausarReaunudar)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -444,6 +461,47 @@ public class Interfaz extends javax.swing.JFrame {
     private void laboratorioDemosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laboratorioDemosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_laboratorioDemosActionPerformed
+
+    private void PausarReaunudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PausarReaunudarActionPerformed
+        // TODO add your handling code here:
+        if(PausarReaunudar.getText().equals("PAUSAR")){
+            PausarReaunudar.setText("REANUDAR");
+            ArrayList<Demogorgon> demos = upsideDown.getDemogorgons();
+            List<Nino> niños = hawkins.getNiños();
+            hawkins.setPausado(true);
+            for(Demogorgon d: demos){
+                d.setPausado(true);
+            }
+            
+            for(Nino n: niños){
+                n.setPausado(true);
+            }
+        }else{
+            PausarReaunudar.setText("PAUSAR");
+            ArrayList<Demogorgon> demos = upsideDown.getDemogorgons();
+            List<Nino> niños = hawkins.getNiños();
+
+            
+            for(Demogorgon d: demos){
+                d.setPausado(false);
+                synchronized (d) {
+                    d.notify();
+                }
+            }
+            
+            for(Nino n: niños){
+                n.setPausado(false);
+                synchronized (n) {
+                    n.notify();
+                }
+            }
+            
+            hawkins.setPausado(false);
+            synchronized (hawkins) {
+                hawkins.notify();
+            }
+        }
+    }//GEN-LAST:event_PausarReaunudarActionPerformed
     
     public void actualizarDatos(){
         callePrincipal.setText(hawkins.getCallePrincipal().getNiños().toString());
@@ -507,6 +565,7 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton PausarReaunudar;
     private javax.swing.JTextField alcantarillado;
     private javax.swing.JTextField alcantarilladoDemos;
     private javax.swing.JTextField bosque;
