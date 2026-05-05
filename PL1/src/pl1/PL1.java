@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
+import java.rmi.RemoteException;
 import java.util.logging.Logger;
 
 public class PL1 {
@@ -17,7 +18,7 @@ public class PL1 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         
         try {
             System.setOut(new java.io.PrintStream(System.out, true, "UTF-8"));
@@ -63,12 +64,24 @@ public class PL1 {
         GestorEventos gestor = new GestorEventos(hawkins, upsideDown);
         gestor.start();
         
+        //GestorPausa gestorPausa = new GestorPausa(hawkins, upsideDown, gestor);
+        
+        //try {
+            GestorPausa gestorPausa = new GestorPausa(hawkins, upsideDown, gestor);
+            java.rmi.registry.LocateRegistry.createRegistry(1099); // Inicia el registro en el puerto 1099
+            java.rmi.Naming.rebind("//localhost/GestorRemoto", gestorPausa);
+            System.out.println("Servidor RMI listo.");
+            
+        // catch (Exception e) {
+        //    e.printStackTrace();
+        //}
+        
         AtomicInteger contadorNiños = new AtomicInteger(0);
 
         
         Interfaz interfaz = new Interfaz();
 
-        interfaz.setInicial(hawkins, upsideDown, gestor, contadorNiños);
+        interfaz.setInicial(hawkins, upsideDown, gestor, contadorNiños, gestorPausa);
         interfaz.setVisible(true);
 
 

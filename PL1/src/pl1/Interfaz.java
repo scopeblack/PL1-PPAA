@@ -4,10 +4,13 @@
  */
 package pl1;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,6 +25,7 @@ public class Interfaz extends javax.swing.JFrame {
     private UpsideDown upsideDown;
     private GestorEventos gestor;
     private AtomicInteger contadorNiños;
+    private GestorPausa gestorPausa;
     public Interfaz() {
         initComponents();
         this.getContentPane().setBackground(new java.awt.Color(15, 15, 15));
@@ -61,11 +65,12 @@ public class Interfaz extends javax.swing.JFrame {
 
     }
     
-    public void setInicial(Hawkins h, UpsideDown u, GestorEventos g, AtomicInteger a){
+    public void setInicial(Hawkins h, UpsideDown u, GestorEventos g, AtomicInteger a, GestorPausa gp){
         this.hawkins = h;
         this.upsideDown = u;
         this.gestor = g;
         this.contadorNiños = a;
+        this.gestorPausa = gp;
     }
 
     /**
@@ -465,40 +470,20 @@ public class Interfaz extends javax.swing.JFrame {
     private void PausarReaunudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PausarReaunudarActionPerformed
         // TODO add your handling code here:
         if(PausarReaunudar.getText().equals("PAUSAR")){
+            System.out.println("------------------------ \n PAUSANDO EL PROGRAMA. \n ------------------");
             PausarReaunudar.setText("REANUDAR");
-            ArrayList<Demogorgon> demos = upsideDown.getDemogorgons();
-            List<Nino> niños = hawkins.getNiños();
-            hawkins.setPausado(true);
-            for(Demogorgon d: demos){
-                d.setPausado(true);
-            }
-            
-            for(Nino n: niños){
-                n.setPausado(true);
+            try {
+                gestorPausa.Pausar();
+            } catch (RemoteException ex) {
+                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
+            System.out.println("------------------------ \n REANUDANDO EL PROGRAMA. \n ------------------");
             PausarReaunudar.setText("PAUSAR");
-            ArrayList<Demogorgon> demos = upsideDown.getDemogorgons();
-            List<Nino> niños = hawkins.getNiños();
-
-            
-            for(Demogorgon d: demos){
-                d.setPausado(false);
-                synchronized (d) {
-                    d.notify();
-                }
-            }
-            
-            for(Nino n: niños){
-                n.setPausado(false);
-                synchronized (n) {
-                    n.notify();
-                }
-            }
-            
-            hawkins.setPausado(false);
-            synchronized (hawkins) {
-                hawkins.notify();
+            try {
+                gestorPausa.Reanudar();
+            } catch (RemoteException ex) {
+                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_PausarReaunudarActionPerformed
