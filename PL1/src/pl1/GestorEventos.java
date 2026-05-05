@@ -331,4 +331,8 @@ public class GestorEventos extends Thread {
     public void setPausado(boolean b){
         pausado.set(b);
     }
+    
+    public int getTiempoRestante(){
+        return (int)(tiempo - contador);
+    }
 }

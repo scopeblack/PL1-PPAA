@@ -9,6 +9,10 @@ package pl1_parte2;
  * @author Alejandro
  */
 import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.util.List;
+import javax.swing.SwingUtilities;
+import pl1.Demogorgon;
 import pl1.Interface;
 
 public class ModuloRemoto extends javax.swing.JFrame {
@@ -18,6 +22,67 @@ public class ModuloRemoto extends javax.swing.JFrame {
     public ModuloRemoto() {
         initComponents();
         conectarRemoto();
+        this.getContentPane().setBackground(new java.awt.Color(15, 15, 15));
+
+        // 1. FUENTES Y COLORES PARA TÍTULOS (ESTILO RETRO)
+        java.awt.Font retroFont = new java.awt.Font("Courier New", java.awt.Font.BOLD, 14);
+        java.awt.Color blancoSucio = new java.awt.Color(200, 200, 200);
+        java.awt.Color ambarEvento = new java.awt.Color(255, 200, 0);
+        java.awt.Color rojoPeligro = java.awt.Color.RED;
+
+        jLabel1.setFont(retroFont); jLabel1.setForeground(rojoPeligro);
+        jLabel2.setFont(retroFont); jLabel2.setForeground(new java.awt.Color(154, 48, 255));
+        jLabel3.setFont(retroFont); jLabel3.setForeground(new java.awt.Color(255, 102, 0));
+        jLabel4.setFont(retroFont); jLabel4.setForeground(new java.awt.Color(57, 255, 20));
+        jLabel5.setFont(retroFont); jLabel4.setForeground(new java.awt.Color(190, 170, 140));
+
+        // 2. COLORES PARA LAS ETIQUETAS ESTÁTICAS (NOMBRES DE ZONAS)
+        jLabel5.setForeground(blancoSucio);
+        jLabel6.setForeground(blancoSucio);
+        jLabel7.setForeground(blancoSucio);
+        jLabel8.setForeground(blancoSucio);
+        jLabel9.setForeground(blancoSucio);
+        jLabel10.setForeground(blancoSucio);
+        jLabel11.setForeground(blancoSucio);
+        jLabel12.setForeground(blancoSucio);
+        jLabel13.setForeground(blancoSucio);
+        jLabel14.setForeground(blancoSucio);
+        jLabel15.setForeground(blancoSucio);
+        jLabel16.setForeground(blancoSucio);
+        jLabel19.setForeground(blancoSucio);
+        jLabel20.setForeground(blancoSucio);
+        jLabel21.setForeground(blancoSucio);
+        jLabel17.setForeground(rojoPeligro);
+        jLabel18.setForeground(ambarEvento);
+
+        // 3. COLORES PARA LOS CONTADORES DINÁMICOS (LOS QUE SE ACTUALIZAN)
+
+        // Contadores de Niños (Blanco sucio)
+        niñosH.setForeground(blancoSucio);
+        portalB.setForeground(blancoSucio);
+        portalA.setForeground(blancoSucio);
+        portalL.setForeground(blancoSucio);
+        portalCC.setForeground(blancoSucio);
+        niñosB.setForeground(blancoSucio);
+        niñosA.setForeground(blancoSucio);
+        niñosL.setForeground(blancoSucio);
+        niñosCC.setForeground(blancoSucio);
+
+        // Contadores de Demogorgons y Colmena (Rojo)
+        demosB.setForeground(rojoPeligro);
+        demosA.setForeground(rojoPeligro);
+        demosL.setForeground(rojoPeligro);
+        demosCC.setForeground(rojoPeligro);
+        niñosColmena.setForeground(rojoPeligro);
+
+        // Evento y Ranking (Colores especiales)
+        evento.setForeground(ambarEvento);
+        top1id.setForeground(rojoPeligro);
+        top1Capturas.setForeground(rojoPeligro);
+        top2id.setForeground(rojoPeligro);
+        top2Capturas.setForeground(rojoPeligro);
+        top3id.setForeground(rojoPeligro);
+        top3Capturas.setForeground(rojoPeligro);
     }
 
     private void conectarRemoto() {
@@ -38,7 +103,51 @@ public class ModuloRemoto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSeparator1 = new javax.swing.JSeparator();
         Parar_Reanudar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        niñosH = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        portalB = new javax.swing.JLabel();
+        portalA = new javax.swing.JLabel();
+        portalL = new javax.swing.JLabel();
+        portalCC = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        niñosB = new javax.swing.JLabel();
+        niñosCC = new javax.swing.JLabel();
+        niñosL = new javax.swing.JLabel();
+        niñosA = new javax.swing.JLabel();
+        demosA = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        demosB = new javax.swing.JLabel();
+        demosCC = new javax.swing.JLabel();
+        demosL = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        niñosColmena = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        top1id = new javax.swing.JLabel();
+        top1Capturas = new javax.swing.JLabel();
+        top2id = new javax.swing.JLabel();
+        top2Capturas = new javax.swing.JLabel();
+        top3id = new javax.swing.JLabel();
+        top3Capturas = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        evento = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        tiempoEvento = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,26 +158,367 @@ public class ModuloRemoto extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("HAWKINS");
+
+        niñosH.setText("jLabel2");
+
+        jLabel2.setText("PORTAL BOSQUE");
+
+        jLabel3.setText("PORTAL ALCANTARILLADO");
+
+        jLabel4.setText("PORTAL CENTRO COMERCIAL");
+
+        jLabel5.setText("PORTAL LABORATORIO");
+
+        portalB.setText("jLabel6");
+
+        portalA.setText("jLabel6");
+
+        portalL.setText("jLabel6");
+
+        portalCC.setText("jLabel6");
+
+        jLabel6.setText("NIÑOS");
+
+        jLabel7.setText("CENTRO COMERCIAL");
+
+        jLabel8.setText("ALCANTARILLADO");
+
+        jLabel9.setText("BOSQUE");
+
+        jLabel10.setText("LABORATORIO");
+
+        niñosB.setText("jLabel11");
+
+        niñosCC.setText("jLabel11");
+
+        niñosL.setText("jLabel11");
+
+        niñosA.setText("jLabel11");
+
+        demosA.setText("jLabel11");
+
+        jLabel11.setText("CENTRO COMERCIAL");
+
+        jLabel12.setText("ALCANTARILLADO");
+
+        jLabel13.setText("BOSQUE");
+
+        jLabel14.setText("LABORATORIO");
+
+        demosB.setText("jLabel11");
+
+        demosCC.setText("jLabel11");
+
+        demosL.setText("jLabel11");
+
+        jLabel15.setText("DEMOGORGONS");
+
+        jLabel16.setText("UPSIDE DOWN");
+
+        jLabel17.setText("COLMENA");
+
+        niñosColmena.setText("jLabel18");
+
+        jLabel18.setText("RANKING CAPTURAS");
+
+        top1id.setText("jLabel19");
+
+        top1Capturas.setText("jLabel19");
+
+        top2id.setText("jLabel19");
+
+        top2Capturas.setText("jLabel19");
+
+        top3id.setText("jLabel19");
+
+        top3Capturas.setText("jLabel19");
+
+        jLabel19.setText("EVENTO GLOBAL ACTIVO");
+
+        jLabel20.setText("TIPO");
+
+        evento.setText("jTextField1");
+        evento.setPreferredSize(new java.awt.Dimension(200, 24));
+
+        jLabel21.setText("TIEMPO RESTANTE");
+
+        tiempoEvento.setText("jTextField1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(336, 336, 336)
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(niñosH)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(portalB)
+                            .addComponent(portalA)
+                            .addComponent(portalL)
+                            .addComponent(portalCC))
+                        .addGap(72, 72, 72)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(niñosCC)
+                            .addComponent(niñosL)
+                            .addComponent(niñosA)
+                            .addComponent(niñosB)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel17)
+                            .addComponent(niñosColmena))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(99, 99, 99)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel15)
+                                            .addComponent(demosB)
+                                            .addComponent(jLabel13))
+                                        .addGap(166, 166, 166)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(top3id)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                                                .addComponent(top3Capturas))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(top1id)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(top1Capturas))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(top2id)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(top2Capturas))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(demosA)
+                                            .addComponent(jLabel11)
+                                            .addComponent(jLabel12))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel14)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel19))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(demosL)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel20)
+                                        .addGap(63, 63, 63))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(demosCC)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel21))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(evento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(32, 32, 32))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(tiempoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(27, 27, 27))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(335, 335, 335)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel18)))
+                .addGap(100, 100, 100))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(482, 482, 482)
                 .addComponent(Parar_Reanudar)
-                .addContainerGap(392, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(115, 115, 115)
+                .addGap(57, 57, 57)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel18))
+                .addGap(18, 18, 18)
+                .addComponent(niñosH)
+                .addGap(3, 3, 3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel15)
+                    .addComponent(top1id)
+                    .addComponent(top1Capturas))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(top2id)
+                    .addComponent(top2Capturas))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel9))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(portalB)
+                            .addComponent(niñosB))
+                        .addGap(45, 45, 45)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel8))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(portalA)
+                            .addComponent(niñosA))
+                        .addGap(54, 54, 54)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel10))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(portalL)
+                            .addComponent(niñosL))
+                        .addGap(45, 45, 45)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel7))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(portalCC)
+                            .addComponent(niñosCC)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(top3id)
+                                    .addComponent(top3Capturas))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(demosB)
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabel12)
+                        .addGap(18, 18, 18)
+                        .addComponent(demosA)
+                        .addGap(54, 54, 54)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel19))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(demosL)
+                            .addComponent(jLabel20))
+                        .addGap(18, 18, 18)
+                        .addComponent(evento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel11)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(demosCC)
+                            .addComponent(jLabel21))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel17)
+                    .addComponent(tiempoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(niñosColmena)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Parar_Reanudar)
-                .addContainerGap(362, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void actualizarDatos(){
+        try{
+            // Consultas
+            int niñosH1 = objetoRemoto.niñosHawkins();
+            int portalB1 = objetoRemoto.niñosPortalBosque();
+            int portalA1 = objetoRemoto.niñosPortalAlcantarillado();
+            int portalL1 = objetoRemoto.niñosPortalLaboratorio();
+            int portalCC1 = objetoRemoto.niñosPortalCentroComercial();
+            int niñosB1 = objetoRemoto.niñosBosque();
+            int niñosA1 = objetoRemoto.niñosAlcantarillado();
+            int niñosL1 = objetoRemoto.niñosLaboratorio();
+            int niñosCC1 = objetoRemoto.niñosCentroComercial();
+            int demosB1 = objetoRemoto.demosBosque();
+            int demosA1 = objetoRemoto.demosAlcantarillado();
+            int demosL1 = objetoRemoto.demosLaboratorio();
+            int demosCC1 = objetoRemoto.demosCentroComercial();
+            int niñosColmena1 = objetoRemoto.niñosColmena();
+            int tiempoRestante = objetoRemoto.tiempoEvento();
+            List<Demogorgon> top3 = objetoRemoto.rankingTop3Demos();
+            String eventoActivo = objetoRemoto.estadoEvento();
+            
+            SwingUtilities.invokeLater(() -> {
+                // Pintar en la interfaz
+                // Niños en Hawkins
+                niñosH.setText(niñosH1 + "");
+
+                // Niños en Portales
+                portalB.setText(portalB1 + "");
+                portalA.setText(portalA1 + "");
+                portalL.setText(portalL1 + "");
+                portalCC.setText(portalCC1 + "");
+
+                // Niños en zonas del Upside Down
+                niñosB.setText(niñosB1 + "");
+                niñosA.setText(niñosA1 + "");
+                niñosL.setText(niñosL1 + "");
+                niñosCC.setText(niñosCC1 + "");
+
+                // Demogorgons en zonas
+                demosB.setText(demosB1 + "");
+                demosA.setText(demosA1 + "");
+                demosL.setText(demosL1 + "");
+                demosCC.setText(demosCC1 + "");
+                niñosColmena.setText(niñosColmena1 + "");
+                evento.setText(eventoActivo);
+                tiempoEvento.setText(tiempoRestante + " segundos");
+                // Caso para 1 Demogorgon
+                if (top3.size() >= 1) {
+                    top1id.setText(top3.get(0).getIdentificador());
+                    top1Capturas.setText("(" + top3.get(0).getCapturas() + ")");
+                } else {
+                    top1id.setText("-");
+                    top1Capturas.setText("");
+                }
+
+                // Caso para 2 Demogorgons
+                if (top3.size() >= 2) {
+                    top2id.setText(top3.get(1).getIdentificador());
+                    top2Capturas.setText("(" + top3.get(1).getCapturas() + ")");
+                } else {
+                    top2id.setText("-");
+                    top2Capturas.setText("");
+                }
+
+                // Caso para 3 Demogorgons
+                if (top3.size() >= 3) {
+                    top3id.setText(top3.get(2).getIdentificador());
+                    top3Capturas.setText("(" + top3.get(2).getCapturas() + ")");
+                } else {
+                    top3id.setText("-");
+                    top3Capturas.setText("");
+                }
+            });
+        }catch(RemoteException e){e.printStackTrace();}
+        
+        
+        
+        
+    }
+    
     private void Parar_ReanudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Parar_ReanudarActionPerformed
         // TODO add your handling code here:
                 try {
@@ -129,5 +579,49 @@ public class ModuloRemoto extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Parar_Reanudar;
+    private javax.swing.JLabel demosA;
+    private javax.swing.JLabel demosB;
+    private javax.swing.JLabel demosCC;
+    private javax.swing.JLabel demosL;
+    private javax.swing.JTextField evento;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel niñosA;
+    private javax.swing.JLabel niñosB;
+    private javax.swing.JLabel niñosCC;
+    private javax.swing.JLabel niñosColmena;
+    private javax.swing.JLabel niñosH;
+    private javax.swing.JLabel niñosL;
+    private javax.swing.JLabel portalA;
+    private javax.swing.JLabel portalB;
+    private javax.swing.JLabel portalCC;
+    private javax.swing.JLabel portalL;
+    private javax.swing.JTextField tiempoEvento;
+    private javax.swing.JLabel top1Capturas;
+    private javax.swing.JLabel top1id;
+    private javax.swing.JLabel top2Capturas;
+    private javax.swing.JLabel top2id;
+    private javax.swing.JLabel top3Capturas;
+    private javax.swing.JLabel top3id;
     // End of variables declaration//GEN-END:variables
 }

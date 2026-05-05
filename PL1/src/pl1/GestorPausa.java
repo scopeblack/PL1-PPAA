@@ -79,6 +79,90 @@ public class GestorPausa extends UnicastRemoteObject implements Interface {   //
             
     }
     
+    @Override
+    public int niñosColmena() throws RemoteException{
+        return upsideDown.getColmena().getNiños().size();
+    }
+    
+    @Override
+    public int niñosHawkins() throws RemoteException {
+        return hawkins.getNiños().size();
+    }
+
+    @Override
+    public int niñosPortalBosque() throws RemoteException {
+        return hawkins.getSotanoByers().getPortalBosque().getNiños().size();
+    }
+
+    @Override
+    public int niñosPortalAlcantarillado() throws RemoteException {
+        return hawkins.getSotanoByers().getPortalAlcantarillado().getNiños().size();
+    }
+
+    @Override
+    public int niñosPortalLaboratorio() throws RemoteException {
+        return hawkins.getSotanoByers().getPortalLaboratorio().getNiños().size();
+    }
+
+    @Override
+    public int niñosPortalCentroComercial() throws RemoteException {
+        return hawkins.getSotanoByers().getPortalCentroComercial().getNiños().size();
+    }
+
+    @Override
+    public int niñosBosque() throws RemoteException {
+        return upsideDown.getBosque().getNiños().size();
+    }
+
+    @Override
+    public int niñosAlcantarillado() throws RemoteException {
+        return upsideDown.getAlcantarillado().getNiños().size();
+    }
+
+    @Override
+    public int niñosLaboratorio() throws RemoteException {
+        return upsideDown.getLaboratorio().getNiños().size();
+    }
+
+    @Override
+    public int niñosCentroComercial() throws RemoteException {
+        return upsideDown.getCentroComercial().getNiños().size();
+    }
+
+    @Override
+    public int demosBosque() throws RemoteException {
+        return upsideDown.getBosque().getDemogorgons().size();
+    }
+
+    @Override
+    public int demosAlcantarillado() throws RemoteException {
+        return upsideDown.getAlcantarillado().getDemogorgons().size();
+    }
+
+    @Override
+    public int demosLaboratorio() throws RemoteException {
+        return upsideDown.getLaboratorio().getDemogorgons().size();
+    }
+
+    @Override
+    public int demosCentroComercial() throws RemoteException {
+        return upsideDown.getCentroComercial().getDemogorgons().size();
+    }
+
+    @Override
+    public List<String> rankingTop3Demos() throws RemoteException {
+        return upsideDown.rankingTop3Demos();
+    }
+
+    @Override
+    public String estadoEvento() throws RemoteException {
+        return gestor.getEvento();
+    }
+    
+    public int tiempoEvento() throws RemoteException{
+        return (int)(gestor.getTiempoRestante()/1000);
+    }
+    
     
 
 }

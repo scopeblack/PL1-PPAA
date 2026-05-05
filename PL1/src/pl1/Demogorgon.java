@@ -4,9 +4,11 @@
  */
 package pl1;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,18 +16,18 @@ import java.util.logging.Logger;
  *
  * @author Alejandro
  */
-public class Demogorgon extends Thread {
+public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serializable{
     private int id;
     private String identificador;
-    private Hawkins hawkins;
-    private UpsideDown upsideDown;
-    private int capturas = 0;
+    private transient Hawkins hawkins;
+    private transient UpsideDown upsideDown;
+    private AtomicInteger capturas = new AtomicInteger(0);
     //private Semaphore paralizado= new Semaphore(1); // Evento Intervención de Eleven
     private AtomicBoolean paralizadoPortales = new AtomicBoolean(false); // Evento Apagón del Laboratorio
     private AtomicBoolean tormenta = new AtomicBoolean(false); // Evento Tormenta del Upside Down
     private AtomicBoolean conexionMindFlayer = new AtomicBoolean(false); // Evento La Red Mental
     private AtomicBoolean paralizado = new AtomicBoolean(false); // Evento Intervención de Eleven
-    private ZonaUpsideDown zona;
+    private transient ZonaUpsideDown zona;
     private String zonaNombre;
     private AtomicBoolean pausado = new AtomicBoolean(false);
 
@@ -118,7 +120,7 @@ public class Demogorgon extends Thread {
                     
                     //niño.setCapturado();
                     upsideDown.enviarNiñoColmena(niño);
-                    capturas++;
+                    capturas.incrementAndGet();
                 } else {
                     // AQUÍ ESTABA EL ERROR:
                     // Solo lo devolvemos si el niño no ha salido ya por el finally
@@ -148,6 +150,16 @@ public class Demogorgon extends Thread {
         
         }
     }
+    
+    public int getCapturas(){
+        return capturas.get();
+    }
+    
+    @Override
+    public int compareTo(Demogorgon d){
+        return Integer.compare(d.getCapturas(), this.getCapturas());
+    }
+    
     public void setParalizadoPortales(boolean b){
         paralizadoPortales.set(b);
     }

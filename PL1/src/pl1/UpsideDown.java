@@ -5,6 +5,7 @@
 package pl1;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Semaphore;
@@ -121,5 +122,19 @@ public class UpsideDown {
         synchronized(colmena.getNiños()) { todos.addAll(colmena.getNiños()); }
 
         return todos;
+    }
+    
+    public List rankingTop3Demos(){
+        List<Demogorgon> ordenados = (List<Demogorgon>)demogorgons.clone();
+        Collections.sort(ordenados);
+        if(ordenados.size() < 3){
+            return ordenados;
+        }
+        List<Demogorgon> top3 = new ArrayList<>();
+        top3.add(ordenados.get(0));
+        top3.add(ordenados.get(1));
+        top3.add(ordenados.get(2));
+        
+        return ordenados;
     }
 }

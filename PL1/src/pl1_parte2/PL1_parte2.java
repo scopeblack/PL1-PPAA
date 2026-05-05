@@ -37,6 +37,17 @@ public class PL1_parte2 {
                 // Hacemos visible la ventana
                 ventanaRemota.setVisible(true);
                 
+                new Thread(() -> {
+                    while(true) {
+                        ventanaRemota.actualizarDatos();
+
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException ex) {
+                            // break; 
+                        }
+                    }
+                }).start();
                 //System.out.println("Módulo de Control Remoto iniciado correctamente.");
             }
         });
