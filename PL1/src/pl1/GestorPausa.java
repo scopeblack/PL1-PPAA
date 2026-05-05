@@ -159,6 +159,7 @@ public class GestorPausa extends UnicastRemoteObject implements Interface {   //
         return gestor.getEvento();
     }
     
+    @Override
     public int tiempoEvento() throws RemoteException{
         return (int)(gestor.getTiempoRestante()/1000);
     }

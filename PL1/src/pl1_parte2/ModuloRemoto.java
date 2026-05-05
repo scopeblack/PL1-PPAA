@@ -456,7 +456,10 @@ public class ModuloRemoto extends javax.swing.JFrame {
             int demosL1 = objetoRemoto.demosLaboratorio();
             int demosCC1 = objetoRemoto.demosCentroComercial();
             int niñosColmena1 = objetoRemoto.niñosColmena();
+            
             int tiempoRestante = objetoRemoto.tiempoEvento();
+
+
             List<Demogorgon> top3 = objetoRemoto.rankingTop3Demos();
             String eventoActivo = objetoRemoto.estadoEvento();
             
@@ -484,7 +487,16 @@ public class ModuloRemoto extends javax.swing.JFrame {
                 demosCC.setText(demosCC1 + "");
                 niñosColmena.setText(niñosColmena1 + "");
                 evento.setText(eventoActivo);
-                tiempoEvento.setText(tiempoRestante + " segundos");
+                if(eventoActivo==null){
+                    tiempoEvento.setText("Esperando Evento");
+                }
+                if(!estaPausado){
+                    tiempoEvento.setText(tiempoRestante + "");
+                }
+                if(eventoActivo==null){
+                    tiempoEvento.setText("Esperando Evento");
+                }
+                
                 // Caso para 1 Demogorgon
                 if (top3.size() >= 1) {
                     top1id.setText(top3.get(0).getIdentificador());

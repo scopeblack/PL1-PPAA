@@ -333,6 +333,6 @@ public class GestorEventos extends Thread {
     }
     
     public int getTiempoRestante(){
-        return (int)(tiempo - contador);
+        return (int)(tiempo - (contador+System.currentTimeMillis()-t1));
     }
 }
