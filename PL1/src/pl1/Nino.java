@@ -92,13 +92,35 @@ public class Nino extends Thread{
             try{
                 do{ // Mientras esté activo el evento del apagón del laboratorio, no se puede mover de la zona
                     try {
-                        double tiempo = 3000 + 2000 * Math.random();
+                        double t1 = 600 + 400 * Math.random();
+                        double t2 = 600 + 400 * Math.random();
+                        double t3 = 600 + 400 * Math.random();
+                        double t4 = 600 + 400 * Math.random();
+                        double t5 = 600 + 400 * Math.random();
+
+                        // double tiempo = 3000 + 2000 * Math.random();
                         if(tormenta.get()){ // Si está activa la tormenta del Upside Down, permanecen el doble de tiempo en la zona
-                            tiempo = tiempo*2;
-                            System.out.println(tiempo);
+                            t1 = t1*2;
+                            t2 = t2*2;
+                            t3 = t3*2;
+                            t4 = t4*2;
+                            t5 = t5*2;
+                            // System.out.println(tiempo);
                         }
                         long tiempo1 = System.currentTimeMillis();
-                        sleep((long)(tiempo));     //Deambula por el UD
+                        comprobarPausado();
+                        sleep((long)t1);
+                        comprobarPausado();
+                        sleep((long)t2);
+                        comprobarPausado();
+                        sleep((long)t3);
+                        comprobarPausado();
+                        sleep((long)t4);
+                        comprobarPausado();
+                        sleep((long)t5);
+                        comprobarPausado();
+
+                        // sleep((long)(tiempo));     //Deambula por el UD
                     } catch (InterruptedException e) {
                         long tiempo2 = System.currentTimeMillis();
                         esperar(tiempo); // Tiempo de ataque
@@ -111,7 +133,7 @@ public class Nino extends Thread{
                             zonaActual.salir(this);
                             yaFuera = true;
                         }
-                        if (capturado.get()){ System.out.println("He sido capturado me salto el while restante"); continue;}  //Entramos en el wait de la colmena
+                        if (capturado.get()){ System.out.println(identificador + " He sido capturado me salto el while restante"); continue;}  //Entramos en el wait de la colmena
 
                     }
                 }while(paralizadoPortales.get());
@@ -120,8 +142,9 @@ public class Nino extends Thread{
                     comprobarPausado();
                     zonaActual.salir(this);
                     enUpsideDown.set(false);
-                    if (capturado.get()){ System.out.println("He sido capturado me salto el while restante"); continue;}  //Entramos en el wait de la colmena
                 }
+                if (capturado.get()){ System.out.println(identificador + " He sido capturado me salto el while restante"); continue;}  //Entramos en el wait de la colmena
+
             }
             // REGRESO A HAWKINS
             
