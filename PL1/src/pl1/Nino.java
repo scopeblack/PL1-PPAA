@@ -7,8 +7,6 @@ package pl1;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -28,7 +26,8 @@ public class Nino extends Thread{
     private AtomicBoolean tormenta = new AtomicBoolean(false); // Evento Tormenta del Upside Down
     private boolean yaFuera = false;
     private AtomicBoolean pausado = new AtomicBoolean(false);
-    public Nino(int id, Hawkins h, UpsideDown u){
+    private SistemaLog logger;
+    public Nino(int id, Hawkins h, UpsideDown u, SistemaLog logger){
         this.id=id;
         int digitos = contarDigitos(id);
         int cantidadCeros = 4 - digitos;
@@ -36,6 +35,7 @@ public class Nino extends Thread{
         this.hawkins = h;
         this.upsideDown =  u;
         capturado.set(false);
+        this.logger = logger;
     }
     
     public String getIdentificador(){

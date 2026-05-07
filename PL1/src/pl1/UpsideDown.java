@@ -24,16 +24,18 @@ public class UpsideDown {
     private AtomicInteger contadorNiñosColmena = new AtomicInteger(0);
     private AtomicInteger contadorDemogorgons = new AtomicInteger(0);
     private ArrayList<Demogorgon> demogorgons = new ArrayList<>();
+    private SistemaLog logger;
 
 
     Semaphore niñosColmena = new Semaphore(0, true); // Semáforo para que Vecna cree un demogorgon por cada 8 niños capturados
     
-    public UpsideDown(ZonaUpsideDown b, ZonaUpsideDown l, ZonaUpsideDown c, ZonaUpsideDown a, Colmena co){
+    public UpsideDown(ZonaUpsideDown b, ZonaUpsideDown l, ZonaUpsideDown c, ZonaUpsideDown a, Colmena co, SistemaLog logger){
         this.bosque = b;
         this.laboratorio = l;
         this.centroComercial = c;
         this.alcantarillado = a;
         this.colmena = co;
+        this.logger=logger;
     }
     
     public synchronized ZonaUpsideDown getZona(String zona){
@@ -74,10 +76,10 @@ public class UpsideDown {
     // Cada 8 permisos en el semáforo, significa que 8 niños han sido capturados, por lo que Vecna crea un nuevo Demogorgon
     public void crearDemogorgon(Hawkins h) throws InterruptedException{
         niñosColmena.acquire(8);
-        Demogorgon d = new Demogorgon(contadorDemogorgons.incrementAndGet(), h, this);
+        Demogorgon d = new Demogorgon(contadorDemogorgons.incrementAndGet(), h, this,logger);
         d.start();
         demogorgons.add(d);
-        System.out.println("Vecna ha creado a " + d.getIdentificador());
+        logger.escribirLog("Vecna ha creado a " + d.getIdentificador());
     }
     
     // Por cada niño capturado, se añade 1 permiso al semáforo
@@ -88,17 +90,17 @@ public class UpsideDown {
         if (!colmena.getNiños().contains(n)) {
             colmena.enviarNiñoColmena(n);
             niñosColmena.release();
-            System.out.println("LOG: " + n.getIdentificador() + " añadido a la colmena.");
+            logger.escribirLog(" " + n.getIdentificador() + " añadido a la colmena.");
         } else {
             System.out.println("OJO: Se intentó duplicar a " + n.getIdentificador() + " en la colmena.");
         }
     }
     
     public void crearAlpha(Hawkins h) throws InterruptedException{
-        Demogorgon d = new Demogorgon(contadorDemogorgons.incrementAndGet(), h, this);
+        Demogorgon d = new Demogorgon(contadorDemogorgons.incrementAndGet(), h, this,logger);
         d.start();
         demogorgons.add(d);
-        System.out.println("Vecna ha creado al Demogorgon Alpha " + d.getIdentificador());
+        logger.escribirLog("Vecna ha creado al Demogorgon Alpha " + d.getIdentificador());
     }
     
     public synchronized ArrayList getDemogorgons(){

@@ -15,17 +15,20 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Colmena {
     private AtomicInteger contador = new AtomicInteger(0);
+    private SistemaLog logger;
     private List<Nino> niños = new CopyOnWriteArrayList<>();
-    public Colmena(){}
+    public Colmena(SistemaLog logger){
+        this.logger=logger;
+    }
     
     public void enviarNiñoColmena(Nino n){
         niños.add(n);
-        System.out.println(n.getIdentificador() + " ha sido retenido en la colmena. Total de niños: " + niños.size());
+        logger.escribirLog(n.getIdentificador() + " ha sido retenido en la colmena. Total de niños: " + niños.size());
     }
     
     public void sacarNiñoColmena(Nino n){
         niños.remove(n);
-        System.out.println(n.getIdentificador() + " Ha sido liberado de la colmena por Eleven. Niños restantes en la colmena: " + niños.size());
+        logger.escribirLog(n.getIdentificador() + " Ha sido liberado de la colmena por Eleven. Niños restantes en la colmena: " + niños.size());
     }
     
     public List getNiños(){

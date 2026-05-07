@@ -26,10 +26,12 @@ public class GestorEventos extends Thread {
     private long contadorEspera=0;
     private long t1Espera;
     private long t2Espera;
+    private SistemaLog logger;
 
-    public GestorEventos(Hawkins h, UpsideDown u){
+    public GestorEventos(Hawkins h, UpsideDown u, SistemaLog logger){
         this.hawkins = h;
         this.upsideDown = u;
+        this.logger = logger;
     }
     
     public void apagonLaboratorio(){
@@ -90,7 +92,7 @@ public class GestorEventos extends Thread {
             }
                 catch(InterruptedException ex){
                 t2=System.currentTimeMillis();
-                System.out.println("Evento detenido.");
+                logger.escribirLog("-----------Evento detenido.-----------");
                 continue;
                 //ex.printStackTrace();
             }
@@ -145,7 +147,7 @@ public class GestorEventos extends Thread {
             }
                 catch(InterruptedException ex){
                 t2=System.currentTimeMillis();
-                System.out.println("Evento detenido.");
+                logger.escribirLog("-----------Evento detenido.-----------");
                 //ex.printStackTrace();
                 continue;
             }
@@ -214,7 +216,7 @@ public class GestorEventos extends Thread {
             }
                 catch(InterruptedException ex){
                 t2=System.currentTimeMillis();
-                System.out.println("Evento detenido.");
+                logger.escribirLog("-----------Evento detenido.-----------");
                 //ex.printStackTrace();
             }
             finally{
@@ -254,7 +256,7 @@ public class GestorEventos extends Thread {
             }
                 catch(InterruptedException ex){
                 t2=System.currentTimeMillis();
-                System.out.println("Evento detenido.");
+                logger.escribirLog("-----------Evento detenido.-----------");
                 //ex.printStackTrace();
             }
             finally{

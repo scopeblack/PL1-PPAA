@@ -14,16 +14,18 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class CallePrincipal {
     private List<Nino> niños= new CopyOnWriteArrayList<>();
-    public CallePrincipal(){    
+    private SistemaLog logger;
+    public CallePrincipal(SistemaLog logger){    
+        this.logger=logger;
     }
     
     public void salir(Nino n){
         niños.remove(n);
-        System.out.println(n.getIdentificador() + " sale de la Calle Principal. Niños en la Calle Principal: " + niños.size());
+        logger.escribirLog(n.getIdentificador() + " sale de la Calle Principal. Niños en la Calle Principal: " + niños.size());
     }
     public void entrar(Nino n){
         niños.add(n);
-        System.out.println(n.getIdentificador() + " entra a la Calle Principal. Niños en la Calle Principal: " + niños.size());
+        logger.escribirLog(n.getIdentificador() + " entra a la Calle Principal. Niños en la Calle Principal: " + niños.size());
     }
     
     public List getNiños(){

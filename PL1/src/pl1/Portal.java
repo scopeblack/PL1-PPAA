@@ -28,16 +28,18 @@ public class Portal {
     private AtomicInteger k = new AtomicInteger(0);
     private AtomicBoolean apagon = new AtomicBoolean(false);
     private Semaphore semApagon = new Semaphore(0);
-    public Portal(int CAP, String n, List<Nino> ni){
+    private SistemaLog logger;
+    public Portal(int CAP, String n, List<Nino> ni, SistemaLog logger){
         this.barrera = new CyclicBarrier(CAP);
         formar = new Semaphore(CAP);
         this.CAP = CAP;
         this.nombre = n;
         this.niños = ni;
+        this.logger=logger;
     }
     
 public void formarGrupoYEntrar(Nino n) throws InterruptedException, BrokenBarrierException {
-    System.out.println(n.getIdentificador() + " está esperando para entrar al portal del " + nombre);
+    logger.escribirLog(n.getIdentificador() + " está esperando para entrar al portal del " + nombre);
     formar.acquire();
     niñosEnPortal.add(n);
     try {
@@ -73,7 +75,7 @@ public void formarGrupoYEntrar(Nino n) throws InterruptedException, BrokenBarrie
     
     public void regresar(Nino n){
         niños.remove(n);
-        System.out.println(n.getIdentificador() + " sale del Upside Down");
+        logger.escribirLog(n.getIdentificador() + " sale del Upside Down");
     }
     
     public List getNiños(){

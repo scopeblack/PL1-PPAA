@@ -30,14 +30,16 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
     private transient ZonaUpsideDown zona;
     private String zonaNombre;
     private AtomicBoolean pausado = new AtomicBoolean(false);
+    private SistemaLog logger;
 
-    public Demogorgon(int id, Hawkins h, UpsideDown u){
+    public Demogorgon(int id, Hawkins h, UpsideDown u, SistemaLog logger){
         this.id=id;
         int digitos = contarDigitos(id);
         int cantidadCeros = 4 - digitos;
         this.identificador= "D" + "0".repeat(cantidadCeros) +id;
         this.hawkins = h;
         this.upsideDown =  u;
+        this.logger=logger;
     }
     
     public String getIdentificador(){
@@ -115,16 +117,15 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
 
                 comprobarPausado();
                 if(exito) {
-                    System.out.println("----------------------------" + identificador + ": Ha capturado a " + niño.getIdentificador() + 
-                            " en: " + zonaNombre + "----------------------------");
+                    logger.escribirLog("----------------------------" + identificador + ": Ha capturado a " + niño.getIdentificador() + 
+                            " en: " + zonaNombre +" (capturas: " + capturas.incrementAndGet() + ")"+"----------------------------");
                     
                     //niño.setCapturado();
                     upsideDown.enviarNiñoColmena(niño);
-                    capturas.incrementAndGet();
                 } else {
                     // AQUÍ ESTABA EL ERROR:
                     // Solo lo devolvemos si el niño no ha salido ya por el finally
-                    System.out.println("----------------------------" + identificador + ": Ha fallado al capturar a " + niño.getIdentificador() + 
+                    logger.escribirLog("----------------------------" + identificador + ": Ha fallado al capturar a " + niño.getIdentificador() + 
                             " en: " + zonaNombre + "----------------------------");
                     
                     zona.devolverSiNoCapturado(niño, false);    //El demogorgon deja de perseguirlo

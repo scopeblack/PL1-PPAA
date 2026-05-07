@@ -19,12 +19,14 @@ public class GestorPausa extends UnicastRemoteObject implements Interface {   //
     private UpsideDown upsideDown;
     private GestorEventos gestor;
     private AtomicBoolean pausa = new AtomicBoolean(false);
+    private SistemaLog logger;
     
-    public GestorPausa(Hawkins h, UpsideDown u, GestorEventos g) throws RemoteException {
+    public GestorPausa(Hawkins h, UpsideDown u, GestorEventos g, SistemaLog logger) throws RemoteException {
         super(); 
         this.hawkins = h;
         this.upsideDown = u;
         this.gestor = g;
+        this.logger = logger;
     }
 
     
@@ -45,7 +47,7 @@ public class GestorPausa extends UnicastRemoteObject implements Interface {   //
             for(Nino n: niños){
                 n.setPausado(true);
             }
-            System.out.println("Sistema Pausado Remotamente");
+            logger.escribirLog("\n-----------------------Sistema Pausado Remotamente--------------------------------\n");
     }
         
     @Override
@@ -75,7 +77,7 @@ public class GestorPausa extends UnicastRemoteObject implements Interface {   //
             synchronized (hawkins) {
                 hawkins.notify();
             }
-            System.out.println("Sistema Reanudado Remotamente");
+            logger.escribirLog("\n-------------------------Sistema Reanudado Remotamente---------------------------------\n");
             
     }
     

@@ -21,12 +21,14 @@ public class Sotano {
     private Portal portalCentroComercial;
     private AtomicInteger contadorNiñosSotano = new AtomicInteger(0);
     private List<Nino> niños = new CopyOnWriteArrayList<>();
+    private SistemaLog logger;
     
-    public Sotano(Portal... portal){
+    public Sotano(SistemaLog logger,Portal... portal){
         this.portalBosque=portal[0];
         this.portalAlcantarillado=portal[1];
         this.portalCentroComercial=portal[2];
         this.portalLaboratorio=portal[3];
+        this.logger=logger;
     }
 
     public Portal getPortalBosque() {
@@ -47,16 +49,16 @@ public class Sotano {
     
     public void salir(Nino n){
         niños.remove(n);
-        System.out.println(n.getIdentificador() + " sale del sótano. Niños en el sótano: " + contadorNiñosSotano.decrementAndGet());
+        logger.escribirLog(n.getIdentificador() + " sale del sótano. Niños en el sótano: " + contadorNiñosSotano.decrementAndGet());
     }
     public void regresar(Nino n){
-        System.out.println(n.getIdentificador() + " regresa al sótano. Niños en el sótano: " + contadorNiñosSotano.incrementAndGet());
+        logger.escribirLog(n.getIdentificador() + " regresa al sótano. Niños en el sótano: " + contadorNiñosSotano.incrementAndGet());
     }
     
     public void entrar(Nino n){
         niños.add(n);
         String id = n.getIdentificador();
-        System.out.println(id + " acaba de entrar al sótano. Niños en el sótano: " + contadorNiñosSotano.incrementAndGet());
+        logger.escribirLog(id + " acaba de entrar al sótano. Niños en el sótano: " + contadorNiñosSotano.incrementAndGet());
     }
     
     public void irUpsideDown(Nino n, String zona) throws InterruptedException, BrokenBarrierException{

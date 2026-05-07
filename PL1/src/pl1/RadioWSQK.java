@@ -14,26 +14,28 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Alejandro
  */
 public class RadioWSQK {
+    private SistemaLog logger;
     private AtomicInteger contadorSangre = new AtomicInteger(0);
     private List<Nino> niños= new CopyOnWriteArrayList<>();
-    public RadioWSQK(){    
+    public RadioWSQK(SistemaLog logger){
+        this.logger=logger;
     }
     
     public void depositarSangre(Nino n){
-        
-        System.out.println("Sangre aumentada por: " +  n.getIdentificador() + 
+       
+        logger.escribirLog("Sangre aumentada por: " +  n.getIdentificador() + 
                 " Sangre Total actual: " + contadorSangre.incrementAndGet());
         
     }
     
     public void entrar(Nino n){
         niños.add(n);
-        System.out.println(n.getIdentificador() + " acaba de entrar a RadioWSQK. Niños en la RadioWSQK: " + niños.size());
+        logger.escribirLog(n.getIdentificador() + " acaba de entrar a RadioWSQK. Niños en la RadioWSQK: " + niños.size());
     }
     
     public void salir(Nino n){
         niños.remove(n);
-        System.out.println(n.getIdentificador() + " sale de la RadioWSQK. Niños en la RadioWSQK: " + niños.size());
+        logger.escribirLog(n.getIdentificador() + " sale de la RadioWSQK. Niños en la RadioWSQK: " + niños.size());
     }
     
     public int getSangre(){

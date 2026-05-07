@@ -27,6 +27,9 @@ public class PL1 {
         }
         // TODO code application logic here
         
+        //Sistema de Logs (Walkie-talkies)
+        SistemaLog logger=new SistemaLog();
+        logger.escribirLog("---------------INICIO DE LOG---------------");
         // Arrays que tendrán los ids de los niños que hay en cada zona
         List<Nino> niñosBosque = new CopyOnWriteArrayList<>();
         List<Nino> niñosAlcantarillado = new CopyOnWriteArrayList<>();
@@ -38,14 +41,14 @@ public class PL1 {
         List<Demogorgon> demosLaboratorio = new CopyOnWriteArrayList<>();
         List<Demogorgon> demosCentroComercial = new CopyOnWriteArrayList<>();
 
-        Portal portalBosque = new Portal(2, "Bosque", niñosBosque);
-        Portal portalCentroComercial = new Portal(4, "Centro Comercial", niñosCentroComercial);
-        Portal portalAlcantarillado = new Portal(2, "Alcantarillado", niñosAlcantarillado);
-        Portal portalLaboratorio = new Portal(3, "Laboratorio", niñosLaboratorio);
-        CallePrincipal callePrincipal= new CallePrincipal();
-        RadioWSQK radioWSQK= new RadioWSQK();
+        Portal portalBosque = new Portal(2, "Bosque", niñosBosque, logger);
+        Portal portalCentroComercial = new Portal(4, "Centro Comercial", niñosCentroComercial, logger);
+        Portal portalAlcantarillado = new Portal(2, "Alcantarillado", niñosAlcantarillado, logger);
+        Portal portalLaboratorio = new Portal(3, "Laboratorio", niñosLaboratorio, logger);
+        CallePrincipal callePrincipal= new CallePrincipal(logger);
+        RadioWSQK radioWSQK= new RadioWSQK(logger);
         // CallePrincipal sotanoByers= new CallePrincipal();
-        Sotano sotanoByers = new Sotano(portalBosque, portalAlcantarillado, portalCentroComercial, portalLaboratorio);
+        Sotano sotanoByers = new Sotano(logger, portalBosque, portalAlcantarillado, portalCentroComercial, portalLaboratorio);
         Hawkins hawkins = new Hawkins(callePrincipal, radioWSQK, sotanoByers);
         
 
@@ -56,18 +59,18 @@ public class PL1 {
         ZonaUpsideDown centroComercial = new ZonaUpsideDown(portalCentroComercial, niñosCentroComercial, demosCentroComercial);
         ZonaUpsideDown alcantarillado = new ZonaUpsideDown(portalAlcantarillado, niñosAlcantarillado, demosAlcantarillado);
         
-        Colmena colmena = new Colmena();
+        Colmena colmena = new Colmena(logger);
         
-        UpsideDown upsideDown = new UpsideDown(bosque, laboratorio, centroComercial, alcantarillado, colmena);
+        UpsideDown upsideDown = new UpsideDown(bosque, laboratorio, centroComercial, alcantarillado, colmena,logger);
         new Vecna(hawkins, upsideDown).start();
 
-        GestorEventos gestor = new GestorEventos(hawkins, upsideDown);
+        GestorEventos gestor = new GestorEventos(hawkins, upsideDown,logger);
         gestor.start();
         
         //GestorPausa gestorPausa = new GestorPausa(hawkins, upsideDown, gestor);
         
         //try {
-            GestorPausa gestorPausa = new GestorPausa(hawkins, upsideDown, gestor);
+            GestorPausa gestorPausa = new GestorPausa(hawkins, upsideDown, gestor,logger);
             java.rmi.registry.LocateRegistry.createRegistry(1099); // Inicia el registro en el puerto 1099
             java.rmi.Naming.rebind("//localhost/GestorRemoto", gestorPausa);
             System.out.println("Servidor RMI listo.");
@@ -101,7 +104,7 @@ public class PL1 {
         try{
             upsideDown.crearAlpha(hawkins);
             for(int i=0; i<1500; i++){
-                Nino n = new Nino(i+1, hawkins, upsideDown);
+                Nino n = new Nino(i+1, hawkins, upsideDown, logger);
                 hawkins.almacenarNino(n);
                 n.start();
                 contadorNiños.incrementAndGet();
