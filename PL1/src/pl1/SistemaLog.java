@@ -36,7 +36,7 @@ public class SistemaLog {
                         });
             logger.addHandler(fh);
 
-             logger.setUseParentHandlers(false); //<- Evitar que salgan por terminal
+            logger.setUseParentHandlers(false); //<- Evitar que salgan por terminal
         } catch (IOException e) {
             System.err.println("No se pudo crear el archivo de log: " + e.getMessage());
         }

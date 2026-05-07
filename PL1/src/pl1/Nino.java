@@ -93,40 +93,35 @@ public class Nino extends Thread{
                 do{ // Mientras esté activo el evento del apagón del laboratorio, no se puede mover de la zona
                     try {
                         double t1 = 600 + 400 * Math.random();
-                        double t2 = 600 + 400 * Math.random();
-                        double t3 = 600 + 400 * Math.random();
-                        double t4 = 600 + 400 * Math.random();
-                        double t5 = 600 + 400 * Math.random();
-
-                        // double tiempo = 3000 + 2000 * Math.random();
-                        if(tormenta.get()){ // Si está activa la tormenta del Upside Down, permanecen el doble de tiempo en la zona
-                            t1 = t1*2;
-                            t2 = t2*2;
-                            t3 = t3*2;
-                            t4 = t4*2;
-                            t5 = t5*2;
-                            // System.out.println(tiempo);
+                        
+                        int j = 0;
+                        double tiempoRestante = 5*t1;
+                        if(tormenta.get()){ tiempoRestante = tiempoRestante*2; }
+                        long tiempo1 = 0;
+                        long tiempo2 = 0;
+                        while(tiempoRestante > 0 && !capturado.get()){
+                            try{
+                                tiempo1 = 0;
+                                tiempo2 = 0;
+                                comprobarPausado();
+                                tiempo1 = System.currentTimeMillis();
+                                sleep((long)tiempoRestante);
+                            }catch(InterruptedException e){
+                                tiempo2 = System.currentTimeMillis();
+                                esperar(tiempo); // Tiempo de ataque
+                                Thread.interrupted();   //Limpiar flag
+                                //perseguido.acquire();   //Esperamos a que el Demogorgon nos capture o desista
+                                // Imprime un mensaje y las veces que le han intentado capturar (j)
+                                if(!capturado.get()){ System.out.println("----------------" + identificador + " Han fallado la captura " + ++j); }
+                            }finally{
+                                if(tiempo2 == 0){
+                                    tiempo2 = System.currentTimeMillis();
+                                }
+                                tiempoRestante = tiempoRestante - (tiempo2-tiempo1); // Se le resta lo que haya durado el sleep realmente
+                                i++;
+                            }
                         }
-                        long tiempo1 = System.currentTimeMillis();
-                        comprobarPausado();
-                        sleep((long)t1);
-                        comprobarPausado();
-                        sleep((long)t2);
-                        comprobarPausado();
-                        sleep((long)t3);
-                        comprobarPausado();
-                        sleep((long)t4);
-                        comprobarPausado();
-                        sleep((long)t5);
-                        comprobarPausado();
-
-                        // sleep((long)(tiempo));     //Deambula por el UD
-                    } catch (InterruptedException e) {
-                        long tiempo2 = System.currentTimeMillis();
-                        esperar(tiempo); // Tiempo de ataque
-                        Thread.interrupted();   //Limpiar flag
-                        //perseguido.acquire();   //Esperamos a que el Demogorgon nos capture o desista.
-                    } finally {
+                    }finally {
                         if(!paralizadoPortales.get()){
                             comprobarPausado();
                             enUpsideDown.set(false);
