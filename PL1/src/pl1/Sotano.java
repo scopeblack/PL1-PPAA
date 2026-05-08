@@ -21,7 +21,7 @@ public class Sotano {
     private Portal portalCentroComercial;
     private AtomicInteger contadorNiñosSotano = new AtomicInteger(0);
     private List<Nino> niños = new CopyOnWriteArrayList<>();
-    private SistemaLog logger;
+    private transient SistemaLog logger;
     
     public Sotano(SistemaLog logger,Portal... portal){
         this.portalBosque=portal[0];

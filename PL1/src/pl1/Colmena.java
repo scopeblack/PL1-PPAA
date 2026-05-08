@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Colmena {
     private AtomicInteger contador = new AtomicInteger(0);
-    private SistemaLog logger;
+    private transient SistemaLog logger;
     private List<Nino> niños = new CopyOnWriteArrayList<>();
     public Colmena(SistemaLog logger){
         this.logger=logger;

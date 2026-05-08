@@ -14,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class CallePrincipal {
     private List<Nino> niños= new CopyOnWriteArrayList<>();
-    private SistemaLog logger;
+    private transient SistemaLog logger;
     public CallePrincipal(SistemaLog logger){    
         this.logger=logger;
     }

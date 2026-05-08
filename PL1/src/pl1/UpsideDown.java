@@ -22,9 +22,9 @@ public class UpsideDown {
     ZonaUpsideDown alcantarillado;
     Colmena colmena;
     private AtomicInteger contadorNiñosColmena = new AtomicInteger(0);
-    private AtomicInteger contadorDemogorgons = new AtomicInteger(0);
+    private AtomicInteger contadorDemogorgons = new AtomicInteger(1);
     private ArrayList<Demogorgon> demogorgons = new ArrayList<>();
-    private SistemaLog logger;
+    private transient SistemaLog logger;
 
 
     Semaphore niñosColmena = new Semaphore(0, true); // Semáforo para que Vecna cree un demogorgon por cada 8 niños capturados
@@ -84,20 +84,22 @@ public class UpsideDown {
     
     // Por cada niño capturado, se añade 1 permiso al semáforo
     // En la clase Colmena o UpsideDown
-    public synchronized void enviarNiñoColmena(Nino n) {
+    public synchronized boolean enviarNiñoColmena(Nino n) {
         // Si el niño ya está marcado como capturado por OTRO Demogorgon,
         // o ya existe en la lista, ignoramos esta segunda captura.
         if (!colmena.getNiños().contains(n)) {
             colmena.enviarNiñoColmena(n);
             niñosColmena.release();
             logger.escribirLog(" " + n.getIdentificador() + " añadido a la colmena.");
+            return true;
         } else {
-            System.out.println("OJO: Se intentó duplicar a " + n.getIdentificador() + " en la colmena.");
+            return false;
+            //System.out.println("OJO: Se intentó duplicar a " + n.getIdentificador() + " en la colmena."); (Evitar capturas múltiples.)
         }
     }
     
     public void crearAlpha(Hawkins h) throws InterruptedException{
-        Demogorgon d = new Demogorgon(contadorDemogorgons.incrementAndGet(), h, this,logger);
+        Demogorgon d = new Demogorgon(contadorDemogorgons.get(), h, this,logger);
         d.start();
         demogorgons.add(d);
         logger.escribirLog("Vecna ha creado al Demogorgon Alpha " + d.getIdentificador());

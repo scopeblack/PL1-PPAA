@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Alejandro
  */
 public class RadioWSQK {
-    private SistemaLog logger;
+    private transient SistemaLog logger;
     private AtomicInteger contadorSangre = new AtomicInteger(0);
     private List<Nino> niños= new CopyOnWriteArrayList<>();
     public RadioWSQK(SistemaLog logger){

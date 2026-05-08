@@ -16,7 +16,8 @@ import java.util.logging.Logger;
  *
  * @author Alejandro
  */
-public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serializable{
+public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serializable {
+
     private int id;
     private String identificador;
     private transient Hawkins hawkins;
@@ -30,180 +31,190 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
     private transient ZonaUpsideDown zona;
     private String zonaNombre;
     private AtomicBoolean pausado = new AtomicBoolean(false);
-    private SistemaLog logger;
+    private transient SistemaLog logger;
 
-    public Demogorgon(int id, Hawkins h, UpsideDown u, SistemaLog logger){
-        this.id=id;
+    public Demogorgon(int id, Hawkins h, UpsideDown u, SistemaLog logger) {
+        this.id = id;
         int digitos = contarDigitos(id);
         int cantidadCeros = 4 - digitos;
-        this.identificador= "D" + "0".repeat(cantidadCeros) +id;
+        this.identificador = "D" + "0".repeat(cantidadCeros) + id;
         this.hawkins = h;
-        this.upsideDown =  u;
-        this.logger=logger;
+        this.upsideDown = u;
+        this.logger = logger;
     }
-    
-    public String getIdentificador(){
+
+    public String getIdentificador() {
         return identificador;
     }
-    
-    public void run(){
-    String[] zonasUpsideDown = {"bosque", "alcantarillado", "laboratorio", "centroComercial"};
-    int i = (int)(4*Math.random());
-    while(true){
-        try{
-            synchronized (this) {   //Si está paralizado...
-                while (paralizado.get()) {
-                    System.out.println(identificador + " está paralizado en "+ zonaNombre);
-                    this.wait(); 
+
+    public void run() {
+        String[] zonasUpsideDown = {"bosque", "alcantarillado", "laboratorio", "centroComercial"};
+        int i = (int) (4 * Math.random());
+        while (true) {
+            try {
+                synchronized (this) {   //Si está paralizado...
+                    while (paralizado.get()) {
+                        System.out.println(identificador + " está paralizado en " + zonaNombre);
+                        this.wait();
+                    }
                 }
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
             }
-        } catch(InterruptedException ex){ ex.printStackTrace();}
             //String zonaNombre = "";
             comprobarPausado();
-            Nino niño= null;
-            if(zona!=null){
+            Nino niño = null;
+            if (zona != null) {
                 zona.getDemogorgons().remove(this);
             }
-            if(conexionMindFlayer.get()){ // Evento del MindFlayer. Se calcula el máximo de niños de las 4 zonas
+            if (conexionMindFlayer.get()) { // Evento del MindFlayer. Se calcula el máximo de niños de las 4 zonas
                 String z1 = "";
                 int max1 = 0;
                 String z2 = "";
                 int max2 = 0;
                 HashMap<String, Integer> cantidades = new HashMap<>();
-                if(upsideDown.getBosque().getNiños().size() > upsideDown.getAlcantarillado().getNiños().size()){
+                if (upsideDown.getBosque().getNiños().size() > upsideDown.getAlcantarillado().getNiños().size()) {
                     z1 = "bosque";
                     max1 = upsideDown.getBosque().getNiños().size();
-                }else{
+                } else {
                     z1 = "alcantarillado";
                     max1 = upsideDown.getAlcantarillado().getNiños().size();
                 }
                 cantidades.put(z1, max1);
-                if(upsideDown.getCentroComercial().getNiños().size() > upsideDown.getLaboratorio().getNiños().size()){
+                if (upsideDown.getCentroComercial().getNiños().size() > upsideDown.getLaboratorio().getNiños().size()) {
                     z2 = "centroComercial";
-                }else{
+                } else {
                     z2 = "laboratorio";
                 }
                 cantidades.put(z2, max2);
-                if(cantidades.get(z1) > cantidades.get(z2)){
+                if (cantidades.get(z1) > cantidades.get(z2)) {
                     zonaNombre = z1;
-                }else{
+                } else {
                     zonaNombre = z2;
                 }
 
                 zona = upsideDown.getZona(zonaNombre);
 
-            }else{
+            } else {
                 zonaNombre = zonasUpsideDown[i];
                 zona = upsideDown.getZona(zonaNombre);
             }
             zona.getDemogorgons().add(this);
-            
+
             // Dentro del run del Demogorgon
             comprobarPausado();
-            try{
-            niño = zona.elegir(); 
-            if(niño != null) {
-                double tAtaque = 500 + 1000 * Math.random();
-                if(tormenta.get()){ // Si el evento tormenta del Upside Down está activo
-                    tAtaque = tAtaque / 2; // Para simular que el tiempo entre ataques se reduce a la mitad
-                }
-                niño.setTiempo(tAtaque);
-                niño.interrupt(); 
-                
-                boolean exito = (Math.random() <= 1.0/3.0);
-                if(exito) niño.setCapturado();  //Determinamos la captura antes del sleep para que no haya condiciones de carrera.
-                
-                sleep((long)tAtaque); 
+            try {
+                niño = zona.elegir();
+                if (niño != null) {
+                    double tAtaque = 500 + 1000 * Math.random();
+                    if (tormenta.get()) { // Si el evento tormenta del Upside Down está activo
+                        tAtaque = tAtaque / 2; // Para simular que el tiempo entre ataques se reduce a la mitad
+                    }
+                    niño.setTiempo(tAtaque);
+                    boolean exito = (Math.random() <= 1.0 / 3.0);
+                    
+                    niño.interrupt();
+                    sleep((long) tAtaque);
+                    comprobarPausado();
+                    
 
-                comprobarPausado();
-                if(exito) {
-                    logger.escribirLog("----------------------------" + identificador + ": Ha capturado a " + niño.getIdentificador() + 
-                            " en: " + zonaNombre +" (capturas: " + capturas.incrementAndGet() + ")"+"----------------------------");
+                    if (exito) {
+                        niño.setCapturado();  //Determinamos la captura antes del sleep para que no haya condiciones de carrera.
+                        niño.terminarAtaque();  //Determinamos su estado de persecución para evitar que otros demogorgons lo ataquen
+
+                        if (upsideDown.enviarNiñoColmena(niño)) {
+                            logger.escribirLog("----------------------------" + identificador + ": Ha capturado a " + niño.getIdentificador()
+                                    + " en: " + zonaNombre + " (capturas: " + capturas.incrementAndGet() + ")" + "----------------------------");
+                        }
+                    }
                     
-                    //niño.setCapturado();
-                    upsideDown.enviarNiñoColmena(niño);
-                } else {
-                    // AQUÍ ESTABA EL ERROR:
-                    // Solo lo devolvemos si el niño no ha salido ya por el finally
-                    logger.escribirLog("----------------------------" + identificador + ": Ha fallado al capturar a " + niño.getIdentificador() + 
-                            " en: " + zonaNombre + "----------------------------");
-                    
-                    zona.devolverSiNoCapturado(niño, false);    //El demogorgon deja de perseguirlo
+
+                     else {
+                        // AQUÍ ESTABA EL ERROR:
+                        // Solo lo devolvemos si el niño no ha salido ya por el finally
+                        niño.terminarAtaque();
+
+                        logger.escribirLog("----------------------------" + identificador + ": Ha fallado al capturar a " + niño.getIdentificador()
+                                + " en: " + zonaNombre + "----------------------------");
+
+                        zona.devolverSiNoCapturado(niño, false);    //El demogorgon deja de perseguirlo
+                    }
                 }
-             }
-            } catch(InterruptedException ex){
+            } catch (InterruptedException ex) {
                 Thread.interrupted(); // Limpiar flag
                 System.out.println(identificador + ": Ha sido paralizado por Eleven.");
-                if(niño != null) {
-                zona.devolverSiNoCapturado(niño, false);    //El demogorgon deja de perseguirlo
-                System.out.println("----------------------------" + identificador + ": Ha sido paralizado mientras capturaba a " + niño.getIdentificador() + 
-                                " en: " + zonaNombre + "----------------------------");
-                continue;
+                if (niño != null) {
+                    zona.devolverSiNoCapturado(niño, false);    //El demogorgon deja de perseguirlo
+                    System.out.println("----------------------------" + identificador + ": Ha sido paralizado mientras capturaba a " + niño.getIdentificador()
+                            + " en: " + zonaNombre + "----------------------------");
+                    continue;
                 }
             }
-            
-            if(!paralizadoPortales.get()){ // Si el evento de apagón del laboratorio está activo, se salta el cambio de zona y permanece en ella
-                i = (int)(4*Math.random());     //Elige su próximo destino
+
+            if (!paralizadoPortales.get()) { // Si el evento de apagón del laboratorio está activo, se salta el cambio de zona y permanece en ella
+                i = (int) (4 * Math.random());     //Elige su próximo destino
             }
-         //catch(InterruptedException e) {
+            //catch(InterruptedException e) {
             // Manejo de parálisis (Eleven)
-            
-        
+
         }
     }
-    
-    public int getCapturas(){
+
+    public int getCapturas() {
         return capturas.get();
     }
-    
+
     @Override
-    public int compareTo(Demogorgon d){
+    public int compareTo(Demogorgon d) {
         return Integer.compare(d.getCapturas(), this.getCapturas());
     }
-    
-    public void setParalizadoPortales(boolean b){
+
+    public void setParalizadoPortales(boolean b) {
         paralizadoPortales.set(b);
     }
-    
-    public void setTormenta(boolean b){
+
+    public void setTormenta(boolean b) {
         tormenta.set(b);
     }
-    
-    public void setConexionMindFlayer(boolean b){
+
+    public void setConexionMindFlayer(boolean b) {
         conexionMindFlayer.set(b);
     }
-    
-    public void setParalizado(){
+
+    public void setParalizado() {
         paralizado.set(true);
     }
-    public synchronized void Liberar(){
+
+    public synchronized void Liberar() {
         paralizado.set(false);
         this.notify();
     }
-    
-    public String toString(){
+
+    public String toString() {
         return identificador;
     }
-    public int contarDigitos(int n){
-    int k = 0;
-    while(n > 0){
-        k++;
-        n = Math.floorDiv(n, 10);
+
+    public int contarDigitos(int n) {
+        int k = 0;
+        while (n > 0) {
+            k++;
+            n = Math.floorDiv(n, 10);
+        }
+        return k;
     }
-    return k;
-    }
-    
-    public void comprobarPausado(){
-        try{
+
+    public void comprobarPausado() {
+        try {
             synchronized (this) {
-                while(pausado.get()){
+                while (pausado.get()) {
                     this.wait();
                 }
             }
-        }catch(InterruptedException e){}
+        } catch (InterruptedException e) {
+        }
     }
-    
-    public void setPausado(boolean b){
+
+    public void setPausado(boolean b) {
         pausado.set(b);
     }
 }

@@ -26,7 +26,7 @@ public class GestorEventos extends Thread {
     private long contadorEspera=0;
     private long t1Espera;
     private long t2Espera;
-    private SistemaLog logger;
+    private transient SistemaLog logger;
 
     public GestorEventos(Hawkins h, UpsideDown u, SistemaLog logger){
         this.hawkins = h;

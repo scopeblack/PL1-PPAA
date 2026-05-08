@@ -15,77 +15,83 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author Alejandro
  */
 public class GestorPausa extends UnicastRemoteObject implements Interface {   //Esta clase se usará para reemplazar el apaño de Pausa/Reanudar en la interfaz.
+
     private Hawkins hawkins;
     private UpsideDown upsideDown;
     private GestorEventos gestor;
     private AtomicBoolean pausa = new AtomicBoolean(false);
-    private SistemaLog logger;
-    
+    private transient SistemaLog logger;
+
     public GestorPausa(Hawkins h, UpsideDown u, GestorEventos g, SistemaLog logger) throws RemoteException {
-        super(); 
+        super();
         this.hawkins = h;
         this.upsideDown = u;
         this.gestor = g;
         this.logger = logger;
     }
 
-    
-    
-
     @Override
     public void Pausar() throws RemoteException {
-                List<Demogorgon> demos = upsideDown.getDemogorgons();
-            List<Nino> niños = hawkins.getNiños();
-            
-            gestor.setPausado(true);
-            gestor.interrupt();
-            hawkins.setPausado(true);
-            for(Demogorgon d: demos){
-                d.setPausado(true);
-            }
-            
-            for(Nino n: niños){
-                n.setPausado(true);
-            }
-            logger.escribirLog("\n-----------------------Sistema Pausado Remotamente--------------------------------\n");
+        List<Demogorgon> demos = upsideDown.getDemogorgons();
+        List<Nino> niños = hawkins.getNiños();
+
+        gestor.setPausado(true);
+        gestor.interrupt();
+        hawkins.setPausado(true);
+        for (Demogorgon d : demos) {
+            d.setPausado(true);
+        }
+
+        for (Nino n : niños) {
+            n.setPausado(true);
+        }
+        hawkins.getSotanoByers().getPortalBosque().setPausado(true);
+        hawkins.getSotanoByers().getPortalAlcantarillado().setPausado(true);
+        hawkins.getSotanoByers().getPortalCentroComercial().setPausado(true);
+        hawkins.getSotanoByers().getPortalLaboratorio().setPausado(true);
+        logger.escribirLog("\n-----------------------Sistema Pausado Remotamente--------------------------------\n");
     }
-        
+
     @Override
     public void Reanudar() throws RemoteException {
-                List<Demogorgon> demos = upsideDown.getDemogorgons();
-            List<Nino> niños = hawkins.getNiños();
-            gestor.setPausado(false);
-            synchronized (gestor) {
-                gestor.notify();
+        List<Demogorgon> demos = upsideDown.getDemogorgons();
+        List<Nino> niños = hawkins.getNiños();
+        gestor.setPausado(false);
+        synchronized (gestor) {
+            gestor.notify();
+        }
+
+        for (Demogorgon d : demos) {
+            d.setPausado(false);
+            synchronized (d) {
+                d.notify();
             }
-            
-            for(Demogorgon d: demos){
-                d.setPausado(false);
-                synchronized (d) {
-                    d.notify();
-                }
+        }
+
+        for (Nino n : niños) {
+            n.setPausado(false);
+            synchronized (n) {
+                n.notify();
             }
-            
-            for(Nino n: niños){
-                n.setPausado(false);
-                synchronized (n) {
-                    n.notify();
-                }
-            }
-            
-            hawkins.setPausado(false);
-            synchronized (hawkins) {
-                hawkins.notify();
-            }
-            logger.escribirLog("\n-------------------------Sistema Reanudado Remotamente---------------------------------\n");
-            
+        }
+
+        hawkins.setPausado(false);
+        synchronized (hawkins) {
+            hawkins.notify();
+        }
+        hawkins.getSotanoByers().getPortalBosque().setPausado(false);
+        hawkins.getSotanoByers().getPortalAlcantarillado().setPausado(false);
+        hawkins.getSotanoByers().getPortalCentroComercial().setPausado(false);
+        hawkins.getSotanoByers().getPortalLaboratorio().setPausado(false);
+        logger.escribirLog("\n-------------------------Sistema Reanudado Remotamente---------------------------------\n");
+
     }
-    
+
     @Override
-    public int niñosColmena() throws RemoteException{
+    public int niñosColmena() throws RemoteException {
         return upsideDown.getColmena().getNiños().size();
     }
-    
+
     @Override
     public int niñosHawkins() throws RemoteException {
         return hawkins.getNiños().size();
@@ -160,12 +166,10 @@ public class GestorPausa extends UnicastRemoteObject implements Interface {   //
     public String estadoEvento() throws RemoteException {
         return gestor.getEvento();
     }
-    
+
     @Override
-    public int tiempoEvento() throws RemoteException{
-        return (int)(gestor.getTiempoRestante()/1000);
+    public int tiempoEvento() throws RemoteException {
+        return (int) (gestor.getTiempoRestante() / 1000);
     }
-    
-    
 
 }
