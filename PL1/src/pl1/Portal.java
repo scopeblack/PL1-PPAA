@@ -23,6 +23,7 @@ public class Portal {
     private String nombre;
     private List<Nino> niños;
     private List<Nino> niñosEnPortal = new CopyOnWriteArrayList<>();
+    private List<Nino> niñosEsperando = new CopyOnWriteArrayList<>(); // Niños que están esperando, pero no formando grupo todavía
     private Semaphore entrando = new Semaphore(1);
     private Semaphore formar;
     private int CAP;
@@ -43,10 +44,12 @@ public class Portal {
 
     public void formarGrupoYEntrar(Nino n) throws InterruptedException, BrokenBarrierException {
         logger.escribirLog(n.getIdentificador() + " está esperando para entrar al portal del " + nombre);
-        
+        niñosEsperando.add(n);
         comprobarPausado(); // Antes de intentar formar grupo
 
         formar.acquire();
+        comprobarPausado(); // Meto esto pero no se si es coherente el comportamiento de los chavalillos
+        niñosEsperando.remove(n);
         niñosEnPortal.add(n);
         try {
             barrera.await(); // Espera a que el grupo esté completo
@@ -115,5 +118,9 @@ public class Portal {
         if (!b) {
             this.notifyAll();
         }
+    }
+    
+    public List getNiñosEsperando(){
+        return niñosEsperando;
     }
 }
