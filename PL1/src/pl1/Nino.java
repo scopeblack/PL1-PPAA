@@ -12,22 +12,58 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author Alejandro
  */
+
+
+/*
+  Representa a un niño como hilo independiente
+ 
+  Cada niño sigue el ciclo de vida definido en el enunciado:
+  Calle Principal → Sótano Byers → Portal → Upside Down → Radio WSQK → Calle Principal → (repetir).
+  Si es capturado por un demogorgon, espera en la Colmena hasta ser liberado por Eleven.
+ 
+  Los niños se identifican con el formato "NXXXX".
+ */
+
 public class Nino extends Thread {
 
     private int id;
     private String identificador;
     private Hawkins hawkins;
     private UpsideDown upsideDown;
+    
+    // Duración del ataque en curso, fijada por el demogorgon antes de interrumpir al niño. 
     private double tiempo = 0;
+
+    // Indica si el niño está actualmente capturado en la Colmena. 
     private AtomicBoolean capturado = new AtomicBoolean(false);
+
+    // Semáforo heredado de versiones anteriores; actualmente no se usa en la lógica principal.
     private Semaphore encerrado = new Semaphore(1);
-    //private Semaphore perseguido = new Semaphore(0);
+
+    // True mientras el niño está físicamente en el Upside Down. 
     private AtomicBoolean enUpsideDown = new AtomicBoolean(false);
-    private AtomicBoolean paralizadoPortales = new AtomicBoolean(false); // Evento Apagón del Laboratorio
-    private AtomicBoolean tormenta = new AtomicBoolean(false); // Evento Tormenta del Upside Down
+
+    // Activado durante el evento Apagón del Laboratorio: impide cambiar de zona. 
+    private AtomicBoolean paralizadoPortales = new AtomicBoolean(false);
+
+    // Activado durante el evento Tormenta del Upside Down: duplica el tiempo de deambulación. 
+    private AtomicBoolean tormenta = new AtomicBoolean(false);
+    
+    /*
+    Flag auxiliar para el bloque finally exterior: evita llamar a zonaActual.salir()
+    dos veces cuando el niño ya salió en el bloque finally interior.
+    */
     private boolean yaFuera = false;
+
+    /** Activado por el GestorPausa para suspender al niño en comprobarPausado(). */
     private AtomicBoolean pausado = new AtomicBoolean(false);
+
     private transient SistemaLog logger;
+
+    /**
+     * Flag de exclusión mutua para ataques: garantiza que un único demogorgon
+     * pueda atacar a este niño en cada momento .
+     */
     private AtomicBoolean enAtaque = new AtomicBoolean(false);
 
 
@@ -70,11 +106,10 @@ public class Nino extends Thread {
                 // ESPERA EN COLMENA
                 synchronized (this) {
                     while (capturado.get()) {
-                        /*System.out.println(identificador + " está esperando en la COLMENA...");*/
                         try {
                             this.wait();
                         } catch (InterruptedException e) {
-                            Thread.interrupted(); // Limpiar flag y volver al while por si el niño ya fue capturado por otro Demogorgon.
+                            Thread.interrupted(); // Limpiar flag y volver al while por si el niño ya fue capturado por otro Demogorgon. (No debería pasar)
                         }
                     }
                 }
@@ -120,8 +155,6 @@ public class Nino extends Thread {
                                     tiempo2 = System.currentTimeMillis();
                                     esperar(tiempo); // Tiempo de ataque
                                     Thread.interrupted();   //Limpiar flag
-                                    //perseguido.acquire();   //Esperamos a que el Demogorgon nos capture o desista
-                                    // Imprime un mensaje y las veces que le han intentado capturar (j)
                                     if (!capturado.get()) {
                                         /*System.out.println("----------------" + identificador + " Han fallado la captura " + ++j); */
                                     }
@@ -130,7 +163,7 @@ public class Nino extends Thread {
                                         tiempo2 = System.currentTimeMillis();
                                     }
                                     tiempoRestante = tiempoRestante - (tiempo2 - tiempo1); // Se le resta lo que haya durado el sleep realmente
-                                    //i++;
+                                    
                                 }
                             }
                         } finally {
@@ -141,7 +174,7 @@ public class Nino extends Thread {
                                 yaFuera = true;
                             }
                             if (capturado.get()) {
-                                /* System.out.println(identificador + " He sido capturado me salto el while restante");*/ continue;
+                                continue;
                             }  //Entramos en el wait de la colmena
 
                         }
@@ -153,7 +186,7 @@ public class Nino extends Thread {
                         enUpsideDown.set(false);
                     }
                     if (capturado.get()) {
-                        /*System.out.println(identificador + " He sido capturado me salto el while restante");*/ continue;
+                         continue;
                     }  //Entramos en el wait de la colmena
 
                 }
@@ -192,7 +225,7 @@ public class Nino extends Thread {
         try {
             sleep((long) (t));
         } catch (InterruptedException e) {
-            // Si lo interrumpen de nuevo durante la espera, ignorar silenciosamente
+            // Si lo interrumpen de nuevo durante la espera ignorar
             Thread.interrupted(); // Limpiar de nuevo por si acaso
         }
     }

@@ -15,11 +15,11 @@ public class Vecna extends Thread{
         this.hawkins = h;
         this.upsideDown = u;
     }
-    
+    @Override
     public void run(){
         while(true){
             try{
-                upsideDown.crearDemogorgon(hawkins);
+                upsideDown.crearDemogorgon(hawkins);    //Vecna solo está pendiente de crear nuevos Demogorgons
             }catch(InterruptedException e){e.printStackTrace();}
         }
     }

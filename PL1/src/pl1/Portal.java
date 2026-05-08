@@ -4,7 +4,6 @@
  */
 package pl1;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -48,11 +47,11 @@ public class Portal {
         comprobarPausado(); // Antes de intentar formar grupo
 
         formar.acquire();
-        comprobarPausado(); // Meto esto pero no se si es coherente el comportamiento de los chavalillos
+        comprobarPausado(); 
         niñosEsperando.remove(n);
         niñosEnPortal.add(n);
         try {
-            barrera.await(); // Espera a que el grupo esté completo
+            barrera.await(); // Espera a que el grupo esté completo con el CyclicBarrier
         } catch (BrokenBarrierException | InterruptedException e) {}
         comprobarPausado(); 
         

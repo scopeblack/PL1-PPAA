@@ -5,13 +5,10 @@
 package pl1;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.rmi.RemoteException;
-import java.util.logging.Logger;
+
 
 public class PL1 {
 
@@ -67,12 +64,11 @@ public class PL1 {
         GestorEventos gestor = new GestorEventos(hawkins, upsideDown,logger);
         gestor.start();
         
-        //GestorPausa gestorPausa = new GestorPausa(hawkins, upsideDown, gestor);
         
         //try {
-            GestorPausa gestorPausa = new GestorPausa(hawkins, upsideDown, gestor,logger);
+            GestorRemoto gestorRemoto = new GestorRemoto(hawkins, upsideDown, gestor,logger);
             java.rmi.registry.LocateRegistry.createRegistry(1099); // Inicia el registro en el puerto 1099
-            java.rmi.Naming.rebind("//localhost/GestorRemoto", gestorPausa);
+            java.rmi.Naming.rebind("//localhost/GestorRemoto", gestorRemoto);
             System.out.println("Servidor RMI listo.");
             
         // catch (Exception e) {
@@ -84,13 +80,15 @@ public class PL1 {
         
         Interfaz interfaz = new Interfaz();
 
-        interfaz.setInicial(hawkins, upsideDown, gestor, contadorNiños, gestorPausa);
+        interfaz.setInicial(hawkins, upsideDown, gestor, contadorNiños, gestorRemoto);
         interfaz.setVisible(true);
 
 
         new Thread(() -> {
             while(true) {
-                interfaz.actualizarDatos();
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    interfaz.actualizarDatos();
+                });
 
                 try {
                     Thread.sleep(100);
@@ -103,7 +101,7 @@ public class PL1 {
 
         try{
             upsideDown.crearAlpha(hawkins);
-            for(int i=0; i<1500; i++){
+            for(int i=0; i<10; i++){
                 Nino n = new Nino(i+1, hawkins, upsideDown, logger);
                 hawkins.almacenarNino(n);
                 n.start();

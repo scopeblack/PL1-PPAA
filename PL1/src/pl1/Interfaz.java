@@ -26,7 +26,7 @@ public class Interfaz extends javax.swing.JFrame {
     private UpsideDown upsideDown;
     private GestorEventos gestor;
     private AtomicInteger contadorNiños;
-    private GestorPausa gestorPausa;
+    private GestorRemoto gestorPausa;
     public Interfaz() {
         initComponents();
         this.getContentPane().setBackground(new java.awt.Color(15, 15, 15));
@@ -131,7 +131,7 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }
     
-    public void setInicial(Hawkins h, UpsideDown u, GestorEventos g, AtomicInteger a, GestorPausa gp){
+    public void setInicial(Hawkins h, UpsideDown u, GestorEventos g, AtomicInteger a, GestorRemoto gp){
         this.hawkins = h;
         this.upsideDown = u;
         this.gestor = g;
@@ -175,7 +175,6 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         ultimoEventoActivo = new javax.swing.JTextField();
-        PausarReaunudar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         callePrincipal = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -282,13 +281,6 @@ public class Interfaz extends javax.swing.JFrame {
         ultimoEventoActivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ultimoEventoActivoActionPerformed(evt);
-            }
-        });
-
-        PausarReaunudar.setText("PAUSAR");
-        PausarReaunudar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PausarReaunudarActionPerformed(evt);
             }
         });
 
@@ -441,10 +433,6 @@ public class Interfaz extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(556, 556, 556)
-                .addComponent(PausarReaunudar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(42, Short.MAX_VALUE)
@@ -550,8 +538,7 @@ public class Interfaz extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(PausarReaunudar)
+                .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -669,27 +656,6 @@ public class Interfaz extends javax.swing.JFrame {
     private void ultimoEventoActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ultimoEventoActivoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ultimoEventoActivoActionPerformed
-
-    private void PausarReaunudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PausarReaunudarActionPerformed
-        // TODO add your handling code here:
-        if(PausarReaunudar.getText().equals("PAUSAR")){
-            System.out.println("------------------------ \n PAUSANDO EL PROGRAMA. \n ------------------");
-            PausarReaunudar.setText("REANUDAR");
-            try {
-                gestorPausa.Pausar();
-            } catch (RemoteException ex) {
-                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else{
-            System.out.println("------------------------ \n REANUDANDO EL PROGRAMA. \n ------------------");
-            PausarReaunudar.setText("PAUSAR");
-            try {
-                gestorPausa.Reanudar();
-            } catch (RemoteException ex) {
-                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_PausarReaunudarActionPerformed
     
     public void actualizarDatos(){
         actualizarLista(callePrincipal, hawkins.getCallePrincipal().getNiños());
@@ -775,7 +741,6 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton PausarReaunudar;
     private javax.swing.JList<String> alcantarillado;
     private javax.swing.JList<String> alcantarilladoDemos;
     private javax.swing.JList<String> bosque;

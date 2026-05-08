@@ -4,7 +4,6 @@
  */
 package pl1;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -14,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author Alejandro
  */
-public class GestorPausa extends UnicastRemoteObject implements Interface {   //Esta clase se usará para reemplazar el apaño de Pausa/Reanudar en la interfaz.
+public class GestorRemoto extends UnicastRemoteObject implements Interface {   
 
     private Hawkins hawkins;
     private UpsideDown upsideDown;
@@ -22,7 +21,7 @@ public class GestorPausa extends UnicastRemoteObject implements Interface {   //
     private AtomicBoolean pausa = new AtomicBoolean(false);
     private transient SistemaLog logger;
 
-    public GestorPausa(Hawkins h, UpsideDown u, GestorEventos g, SistemaLog logger) throws RemoteException {
+    public GestorRemoto(Hawkins h, UpsideDown u, GestorEventos g, SistemaLog logger) throws RemoteException {
         super();
         this.hawkins = h;
         this.upsideDown = u;
@@ -94,7 +93,7 @@ public class GestorPausa extends UnicastRemoteObject implements Interface {   //
 
     @Override
     public int niñosHawkins() throws RemoteException {
-        return hawkins.getNiños().size();
+        return hawkins.numeroNinos();
     }
 
     @Override

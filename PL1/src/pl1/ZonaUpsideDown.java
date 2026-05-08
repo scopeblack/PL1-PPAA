@@ -4,7 +4,6 @@
  */
 package pl1;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,9 +59,8 @@ public class ZonaUpsideDown {
             }
             if (!niños.isEmpty()) {
                 int i = (int) (niños.size() * Math.random());
-                // IMPORTANTE: Sacamos al niño para que nadie más lo ataque
                 Nino elegido = niños.get(i);
-                niños.remove(elegido);
+                niños.remove(elegido); // Sacamos al niño para que nadie más lo ataque
                 if (!elegido.iniciarAtaque()) {
                     return null; // Ya está siendo atacado
                 }

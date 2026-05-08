@@ -7,7 +7,6 @@ package pl1;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -83,7 +82,6 @@ public class UpsideDown {
     }
     
     // Por cada niño capturado, se añade 1 permiso al semáforo
-    // En la clase Colmena o UpsideDown
     public synchronized boolean enviarNiñoColmena(Nino n) {
         // Si el niño ya está marcado como capturado por OTRO Demogorgon,
         // o ya existe en la lista, ignoramos esta segunda captura.
@@ -94,7 +92,6 @@ public class UpsideDown {
             return true;
         } else {
             return false;
-            //System.out.println("OJO: Se intentó duplicar a " + n.getIdentificador() + " en la colmena."); (Evitar capturas múltiples.)
         }
     }
     
@@ -114,11 +111,10 @@ public class UpsideDown {
     }
     
     public List getNiños(){
-        // Usamos ArrayList normal; es más rápido para una operación de "leer y olvidar"
         List<Nino> todos = new ArrayList<>();
 
-        // Sincroniza cada lista al copiarla para evitar que 
-        // otro hilo la modifique mientras haces el addAll
+        // Sincronizamos cada lista al copiarla para evitar que 
+        // otro hilo la modifique.
         synchronized(bosque.getNiños()) { todos.addAll(bosque.getNiños()); }
         synchronized(alcantarillado.getNiños()) { todos.addAll(alcantarillado.getNiños()); }
         synchronized(centroComercial.getNiños()) { todos.addAll(centroComercial.getNiños()); }

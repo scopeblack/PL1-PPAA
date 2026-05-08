@@ -4,7 +4,6 @@
  */
 package pl1;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -63,18 +62,10 @@ public class Sotano {
     
     public void irUpsideDown(Nino n, String zona) throws InterruptedException, BrokenBarrierException{
         switch(zona){
-            case "bosque":
-                irBosque(n);
-                break;
-            case "alcantarillado":
-                irAlcantarillado(n);
-                break;
-            case "laboratorio":
-                irLaboratorio(n);
-                break;
-            case "centroComercial":
-                irCentroComercial(n);
-                break;
+            case "bosque" -> irBosque(n);
+            case "alcantarillado" -> irAlcantarillado(n);
+            case "laboratorio" -> irLaboratorio(n);
+            case "centroComercial" -> irCentroComercial(n);
         }
     }
     

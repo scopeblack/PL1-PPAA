@@ -19,10 +19,10 @@ public class SistemaLog {
 
     static {
         try {
-            // "true" -> append
+            // El true para que haga -> append
             FileHandler fh = new FileHandler("hawkins.txt", true);
 
-            // Queremos texto plano, no el formato XML.
+            // Configuramos el texto que queremos.
             fh.setFormatter(new Formatter() {
                             @Override
                             public String format(LogRecord record) {
@@ -36,9 +36,9 @@ public class SistemaLog {
                         });
             logger.addHandler(fh);
 
-            logger.setUseParentHandlers(false); //<- Evitar que salgan por terminal
+            logger.setUseParentHandlers(false); //<- Evita que salgan por terminal, poner a true si se quiere
         } catch (IOException e) {
-            System.err.println("No se pudo crear el archivo de log: " + e.getMessage());
+            System.out.println("No se pudo crear el archivo de log: " + e.getMessage());
         }
     }
 

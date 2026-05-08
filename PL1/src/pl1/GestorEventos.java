@@ -35,7 +35,7 @@ public class GestorEventos extends Thread {
     }
     
     public void apagonLaboratorio(){
-        //comprobarPausado();
+        
         while(tiempo-contador > 0){ //El catch regresa al while si todavía queda tiempo de evento.
             try{
                     synchronized (this){
@@ -94,7 +94,7 @@ public class GestorEventos extends Thread {
                 t2=System.currentTimeMillis();
                 logger.escribirLog("-----------Evento detenido.-----------");
                 continue;
-                //ex.printStackTrace();
+                
             }
             finally{
                 contador+=t2-t1;
@@ -104,7 +104,7 @@ public class GestorEventos extends Thread {
     }
     
     public void tormentaUpsideDown(){
-        //comprobarPausado();
+        
         while(tiempo-contador > 0){ //El catch regresa al while si todavía queda tiempo de evento.
             try{
                     synchronized (this){
@@ -127,7 +127,7 @@ public class GestorEventos extends Thread {
         for(Nino n: niños){
             n.setTormenta(true);
         }
-        // Tiempo aleatorio de la duración del evento
+        // Tiempo aleatorio restante de la duración del evento
        
             sleep(tiempo-contador);
             t2=System.currentTimeMillis();
@@ -148,7 +148,6 @@ public class GestorEventos extends Thread {
                 catch(InterruptedException ex){
                 t2=System.currentTimeMillis();
                 logger.escribirLog("-----------Evento detenido.-----------");
-                //ex.printStackTrace();
                 continue;
             }
             finally{
@@ -159,7 +158,7 @@ public class GestorEventos extends Thread {
     }
     
     public void intervencionEleven(){
-        //comprobarPausado();
+        
         while(tiempo-contador > 0){ //El catch regresa al while si todavía queda tiempo de evento.
             try{
                     synchronized (this){
@@ -174,12 +173,11 @@ public class GestorEventos extends Thread {
             eventoActivo = "Intervención De Eleven";
             int sangre = hawkins.getRadioWSBK().getSangre();
             List<Nino> listaColmena = upsideDown.getColmena().getNiños();
-            System.out.println("Eleven liberando niños con " + sangre + " de sangre");
+            logger.escribirLog("Eleven liberando niños con " + sangre + " de sangre");
             int liberados = 0;
             
                     
             for(Demogorgon d: demos){
-                //System.out.println(d.getIdentificador() + " Ha sido paralizado");
                 d.setParalizado();
                 d.interrupt();
             }
@@ -187,10 +185,7 @@ public class GestorEventos extends Thread {
             while(listaColmena.size() > 0 && sangre > 0){
                 Nino n = listaColmena.get(0); 
                 upsideDown.getColmena().sacarNiñoColmena(n);
-                n.setLiberado(); // Esto hace el notify() interno en el Nino
-                //synchronized (n) { // Es necesario notificar al niño para que vuelva a comprobar la condición del while
-                //    n.notify(); // Ya lo hace la función setLiberado parece ser
-                //}
+                n.setLiberado(); 
                 sangre--;
                 liberados++;
                 
@@ -205,9 +200,9 @@ public class GestorEventos extends Thread {
                 t2=System.currentTimeMillis();
                 
 
-        //demos = upsideDown.getDemogorgons();
+        
             for(Demogorgon d: demos){
-                System.out.println(d.getIdentificador() + " Deja de estar paralizado por Eleven.");
+                logger.escribirLog(d.getIdentificador() + " Deja de estar paralizado por Eleven.");
                 d.Liberar();
             }
         // EVENTO TERMINADO
@@ -217,7 +212,7 @@ public class GestorEventos extends Thread {
                 catch(InterruptedException ex){
                 t2=System.currentTimeMillis();
                 logger.escribirLog("-----------Evento detenido.-----------");
-                //ex.printStackTrace();
+                
             }
             finally{
                 contador+=t2-t1;
@@ -227,7 +222,7 @@ public class GestorEventos extends Thread {
     }
     
     public void redMental(){
-        //comprobarPausado();
+        
         while(tiempo-contador > 0){ //El catch regresa al while si todavía queda tiempo de evento.
             try{
                     synchronized (this){
@@ -257,7 +252,7 @@ public class GestorEventos extends Thread {
                 catch(InterruptedException ex){
                 t2=System.currentTimeMillis();
                 logger.escribirLog("-----------Evento detenido.-----------");
-                //ex.printStackTrace();
+                
             }
             finally{
                 contador+=t2-t1;
@@ -287,7 +282,7 @@ public class GestorEventos extends Thread {
                 }
                 t1Espera=System.currentTimeMillis();
                 System.out.println("Tiempo de espera gestor:" + (tiempoEspera-contadorEspera));
-                sleep(tiempoEspera-contadorEspera); //Comprobamos si se ha intentado pausar el programa antes y después del sleep.
+                sleep(tiempoEspera-contadorEspera); 
                 t2Espera=System.currentTimeMillis();
                 
             }catch(InterruptedException ex){
@@ -299,7 +294,6 @@ public class GestorEventos extends Thread {
             }finally{
                 
                 contadorEspera+=t2Espera-t1Espera;
-                System.out.println(contadorEspera);
             }
 
                     switch (i) {
@@ -323,7 +317,7 @@ public class GestorEventos extends Thread {
         try{
             synchronized (this) {
                 while(pausado.get()){
-                    Thread.interrupted();   //Evita la interrupción en el wait.
+                    Thread.interrupted();   //Evita la interrupción en el wait por si acaso.
                     this.wait();
                 }
             }

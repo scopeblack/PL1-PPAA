@@ -4,7 +4,7 @@
  */
 package pl1;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -38,21 +38,13 @@ public class Hawkins {
         return sotanoByers;
     }
     
-    public List getNiños(){
-        /*
-        // Usamos ArrayList normal; es más rápido para una operación de "leer y olvidar"
-        List<Nino> todos = new ArrayList<>();
-
-        // Sincroniza cada lista al copiarla para evitar que 
-        // otro hilo la modifique mientras haces el addAll
-        synchronized(radioWSBK.getNiños()) { todos.addAll(radioWSBK.getNiños()); }
-        synchronized(callePrincipal.getNiños()) { todos.addAll(callePrincipal.getNiños()); }
-        synchronized(sotanoByers.getNiños()) { todos.addAll(sotanoByers.getNiños()); }
-
-        return todos;
-        */
+    public List getNiños(){  
         return niños;
 
+    }
+    
+    public int numeroNinos(){
+        return radioWSBK.getNiños().size() + callePrincipal.getNiños().size() + sotanoByers.getNiños().size();
     }
     
     public void almacenarNino(Nino n){

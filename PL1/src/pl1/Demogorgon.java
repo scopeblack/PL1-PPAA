@@ -6,11 +6,9 @@ package pl1;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -23,7 +21,6 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
     private transient Hawkins hawkins;
     private transient UpsideDown upsideDown;
     private AtomicInteger capturas = new AtomicInteger(0);
-    //private Semaphore paralizado= new Semaphore(1); // Evento Intervención de Eleven
     private AtomicBoolean paralizadoPortales = new AtomicBoolean(false); // Evento Apagón del Laboratorio
     private AtomicBoolean tormenta = new AtomicBoolean(false); // Evento Tormenta del Upside Down
     private AtomicBoolean conexionMindFlayer = new AtomicBoolean(false); // Evento La Red Mental
@@ -54,14 +51,13 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
             try {
                 synchronized (this) {   //Si está paralizado...
                     while (paralizado.get()) {
-                        System.out.println(identificador + " está paralizado en " + zonaNombre);
+                        logger.escribirLog(identificador + " está paralizado en " + zonaNombre);
                         this.wait();
                     }
                 }
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
-            //String zonaNombre = "";
             comprobarPausado();
             Nino niño = null;
             if (zona != null) {
@@ -113,14 +109,15 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
                     niño.setTiempo(tAtaque);
                     boolean exito = (Math.random() <= 1.0 / 3.0);
                     
+                    if (exito) {niño.setCapturado();}
                     niño.interrupt();
                     sleep((long) tAtaque);
                     comprobarPausado();
                     
 
                     if (exito) {
-                        niño.setCapturado();  //Determinamos la captura antes del sleep para que no haya condiciones de carrera.
-                        niño.terminarAtaque();  //Determinamos su estado de persecución para evitar que otros demogorgons lo ataquen
+                        niño.setCapturado();  //Determinamos la captura antes del sleep.
+                        niño.terminarAtaque();  //Determinamos su estado de persecución para evitar que otros demogorgons lo ataquen.
 
                         if (upsideDown.enviarNiñoColmena(niño)) {
                             logger.escribirLog("----------------------------" + identificador + ": Ha capturado a " + niño.getIdentificador()
@@ -130,8 +127,6 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
                     
 
                      else {
-                        // AQUÍ ESTABA EL ERROR:
-                        // Solo lo devolvemos si el niño no ha salido ya por el finally
                         niño.terminarAtaque();
 
                         logger.escribirLog("----------------------------" + identificador + ": Ha fallado al capturar a " + niño.getIdentificador()
@@ -151,11 +146,13 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
                 }
             }
 
-            if (!paralizadoPortales.get()) { // Si el evento de apagón del laboratorio está activo, se salta el cambio de zona y permanece en ella
-                i = (int) (4 * Math.random());     //Elige su próximo destino
+            if (!paralizadoPortales.get()) {    // Si el evento de apagón del laboratorio está activo, se salta el cambio de zona y permanece en ella
+                int j=i;
+                while(j==i){    // Le forzamos a cambiar de lugar
+                    i = (int) (4 * Math.random());     //Elige su próximo destino
+                }
             }
-            //catch(InterruptedException e) {
-            // Manejo de parálisis (Eleven)
+            
 
         }
     }

@@ -44,11 +44,10 @@ public class PL1_parte2 {
                         try {
                             Thread.sleep(100);
                         } catch (InterruptedException ex) {
-                            // break; 
+                            ex.printStackTrace();
                         }
                     }
                 }).start();
-                //System.out.println("Módulo de Control Remoto iniciado correctamente.");
             }
         });
     }
