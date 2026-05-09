@@ -101,7 +101,7 @@ public class PL1 {
 
         try{
             upsideDown.crearAlpha(hawkins);
-            for(int i=0; i<10; i++){
+            for(int i=0; i<1500; i++){
                 Nino n = new Nino(i+1, hawkins, upsideDown, logger);
                 hawkins.almacenarNino(n);
                 n.start();

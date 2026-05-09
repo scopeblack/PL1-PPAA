@@ -4,6 +4,7 @@
  */
 package pl1;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -23,6 +24,7 @@ public class Portal {
     private List<Nino> niños;
     private List<Nino> niñosEnPortal = new CopyOnWriteArrayList<>();
     private List<Nino> niñosEsperando = new CopyOnWriteArrayList<>(); // Niños que están esperando, pero no formando grupo todavía
+    private List<Nino> niñosVolviendo = new ArrayList<>(); // ArrayList con los niños que desean volver del UD, para darles prioridad
     private Semaphore entrando = new Semaphore(1);
     private Semaphore formar;
     private int CAP;
@@ -47,15 +49,13 @@ public class Portal {
         comprobarPausado(); // Antes de intentar formar grupo
 
         formar.acquire();
-        comprobarPausado(); 
+        comprobarPausado();
         niñosEsperando.remove(n);
         niñosEnPortal.add(n);
         try {
             barrera.await(); // Espera a que el grupo esté completo con el CyclicBarrier
         } catch (BrokenBarrierException | InterruptedException e) {}
-        comprobarPausado(); 
-        
-        
+        comprobarPausado();
 
         if (apagon.get()) {
             semApagon.acquire();
@@ -63,13 +63,20 @@ public class Portal {
 
         try {
             entrando.acquire();
-            comprobarPausado(); 
+            comprobarPausado();
 
             Thread.sleep(1000);
-            synchronized (niños) {
-                niños.add(n);
-                niños.notifyAll();
+            // Monitor dentro de monitor para evitar que la lista de niñosVolviendo se modifique después de haber comprobado que está vacía
+            synchronized (niñosVolviendo) {
+                while (niñosVolviendo.size() > 0) { // Si hay algún niño queriendo volver, esperamos
+                    niñosVolviendo.wait();
+                }
+                synchronized (niños) {
+                    niños.add(n);
+                    niños.notifyAll();
+                }
             }
+
         } catch (InterruptedException e) {
 
         } finally {
@@ -118,8 +125,12 @@ public class Portal {
             this.notifyAll();
         }
     }
-    
-    public List getNiñosEsperando(){
+
+    public List getNiñosEsperando() {
         return niñosEsperando;
+    }
+
+    public List getNiñosVolviendo() {
+        return niñosVolviendo;
     }
 }

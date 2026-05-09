@@ -32,8 +32,17 @@ public class ZonaUpsideDown {
     }
 
     public void salir(Nino n) {
+        synchronized (portal.getNiñosVolviendo()) {
+            portal.getNiñosVolviendo().add(n); // El niño se añade a la lista de los que quieren volver
+        }
         synchronized (niños) {
-            niños.remove(n);
+            niños.remove(n); // El niño sale
+        }
+        synchronized (portal.getNiñosVolviendo()) {
+            portal.getNiñosVolviendo().remove(n);
+            if(portal.getNiñosVolviendo().size() < 1){ // Si no queda nadie volviendo, notificamos a todos los niños que estén esperando en la lista
+                portal.getNiñosVolviendo().notifyAll();
+            }
         }
     }
 
