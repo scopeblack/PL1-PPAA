@@ -20626,3 +20626,581 @@
 
 08/05/2026 21:57:18: ----------------------------D0002: Ha capturado a N0006 en: laboratorio (capturas: 2)----------------------------
 
+09/05/2026 03:39:54: ---------------INICIO DE LOG---------------
+
+09/05/2026 03:39:55: Vecna ha creado al Demogorgon Alpha D0001
+
+09/05/2026 03:39:55: N0001 entra a la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:39:56: N0001 sale de la Calle Principal. Niños en la Calle Principal: 0
+
+09/05/2026 03:39:56: N0001 acaba de entrar al sótano. Niños en el sótano: 1
+
+09/05/2026 03:39:56: N0002 entra a la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:39:57: N0002 sale de la Calle Principal. Niños en la Calle Principal: 0
+
+09/05/2026 03:39:57: N0002 acaba de entrar al sótano. Niños en el sótano: 2
+
+09/05/2026 03:39:58: N0003 entra a la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:39:58: N0001 sale del sótano. Niños en el sótano: 1
+
+09/05/2026 03:39:58: N0001 está esperando para entrar al portal del Bosque
+
+09/05/2026 03:39:59: N0003 sale de la Calle Principal. Niños en la Calle Principal: 0
+
+09/05/2026 03:39:59: N0003 acaba de entrar al sótano. Niños en el sótano: 2
+
+09/05/2026 03:39:59: N0002 sale del sótano. Niños en el sótano: 1
+
+09/05/2026 03:39:59: N0002 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:39:59: N0004 entra a la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:40:00: N0003 sale del sótano. Niños en el sótano: 0
+
+09/05/2026 03:40:00: N0003 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:40:00: N0005 entra a la Calle Principal. Niños en la Calle Principal: 2
+
+09/05/2026 03:40:00: N0004 sale de la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:40:00: N0004 acaba de entrar al sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:01: N0005 sale de la Calle Principal. Niños en la Calle Principal: 0
+
+09/05/2026 03:40:01: N0005 acaba de entrar al sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:02: N0006 entra a la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:40:02: N0004 sale del sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:02: N0004 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:40:03: N0007 entra a la Calle Principal. Niños en la Calle Principal: 2
+
+09/05/2026 03:40:03: N0006 sale de la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:40:03: N0006 acaba de entrar al sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:03: N0005 sale del sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:03: N0005 está esperando para entrar al portal del Bosque
+
+09/05/2026 03:40:03: N0008 entra a la Calle Principal. Niños en la Calle Principal: 2
+
+09/05/2026 03:40:04: N0007 sale de la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:40:04: N0007 acaba de entrar al sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:04: N0005 acaba de entrar a: bosque. Niños en bosque: 1
+
+09/05/2026 03:40:04: N0008 sale de la Calle Principal. Niños en la Calle Principal: 0
+
+09/05/2026 03:40:04: N0008 acaba de entrar al sótano. Niños en el sótano: 3
+
+09/05/2026 03:40:05: N0009 entra a la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:40:05: N0006 sale del sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:05: N0006 está esperando para entrar al portal del Alcantarillado
+
+09/05/2026 03:40:05: N0001 acaba de entrar a: bosque. Niños en bosque: 2
+
+09/05/2026 03:40:05: N0010 entra a la Calle Principal. Niños en la Calle Principal: 2
+
+09/05/2026 03:40:06: N0009 sale de la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:40:06: N0009 acaba de entrar al sótano. Niños en el sótano: 3
+
+09/05/2026 03:40:06: N0008 sale del sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:06: N0008 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:40:06: N0007 sale del sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:06: N0007 está esperando para entrar al portal del Alcantarillado
+
+09/05/2026 03:40:06: N0010 sale de la Calle Principal. Niños en la Calle Principal: 0
+
+09/05/2026 03:40:06: N0010 acaba de entrar al sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:07: N0008 acaba de entrar a: centroComercial. Niños en centroComercial: 1
+
+09/05/2026 03:40:07: N0007 acaba de entrar a: alcantarillado. Niños en alcantarillado: 1
+
+09/05/2026 03:40:07: N0009 sale del sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:07: N0009 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:40:07: N0005 acaba de salir del Upside Down. Niños restantes en bosque:1
+
+09/05/2026 03:40:07: N0005 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 1
+
+09/05/2026 03:40:07: Sangre aumentada por: N0005 Sangre Total actual: 1
+
+09/05/2026 03:40:08: N0010 sale del sótano. Niños en el sótano: 0
+
+09/05/2026 03:40:08: N0010 está esperando para entrar al portal del Laboratorio
+
+09/05/2026 03:40:08: N0002 acaba de entrar a: centroComercial. Niños en centroComercial: 2
+
+09/05/2026 03:40:08: N0006 acaba de entrar a: alcantarillado. Niños en alcantarillado: 2
+
+09/05/2026 03:40:09: N0003 acaba de entrar a: centroComercial. Niños en centroComercial: 3
+
+09/05/2026 03:40:09: N0001 acaba de salir del Upside Down. Niños restantes en bosque:0
+
+09/05/2026 03:40:09: N0001 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 2
+
+09/05/2026 03:40:09: Sangre aumentada por: N0001 Sangre Total actual: 2
+
+09/05/2026 03:40:10: N0004 acaba de entrar a: centroComercial. Niños en centroComercial: 3
+
+09/05/2026 03:40:10: N0005 sale de la RadioWSQK. Niños en la RadioWSQK: 1
+
+09/05/2026 03:40:10: N0005 entra a la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:40:10: ----------------------------D0001: Ha fallado al capturar a N0008 en: centroComercial----------------------------
+
+09/05/2026 03:40:10: N0007 acaba de salir del Upside Down. Niños restantes en alcantarillado:1
+
+09/05/2026 03:40:10: N0007 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 2
+
+09/05/2026 03:40:10: Sangre aumentada por: N0007 Sangre Total actual: 3
+
+09/05/2026 03:40:11: N0006 acaba de salir del Upside Down. Niños restantes en alcantarillado:0
+
+09/05/2026 03:40:11: N0006 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 3
+
+09/05/2026 03:40:11: Sangre aumentada por: N0006 Sangre Total actual: 4
+
+09/05/2026 03:40:12: N0002 acaba de salir del Upside Down. Niños restantes en centroComercial:3
+
+09/05/2026 03:40:12: N0002 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 4
+
+09/05/2026 03:40:12: Sangre aumentada por: N0002 Sangre Total actual: 5
+
+09/05/2026 03:40:12: N0003 acaba de salir del Upside Down. Niños restantes en centroComercial:2
+
+09/05/2026 03:40:12: N0003 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 5
+
+09/05/2026 03:40:12: Sangre aumentada por: N0003 Sangre Total actual: 6
+
+09/05/2026 03:40:12: N0008 acaba de salir del Upside Down. Niños restantes en centroComercial:1
+
+09/05/2026 03:40:12: N0008 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 6
+
+09/05/2026 03:40:12: Sangre aumentada por: N0008 Sangre Total actual: 7
+
+09/05/2026 03:40:13: N0001 sale de la RadioWSQK. Niños en la RadioWSQK: 5
+
+09/05/2026 03:40:13: N0001 entra a la Calle Principal. Niños en la Calle Principal: 2
+
+09/05/2026 03:40:13: N0006 sale de la RadioWSQK. Niños en la RadioWSQK: 4
+
+09/05/2026 03:40:13: N0006 entra a la Calle Principal. Niños en la Calle Principal: 3
+
+09/05/2026 03:40:13: N0007 sale de la RadioWSQK. Niños en la RadioWSQK: 3
+
+09/05/2026 03:40:13: N0007 entra a la Calle Principal. Niños en la Calle Principal: 4
+
+09/05/2026 03:40:14: N0004 acaba de salir del Upside Down. Niños restantes en centroComercial:0
+
+09/05/2026 03:40:14: N0004 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 4
+
+09/05/2026 03:40:14: Sangre aumentada por: N0004 Sangre Total actual: 8
+
+09/05/2026 03:40:14: N0005 sale de la Calle Principal. Niños en la Calle Principal: 3
+
+09/05/2026 03:40:14: N0005 acaba de entrar al sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:15: N0002 sale de la RadioWSQK. Niños en la RadioWSQK: 3
+
+09/05/2026 03:40:15: N0002 entra a la Calle Principal. Niños en la Calle Principal: 4
+
+09/05/2026 03:40:15: N0008 sale de la RadioWSQK. Niños en la RadioWSQK: 2
+
+09/05/2026 03:40:15: N0008 entra a la Calle Principal. Niños en la Calle Principal: 5
+
+09/05/2026 03:40:15: N0003 sale de la RadioWSQK. Niños en la RadioWSQK: 1
+
+09/05/2026 03:40:15: N0003 entra a la Calle Principal. Niños en la Calle Principal: 6
+
+09/05/2026 03:40:16: N0005 sale del sótano. Niños en el sótano: 0
+
+09/05/2026 03:40:16: N0005 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:40:16: N0004 sale de la RadioWSQK. Niños en la RadioWSQK: 0
+
+09/05/2026 03:40:16: N0004 entra a la Calle Principal. Niños en la Calle Principal: 7
+
+09/05/2026 03:40:17: N0001 sale de la Calle Principal. Niños en la Calle Principal: 6
+
+09/05/2026 03:40:17: N0001 acaba de entrar al sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:17: N0006 sale de la Calle Principal. Niños en la Calle Principal: 5
+
+09/05/2026 03:40:17: N0006 acaba de entrar al sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:17: N0007 sale de la Calle Principal. Niños en la Calle Principal: 4
+
+09/05/2026 03:40:17: N0007 acaba de entrar al sótano. Niños en el sótano: 3
+
+09/05/2026 03:40:18: N0001 sale del sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:18: N0001 está esperando para entrar al portal del Alcantarillado
+
+09/05/2026 03:40:18: N0002 sale de la Calle Principal. Niños en la Calle Principal: 3
+
+09/05/2026 03:40:18: N0002 acaba de entrar al sótano. Niños en el sótano: 3
+
+09/05/2026 03:40:18: N0006 sale del sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:18: N0006 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:40:19: N0002 sale del sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:19: N0002 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:40:19: N0007 sale del sótano. Niños en el sótano: 0
+
+09/05/2026 03:40:19: N0007 está esperando para entrar al portal del Alcantarillado
+
+09/05/2026 03:40:19: N0003 sale de la Calle Principal. Niños en la Calle Principal: 2
+
+09/05/2026 03:40:19: N0003 acaba de entrar al sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:19: N0008 sale de la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:40:19: N0008 acaba de entrar al sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:20: N0002 acaba de entrar a: centroComercial. Niños en centroComercial: 1
+
+09/05/2026 03:40:20: N0007 acaba de entrar a: alcantarillado. Niños en alcantarillado: 1
+
+09/05/2026 03:40:21: N0004 sale de la Calle Principal. Niños en la Calle Principal: 0
+
+09/05/2026 03:40:21: N0004 acaba de entrar al sótano. Niños en el sótano: 3
+
+09/05/2026 03:40:21: N0003 sale del sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:21: N0003 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:40:21: N0009 acaba de entrar a: centroComercial. Niños en centroComercial: 2
+
+09/05/2026 03:40:21: N0001 acaba de entrar a: alcantarillado. Niños en alcantarillado: 2
+
+09/05/2026 03:40:21: N0008 sale del sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:21: N0008 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:40:21: ----------------------------D0001: Ha fallado al capturar a N0007 en: alcantarillado----------------------------
+
+09/05/2026 03:40:22: N0004 sale del sótano. Niños en el sótano: 0
+
+09/05/2026 03:40:22: N0004 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:40:22: N0005 acaba de entrar a: centroComercial. Niños en centroComercial: 2
+
+09/05/2026 03:40:22: ----------------------------D0001: Ha fallado al capturar a N0009 en: centroComercial----------------------------
+
+09/05/2026 03:40:23: N0006 acaba de entrar a: centroComercial. Niños en centroComercial: 4
+
+09/05/2026 03:40:25: N0002 acaba de salir del Upside Down. Niños restantes en centroComercial:3
+
+09/05/2026 03:40:25: N0002 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 1
+
+09/05/2026 03:40:25: Sangre aumentada por: N0002 Sangre Total actual: 9
+
+09/05/2026 03:40:25: N0007 acaba de salir del Upside Down. Niños restantes en alcantarillado:1
+
+09/05/2026 03:40:25: N0007 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 2
+
+09/05/2026 03:40:25: Sangre aumentada por: N0007 Sangre Total actual: 10
+
+09/05/2026 03:40:25: N0009 acaba de salir del Upside Down. Niños restantes en centroComercial:2
+
+09/05/2026 03:40:25: N0009 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 3
+
+09/05/2026 03:40:25: Sangre aumentada por: N0009 Sangre Total actual: 11
+
+09/05/2026 03:40:26: N0001 acaba de salir del Upside Down. Niños restantes en alcantarillado:0
+
+09/05/2026 03:40:26: N0001 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 4
+
+09/05/2026 03:40:26: Sangre aumentada por: N0001 Sangre Total actual: 12
+
+09/05/2026 03:40:26: N0005 acaba de salir del Upside Down. Niños restantes en centroComercial:1
+
+09/05/2026 03:40:26: N0005 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 5
+
+09/05/2026 03:40:26: Sangre aumentada por: N0005 Sangre Total actual: 13
+
+09/05/2026 03:40:27: N0006 acaba de salir del Upside Down. Niños restantes en centroComercial:0
+
+09/05/2026 03:40:27: N0006 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 6
+
+09/05/2026 03:40:27: Sangre aumentada por: N0006 Sangre Total actual: 14
+
+09/05/2026 03:40:28: N0002 sale de la RadioWSQK. Niños en la RadioWSQK: 5
+
+09/05/2026 03:40:28: N0002 entra a la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:40:28: N0001 sale de la RadioWSQK. Niños en la RadioWSQK: 4
+
+09/05/2026 03:40:28: N0001 entra a la Calle Principal. Niños en la Calle Principal: 2
+
+09/05/2026 03:40:28: N0007 sale de la RadioWSQK. Niños en la RadioWSQK: 3
+
+09/05/2026 03:40:28: N0007 entra a la Calle Principal. Niños en la Calle Principal: 3
+
+09/05/2026 03:40:28: N0009 sale de la RadioWSQK. Niños en la RadioWSQK: 2
+
+09/05/2026 03:40:28: N0009 entra a la Calle Principal. Niños en la Calle Principal: 4
+
+09/05/2026 03:40:29: N0005 sale de la RadioWSQK. Niños en la RadioWSQK: 1
+
+09/05/2026 03:40:29: N0005 entra a la Calle Principal. Niños en la Calle Principal: 5
+
+09/05/2026 03:40:30: N0006 sale de la RadioWSQK. Niños en la RadioWSQK: 0
+
+09/05/2026 03:40:30: N0006 entra a la Calle Principal. Niños en la Calle Principal: 6
+
+09/05/2026 03:40:32: N0007 sale de la Calle Principal. Niños en la Calle Principal: 5
+
+09/05/2026 03:40:32: N0007 acaba de entrar al sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:32: N0009 sale de la Calle Principal. Niños en la Calle Principal: 4
+
+09/05/2026 03:40:32: N0009 acaba de entrar al sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:32: N0002 sale de la Calle Principal. Niños en la Calle Principal: 3
+
+09/05/2026 03:40:32: N0002 acaba de entrar al sótano. Niños en el sótano: 3
+
+09/05/2026 03:40:32: N0001 sale de la Calle Principal. Niños en la Calle Principal: 2
+
+09/05/2026 03:40:32: N0001 acaba de entrar al sótano. Niños en el sótano: 4
+
+09/05/2026 03:40:33: N0009 sale del sótano. Niños en el sótano: 3
+
+09/05/2026 03:40:33: N0009 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:40:33: N0007 sale del sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:33: N0007 está esperando para entrar al portal del Alcantarillado
+
+09/05/2026 03:40:34: N0005 sale de la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:40:34: N0005 acaba de entrar al sótano. Niños en el sótano: 3
+
+09/05/2026 03:40:34: N0001 sale del sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:34: N0001 está esperando para entrar al portal del Bosque
+
+09/05/2026 03:40:34: N0002 sale del sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:34: N0002 está esperando para entrar al portal del Laboratorio
+
+09/05/2026 03:40:34: N0009 acaba de entrar a: centroComercial. Niños en centroComercial: 1
+
+09/05/2026 03:40:34: N0006 sale de la Calle Principal. Niños en la Calle Principal: 0
+
+09/05/2026 03:40:34: N0006 acaba de entrar al sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:35: N0003 acaba de entrar a: centroComercial. Niños en centroComercial: 2
+
+09/05/2026 03:40:35: N0005 sale del sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:35: N0005 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:40:36: N0008 acaba de entrar a: centroComercial. Niños en centroComercial: 3
+
+09/05/2026 03:40:36: N0006 sale del sótano. Niños en el sótano: 0
+
+09/05/2026 03:40:36: N0006 está esperando para entrar al portal del Alcantarillado
+
+09/05/2026 03:40:37: N0004 acaba de entrar a: centroComercial. Niños en centroComercial: 4
+
+09/05/2026 03:40:37: N0006 acaba de entrar a: alcantarillado. Niños en alcantarillado: 1
+
+09/05/2026 03:40:38: N0009 acaba de salir del Upside Down. Niños restantes en centroComercial:3
+
+09/05/2026 03:40:38: N0009 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 1
+
+09/05/2026 03:40:38: Sangre aumentada por: N0009 Sangre Total actual: 15
+
+09/05/2026 03:40:38: N0003 acaba de salir del Upside Down. Niños restantes en centroComercial:2
+
+09/05/2026 03:40:38: N0003 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 2
+
+09/05/2026 03:40:38: Sangre aumentada por: N0003 Sangre Total actual: 16
+
+09/05/2026 03:40:38: N0007 acaba de entrar a: alcantarillado. Niños en alcantarillado: 2
+
+09/05/2026 03:40:40: N0009 sale de la RadioWSQK. Niños en la RadioWSQK: 1
+
+09/05/2026 03:40:40: N0009 entra a la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:40:40: N0008 acaba de salir del Upside Down. Niños restantes en centroComercial:1
+
+09/05/2026 03:40:40: N0008 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 2
+
+09/05/2026 03:40:40: Sangre aumentada por: N0008 Sangre Total actual: 17
+
+09/05/2026 03:40:41: N0006 acaba de salir del Upside Down. Niños restantes en alcantarillado:1
+
+09/05/2026 03:40:41: N0006 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 3
+
+09/05/2026 03:40:41: Sangre aumentada por: N0006 Sangre Total actual: 18
+
+09/05/2026 03:40:41: ----------------------------D0001: Ha fallado al capturar a N0004 en: centroComercial----------------------------
+
+09/05/2026 03:40:41: N0003 sale de la RadioWSQK. Niños en la RadioWSQK: 2
+
+09/05/2026 03:40:41: N0003 entra a la Calle Principal. Niños en la Calle Principal: 2
+
+09/05/2026 03:40:42: N0004 acaba de salir del Upside Down. Niños restantes en centroComercial:0
+
+09/05/2026 03:40:42: N0004 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 3
+
+09/05/2026 03:40:42: Sangre aumentada por: N0004 Sangre Total actual: 19
+
+09/05/2026 03:40:42: N0007 ha sido retenido en la colmena. Total de niños: 1
+
+09/05/2026 03:40:42:  N0007 añadido a la colmena.
+
+09/05/2026 03:40:42: ----------------------------D0001: Ha capturado a N0007 en: alcantarillado (capturas: 1)----------------------------
+
+09/05/2026 03:40:43: N0006 sale de la RadioWSQK. Niños en la RadioWSQK: 2
+
+09/05/2026 03:40:43: N0006 entra a la Calle Principal. Niños en la Calle Principal: 3
+
+09/05/2026 03:40:44: N0008 sale de la RadioWSQK. Niños en la RadioWSQK: 1
+
+09/05/2026 03:40:44: N0008 entra a la Calle Principal. Niños en la Calle Principal: 4
+
+09/05/2026 03:40:44: N0009 sale de la Calle Principal. Niños en la Calle Principal: 3
+
+09/05/2026 03:40:44: N0009 acaba de entrar al sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:44: N0004 sale de la RadioWSQK. Niños en la RadioWSQK: 0
+
+09/05/2026 03:40:44: N0004 entra a la Calle Principal. Niños en la Calle Principal: 4
+
+09/05/2026 03:40:45: N0003 sale de la Calle Principal. Niños en la Calle Principal: 3
+
+09/05/2026 03:40:45: N0003 acaba de entrar al sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:45: N0009 sale del sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:45: N0009 está esperando para entrar al portal del Alcantarillado
+
+09/05/2026 03:40:47: N0003 sale del sótano. Niños en el sótano: 0
+
+09/05/2026 03:40:47: N0003 está esperando para entrar al portal del Alcantarillado
+
+09/05/2026 03:40:47: N0004 sale de la Calle Principal. Niños en la Calle Principal: 2
+
+09/05/2026 03:40:47: N0004 acaba de entrar al sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:47: N0006 sale de la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:40:47: N0006 acaba de entrar al sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:48: N0003 acaba de entrar a: alcantarillado. Niños en alcantarillado: 1
+
+09/05/2026 03:40:48: N0008 sale de la Calle Principal. Niños en la Calle Principal: 0
+
+09/05/2026 03:40:48: N0008 acaba de entrar al sótano. Niños en el sótano: 3
+
+09/05/2026 03:40:49: N0004 sale del sótano. Niños en el sótano: 2
+
+09/05/2026 03:40:49: N0004 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:40:49: N0009 acaba de entrar a: alcantarillado. Niños en alcantarillado: 2
+
+09/05/2026 03:40:49: N0006 sale del sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:49: N0006 está esperando para entrar al portal del Laboratorio
+
+09/05/2026 03:40:49: N0008 sale del sótano. Niños en el sótano: 0
+
+09/05/2026 03:40:49: N0008 está esperando para entrar al portal del Alcantarillado
+
+09/05/2026 03:40:50: N0006 acaba de entrar a: laboratorio. Niños en laboratorio: 1
+
+09/05/2026 03:40:51: N0010 acaba de entrar a: laboratorio. Niños en laboratorio: 2
+
+09/05/2026 03:40:51: N0003 acaba de salir del Upside Down. Niños restantes en alcantarillado:1
+
+09/05/2026 03:40:51: N0003 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 1
+
+09/05/2026 03:40:51: Sangre aumentada por: N0003 Sangre Total actual: 20
+
+09/05/2026 03:40:52: N0009 ha sido retenido en la colmena. Total de niños: 2
+
+09/05/2026 03:40:52:  N0009 añadido a la colmena.
+
+09/05/2026 03:40:52: ----------------------------D0001: Ha capturado a N0009 en: alcantarillado (capturas: 2)----------------------------
+
+09/05/2026 03:40:52: N0002 acaba de entrar a: laboratorio. Niños en laboratorio: 3
+
+09/05/2026 03:40:53: N0006 acaba de salir del Upside Down. Niños restantes en laboratorio:2
+
+09/05/2026 03:40:53: N0006 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 2
+
+09/05/2026 03:40:53: Sangre aumentada por: N0006 Sangre Total actual: 21
+
+09/05/2026 03:40:54: N0003 sale de la RadioWSQK. Niños en la RadioWSQK: 1
+
+09/05/2026 03:40:54: N0003 entra a la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:40:55: N0002 acaba de salir del Upside Down. Niños restantes en laboratorio:1
+
+09/05/2026 03:40:55: N0002 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 2
+
+09/05/2026 03:40:55: Sangre aumentada por: N0002 Sangre Total actual: 22
+
+09/05/2026 03:40:55: N0010 acaba de salir del Upside Down. Niños restantes en laboratorio:0
+
+09/05/2026 03:40:55: N0010 acaba de entrar a RadioWSQK. Niños en la RadioWSQK: 3
+
+09/05/2026 03:40:55: Sangre aumentada por: N0010 Sangre Total actual: 23
+
+09/05/2026 03:40:56: N0006 sale de la RadioWSQK. Niños en la RadioWSQK: 2
+
+09/05/2026 03:40:56: N0006 entra a la Calle Principal. Niños en la Calle Principal: 2
+
+09/05/2026 03:40:57: N0002 sale de la RadioWSQK. Niños en la RadioWSQK: 1
+
+09/05/2026 03:40:57: N0002 entra a la Calle Principal. Niños en la Calle Principal: 3
+
+09/05/2026 03:40:58: N0003 sale de la Calle Principal. Niños en la Calle Principal: 2
+
+09/05/2026 03:40:58: N0003 acaba de entrar al sótano. Niños en el sótano: 1
+
+09/05/2026 03:40:59: N0010 sale de la RadioWSQK. Niños en la RadioWSQK: 0
+
+09/05/2026 03:40:59: N0010 entra a la Calle Principal. Niños en la Calle Principal: 3
+
+09/05/2026 03:41:00: N0003 sale del sótano. Niños en el sótano: 0
+
+09/05/2026 03:41:00: N0003 está esperando para entrar al portal del Centro Comercial
+
+09/05/2026 03:41:00: N0002 sale de la Calle Principal. Niños en la Calle Principal: 2
+
+09/05/2026 03:41:00: N0002 acaba de entrar al sótano. Niños en el sótano: 1
+
+09/05/2026 03:41:01: N0006 sale de la Calle Principal. Niños en la Calle Principal: 1
+
+09/05/2026 03:41:01: N0006 acaba de entrar al sótano. Niños en el sótano: 2
+
+09/05/2026 03:41:02: N0002 sale del sótano. Niños en el sótano: 1
+
+09/05/2026 03:41:02: N0002 está esperando para entrar al portal del Alcantarillado
+
+09/05/2026 03:41:03: N0002 acaba de entrar a: alcantarillado. Niños en alcantarillado: 1
+

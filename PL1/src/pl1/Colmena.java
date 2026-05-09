@@ -5,7 +5,6 @@
 package pl1;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
