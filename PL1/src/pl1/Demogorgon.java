@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 /**
  *
  * @author Alejandro
@@ -57,6 +56,7 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
                 }
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
+                continue;
             }
             comprobarPausado();
             Nino niño = null;
@@ -108,32 +108,34 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
                     }
                     niño.setTiempo(tAtaque);
                     boolean exito = (Math.random() <= 1.0 / 3.0);
-                    
-                    if (exito) {niño.setCapturado();}
+
+                    if (exito) {
+                        niño.setCapturado();
+                    }
                     niño.interrupt();
                     sleep((long) tAtaque);
                     comprobarPausado();
-                    
 
                     if (exito) {
                         niño.setCapturado();  //Determinamos la captura antes del sleep.
-                        niño.terminarAtaque();  //Determinamos su estado de persecución para evitar que otros demogorgons lo ataquen.
 
-                        if (upsideDown.enviarNiñoColmena(niño)) {
+                        if (upsideDown.enviarNiñoColmena(niño, zona)) {
                             logger.escribirLog("----------------------------" + identificador + ": Ha capturado a " + niño.getIdentificador()
                                     + " en: " + zonaNombre + " (capturas: " + capturas.incrementAndGet() + ")" + "----------------------------");
                         }
-                    }
-                    
+                        sleep((long)(500 + 500*Math.random())); // Tiempo dejando al niño en la colmena
+                        niño.terminarAtaque();  //Determinamos su estado de persecución para evitar que otros demogorgons lo ataquen.
 
-                     else {
+                    } else {
                         niño.terminarAtaque();
 
                         logger.escribirLog("----------------------------" + identificador + ": Ha fallado al capturar a " + niño.getIdentificador()
                                 + " en: " + zonaNombre + "----------------------------");
 
-                        zona.devolverSiNoCapturado(niño, false);    //El demogorgon deja de perseguirlo
+                        // zona.devolverSiNoCapturado(niño, false);    //El demogorgon deja de perseguirlo
                     }
+                } else {
+                    System.out.println(identificador + " Ha agotado sus intentos de capturar niños. Se pira");
                 }
             } catch (InterruptedException ex) {
                 Thread.interrupted(); // Limpiar flag
@@ -147,12 +149,11 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
             }
 
             if (!paralizadoPortales.get()) {    // Si el evento de apagón del laboratorio está activo, se salta el cambio de zona y permanece en ella
-                int j=i;
-                while(j==i){    // Le forzamos a cambiar de lugar
+                int j = i;
+                while (j == i) {    // Le forzamos a cambiar de lugar
                     i = (int) (4 * Math.random());     //Elige su próximo destino
                 }
             }
-            
 
         }
     }

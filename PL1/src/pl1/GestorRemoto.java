@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author Alejandro
  */
-public class GestorRemoto extends UnicastRemoteObject implements Interface {   
+public class GestorRemoto extends UnicastRemoteObject implements Interface {
 
     private Hawkins hawkins;
     private UpsideDown upsideDown;

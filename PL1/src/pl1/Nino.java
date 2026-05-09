@@ -12,8 +12,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author Alejandro
  */
-
-
 /*
   Representa a un niño como hilo independiente
  
@@ -23,14 +21,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  
   Los niños se identifican con el formato "NXXXX".
  */
-
 public class Nino extends Thread {
 
     private int id;
     private String identificador;
     private Hawkins hawkins;
     private UpsideDown upsideDown;
-    
+
     // Duración del ataque en curso, fijada por el demogorgon antes de interrumpir al niño. 
     private double tiempo = 0;
 
@@ -48,14 +45,16 @@ public class Nino extends Thread {
 
     // Activado durante el evento Tormenta del Upside Down: duplica el tiempo de deambulación. 
     private AtomicBoolean tormenta = new AtomicBoolean(false);
-    
+
     /*
     Flag auxiliar para el bloque finally exterior: evita llamar a zonaActual.salir()
     dos veces cuando el niño ya salió en el bloque finally interior.
-    */
+     */
     private boolean yaFuera = false;
 
-    /** Activado por el GestorPausa para suspender al niño en comprobarPausado(). */
+    /**
+     * Activado por el GestorPausa para suspender al niño en comprobarPausado().
+     */
     private AtomicBoolean pausado = new AtomicBoolean(false);
 
     private transient SistemaLog logger;
@@ -65,7 +64,6 @@ public class Nino extends Thread {
      * pueda atacar a este niño en cada momento .
      */
     private AtomicBoolean enAtaque = new AtomicBoolean(false);
-
 
     public Nino(int id, Hawkins h, UpsideDown u, SistemaLog logger) {
         this.id = id;
@@ -163,7 +161,7 @@ public class Nino extends Thread {
                                         tiempo2 = System.currentTimeMillis();
                                     }
                                     tiempoRestante = tiempoRestante - (tiempo2 - tiempo1); // Se le resta lo que haya durado el sleep realmente
-                                    
+
                                 }
                             }
                         } finally {
@@ -186,15 +184,15 @@ public class Nino extends Thread {
                         enUpsideDown.set(false);
                     }
                     if (capturado.get()) {
-                         continue;
+                        continue;
                     }  //Entramos en el wait de la colmena
 
                 }
                 // REGRESO A HAWKINS
 
                 try {
-                    logger.escribirLog(identificador + " acaba de salir del Upside Down. Niños restantes en "+ zonaNombre +":"  + zonaActual.niñosEnZona());
-                    
+                    logger.escribirLog(identificador + " acaba de salir del Upside Down. Niños restantes en " + zonaNombre + ":" + zonaActual.niñosEnZona());
+
                     hawkins.getRadioWSBK().entrar(this);
                     hawkins.getRadioWSBK().depositarSangre(this);
                     sleep(2000 + (long) (Math.random() * 2000));
@@ -283,12 +281,16 @@ public class Nino extends Thread {
     public void setPausado(boolean b) {
         pausado.set(b);
     }
-    
+
     public boolean iniciarAtaque() {
-    return enAtaque.compareAndSet(false, true); // true solo si era false
-}
+        return enAtaque.compareAndSet(false, true); // true solo si era false
+    }
 
     public void terminarAtaque() {
         enAtaque.set(false);
+    }
+
+    public boolean bajoAtaque() {
+        return enAtaque.get();
     }
 }

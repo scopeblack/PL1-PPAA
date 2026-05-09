@@ -4,6 +4,9 @@
  */
 package pl1;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,7 +43,7 @@ public class ZonaUpsideDown {
         }
         synchronized (portal.getNiñosVolviendo()) {
             portal.getNiñosVolviendo().remove(n);
-            if(portal.getNiñosVolviendo().size() < 1){ // Si no queda nadie volviendo, notificamos a todos los niños que estén esperando en la lista
+            if (portal.getNiñosVolviendo().size() < 1) { // Si no queda nadie volviendo, notificamos a todos los niños que estén esperando en la lista
                 portal.getNiñosVolviendo().notifyAll();
             }
         }
@@ -62,19 +65,23 @@ public class ZonaUpsideDown {
     }
 
     public Nino elegir() throws InterruptedException {
+        List<Nino> niñosCopia;
         synchronized (niños) {
             if (niños.isEmpty()) {
                 niños.wait((long) (4000 + 1000 * Math.random()));
             }
-            if (!niños.isEmpty()) {
-                int i = (int) (niños.size() * Math.random());
-                Nino elegido = niños.get(i);
-                niños.remove(elegido); // Sacamos al niño para que nadie más lo ataque
-                if (!elegido.iniciarAtaque()) {
-                    return null; // Ya está siendo atacado
-                }
-                return elegido;
+            niñosCopia = new ArrayList<>(niños);
+        }
 
+        if (!niñosCopia.isEmpty()) {
+            for (Nino n : niños) {
+                niñosCopia.add(n);
+            }
+            Collections.shuffle(niñosCopia);
+            for (Nino n : niñosCopia) {
+                if (n.iniciarAtaque()) {
+                    return n;
+                }
             }
         }
         return null;
