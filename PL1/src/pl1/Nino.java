@@ -92,6 +92,7 @@ public class Nino extends Thread {
         // del niño al salir del Sótano ya esté fijado desde el primer ciclo
         int i = (int) (4 * Math.random());
 
+        
         // HAWKINS
         comprobarPausado();
         hawkins.getCallePrincipal().entrar(this);   //Spawn de los niños
@@ -102,17 +103,28 @@ public class Nino extends Thread {
         }
         comprobarPausado();
         hawkins.getCallePrincipal().salir(this);
-
+        
+        
         while (true) {
             try {
                 // ESPERA EN COLMENA
-                synchronized (this) {
-                    while (capturado.get()) {
-                        try {
-                            this.wait();
-                        } catch (InterruptedException e) {
-                            Thread.interrupted(); // Limpiar flag y volver al while por si el niño ya fue capturado por otro Demogorgon. (No debería pasar)
+                if(capturado.get()){
+                    synchronized (this) {
+                        while (capturado.get()) {
+                            try {
+                                this.wait();
+                            } catch (InterruptedException e) {
+                                Thread.interrupted(); // Limpiar flag y volver al while por si el niño ya fue capturado por otro Demogorgon. (No debería pasar)
+                            }
                         }
+                    }
+                    try{
+                        hawkins.getCallePrincipal().entrar(this);
+                        sleep(1000);
+                    }catch(InterruptedException e){
+                        e.printStackTrace();
+                    }finally{
+                        hawkins.getCallePrincipal().salir(this);
                     }
                 }
 
