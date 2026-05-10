@@ -5,6 +5,10 @@
 package pl1;
 
 /**
+ * Hilo creador de nuevos Demogorgons. Permanece bloqueado en
+ * UpsideDown.crearDemogorgon(), que internamente hace acquire(8) sobre un
+ * semáforo: solo se desbloquea cuando se han acumulado 8 capturas en la
+ * Colmena, momento en que instancia y arranca un nuevo Demogorgon.
  *
  * @author daniel
  */

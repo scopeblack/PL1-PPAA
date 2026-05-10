@@ -14,6 +14,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * Portal que conecta Hawkins con una zona del Upside Down. Implementa tres
+ * capas de control de concurrencia:
+ *
+ *  1. Semáforo "formar" (CAP número de permisos): limita cuántos niños pueden estar
+ *     formando grupo a la vez, se libera completo solo cuando el grupo entero
+ *     ha cruzado (contador k), para que no entre el siguiente grupo antes.
+ *  2. CyclicBarrier: sincroniza a los CAP niños del grupo para que ninguno
+ *     cruce hasta que todos hayan llegado al portal.
+ *  3. Semáforo "entrando" (1 permiso): garantiza el cruce de uno en uno,
+ *     bloqueando primero si hay niños en niñosVolviendo (prioridad de regreso).
+ *
+ *  semApagon (0 permisos inicial) bloquea el cruce durante el evento
+ *  Apagón del Laboratorio, al finalizar el apagón se liberan CAP permisos
+ *  para desbloquear a todos los niños que esperasen.
  *
  * @author Alejandro
  */
@@ -34,6 +48,11 @@ public class Portal {
     private transient SistemaLog logger;
     private AtomicBoolean pausado = new AtomicBoolean(false);
 
+    /**
+     * CAP es el tamaño del grupo requerido para cruzar (2/3/4 según la zona).
+     *  n es el Nombre de la zona destino, usado en los logs.
+     * ni es la Lista compartida de niños actualmente en la zona destino.
+     */
     public Portal(int CAP, String n, List<Nino> ni, SistemaLog logger) {
         this.barrera = new CyclicBarrier(CAP);
         formar = new Semaphore(CAP);
@@ -48,15 +67,21 @@ public class Portal {
         niñosEsperando.add(n);
         comprobarPausado(); // Antes de intentar formar grupo
 
+        // El niño compite por uno de los CAP permisos del grupo actual;
+        // si el grupo está lleno, queda en espera del siguiente
         formar.acquire();
         comprobarPausado();
         niñosEsperando.remove(n);
         niñosEnPortal.add(n);
         try {
             barrera.await(); // Espera a que el grupo esté completo con el CyclicBarrier
-        } catch (BrokenBarrierException | InterruptedException e) {}
+        } catch (BrokenBarrierException | InterruptedException e) { 
+            e.printStackTrace();
+        }
         comprobarPausado();
 
+        // Si el apagón está activo al saltar la barrera, el niño se bloquea
+        // aquí hasta que GestorEventos libere semApagon al final del apagón
         if (apagon.get()) {
             semApagon.acquire();
         }
@@ -82,7 +107,8 @@ public class Portal {
         } finally {
             entrando.release();
             niñosEnPortal.remove(n);
-            // Liberar el permiso de "formar" solo cuando todos han entrado
+            // Se liberan todos los permisos de "formar" solo cuando el grupo
+            // completo ha cruzado, impidiendo que el siguiente grupo empiece antes. (exclusividad de grupos)
             if (k.incrementAndGet() == CAP) {
                 k.set(0);
                 formar.release(CAP);
@@ -90,27 +116,49 @@ public class Portal {
         }
     }
 
+    /**
+     * Elimina al niño de la lista de la zona del Upside Down, indicando que
+     * ha regresado a Hawkins a través de este portal.
+     */
     public void regresar(Nino n) {
         niños.remove(n);
         logger.escribirLog(n.getIdentificador() + " sale del Upside Down");
     }
 
+    /**
+     * Devuelve la lista de niños que están cruzando el portal en este momento
+     * (ya han formado grupo y están en tránsito, uno a uno).
+     */
     public List getNiños() {
         return niñosEnPortal;
     }
 
+    /** Devuelve el tamaño de grupo requerido por este portal (2, 3 o 4). */
     public int getCAP() {
         return CAP;
     }
 
+    /**
+     * Activa o desactiva el bloqueo de cruce por Apagón del Laboratorio.
+     * Al activarse, los niños que completen la barrera se bloquearán en
+     * semApagon.acquire() hasta que el apagón termine.
+     */
     public void setApagon(boolean b) {
         apagon.set(b);
     }
 
+    /**
+     * Devuelve el semáforo de apagón para que GestorEventos pueda liberarlo
+     * (release(CAP)) al finalizar el Apagón del Laboratorio.
+     */
     public Semaphore getSemApagon() {
         return semApagon;
     }
 
+    /**
+     * Bloquea al niño que está atravesando el portal si el sistema está pausado.
+     * Lanza InterruptedException para que el Portal pueda propagarla correctamente.
+     */
     public void comprobarPausado() throws InterruptedException {
         synchronized (this) {
             while (pausado.get()) {
@@ -119,6 +167,10 @@ public class Portal {
         }
     }
 
+    /**
+     * Activa o desactiva la pausa del portal. Al reanudar (b=false) notifica a
+     * todos los niños bloqueados en comprobarPausado() para que continúen.
+     */
     public synchronized void setPausado(boolean b) {
         pausado.set(b);
         if (!b) {
@@ -126,10 +178,18 @@ public class Portal {
         }
     }
 
+    /**
+     * Devuelve la lista de niños que esperan para comenzar a formar grupo
+     * (aún no han adquirido el semáforo "formar"). Usada por la interfaz.
+     */
     public List getNiñosEsperando() {
         return niñosEsperando;
     }
 
+    /**
+     * Devuelve la lista de niños que están regresando del Upside Down.
+     * La comprueba formarGrupoYEntrar() para dar prioridad al regreso.
+     */
     public List getNiñosVolviendo() {
         return niñosVolviendo;
     }

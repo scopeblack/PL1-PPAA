@@ -12,9 +12,15 @@ import java.util.Date;
  * @author Alejandro
  */
 
+/**
+ * Recurso compartido para escritura de logs en "hawkins.txt".
+ * java.util.logging.Logger ya es thread-safe internamente, por lo que no
+ * se necesita sincronización adicional en escribirLog(). El bloque estático
+ * configura el FileHandler una sola vez al cargar la clase.
+ */
 public class SistemaLog {
-    
-    
+
+
     private static final Logger logger = Logger.getLogger("Logger");
 
     static {
@@ -42,7 +48,11 @@ public class SistemaLog {
         }
     }
 
-        // Por defecto el Logger ya es thread-safe
+    /**
+     * Escribe una línea en el fichero hawkins.txt con marca de tiempo.
+     * java.util.logging.Logger serializa internamente las escrituras, por lo
+     * que múltiples hilos pueden llamar a este método sin riesgo de condiciones de carrera.
+     */
     public void escribirLog(String mensaje) {
         logger.info(mensaje);
     }

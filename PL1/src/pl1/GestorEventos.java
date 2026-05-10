@@ -9,6 +9,13 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
+ * Hilo que genera eventos globales aleatorios cada 30-60 segundos.
+ * Cada evento dura entre 5 y 10 segundos y puede ser interrumpido por una
+ * pausa remota. Para sobrevivir a las pausas sin perder el tiempo ya
+ * transcurrido, cada método de evento lleva su propio par de variables
+ * t1, t2 y un "contador" acumulativo: al reanudar, el sleep usa
+ * (tiempo - contador) en lugar del tiempo total original.
+ * El mismo patrón se aplica a la espera entre eventos (t1Espera/t2Espera/contadorEspera).
  *
  * @author Alejandro
  */
@@ -19,11 +26,11 @@ public class GestorEventos extends Thread {
     private String eventoActivo = null;
     private String ultimoEventoActivo = null;
     private AtomicBoolean pausado = new AtomicBoolean(false);
-    private long tiempo;
-    private long contador = 0;
-    private long t1;
-    private long t2;
-    private long tiempoEspera;
+    private long tiempo;       // Duración total del evento activo (ms)
+    private long contador = 0; // Tiempo ya consumido del evento (sobrevive pausas)
+    private long t1;           // Marca de inicio
+    private long t2;           // Marca de fin 
+    private long tiempoEspera;      // Tiempo de espera entre eventos (ms)
     private long contadorEspera = 0;
     private long t1Espera;
     private long t2Espera;
@@ -35,6 +42,10 @@ public class GestorEventos extends Thread {
         this.logger = logger;
     }
 
+    /** El bucle while (tiempo - contador > 0) permite reanudar el evento
+    * donde se quedó si fue pausado. Cada iteración resta de contador
+    * el tiempo real transcurrido, y así el siguiente sleep usa el resto.
+    */
     public void apagonLaboratorio() {
 
         while (tiempo - contador > 0) { //El catch regresa al while si todavía queda tiempo de evento.
@@ -47,8 +58,11 @@ public class GestorEventos extends Thread {
                 t1 = System.currentTimeMillis();
                 // Cambiamos el evento
                 eventoActivo = "Apagón Del Laboratorio";
-
-                // Todos los portales quedarán inultizables
+                // La condición evita registrar "evento iniciado" en cada reanudación
+                if (!(tiempo - contador < tiempo)) {
+                    logger.escribirLog("--------------Evento iniciado: Apagón del Laboratorio.--------------");
+                }
+                // Todos los portales quedan inultizables
                 // Primero ponemos el flag del apagón en los portales a true
                 hawkins.getSotanoByers().getPortalAlcantarillado().setApagon(true);
                 hawkins.getSotanoByers().getPortalBosque().setApagon(true);
@@ -64,7 +78,7 @@ public class GestorEventos extends Thread {
                 sleep(tiempo - contador);
                 t2 = System.currentTimeMillis();
 
-                // Después, ponemos el flag de apagón a false
+                // Al acabar, ponemos el flag de apagón a false.
                 hawkins.getSotanoByers().getPortalAlcantarillado().setApagon(false);
                 hawkins.getSotanoByers().getPortalBosque().setApagon(false);
                 hawkins.getSotanoByers().getPortalCentroComercial().setApagon(false);
@@ -109,6 +123,9 @@ public class GestorEventos extends Thread {
                 }
                 t1 = System.currentTimeMillis();
                 eventoActivo = "Tormenta Del Upside Down";
+                if (!(tiempo - contador < tiempo)) { 
+                    logger.escribirLog("--------------Evento iniciado: Tormenta del Upside Down.--------------");
+                }
                 // Le decimos a los demogorgons, mediante el flag tormenta, que el evento está activo y que su velocidad
                 // de ataque se verá aumentada al doble (Reduciendo el tiempo entre ataques)
                 ArrayList<Demogorgon> demos = upsideDown.getDemogorgons();
@@ -122,12 +139,11 @@ public class GestorEventos extends Thread {
                 for (Nino n : niños) {
                     n.setTormenta(true);
                 }
-                // Tiempo aleatorio restante de la duración del evento
 
                 sleep(tiempo - contador);
                 t2 = System.currentTimeMillis();
 
-                // Le decimos a los demogorgons y a los niños que el evento ha terminado
+                // Le decimos a los demogorgons y a los niños que el evento ha terminado.
                 demos = upsideDown.getDemogorgons();
                 for (Demogorgon d : demos) {
                     d.setTormenta(false);
@@ -163,12 +179,13 @@ public class GestorEventos extends Thread {
 
                 List<Demogorgon> demos = upsideDown.getDemogorgons();
                 if (!(tiempo - contador < tiempo)) { //Para evitar volver a liberar niños/paralizar demogorgons tras reanudar el programa:
+                    logger.escribirLog("--------------Evento iniciado: Interveción de Eleven.--------------");
                     eventoActivo = "Intervención De Eleven";
                     int sangre = hawkins.getRadioWSBK().getSangre();
                     List<Nino> listaColmena = upsideDown.getColmena().getNiños();
-                    logger.escribirLog("Eleven liberando niños con " + sangre + " de sangre");
+                    logger.escribirLog("Eleven liberando niños con " + Math.min(sangre,listaColmena.size()) + " de sangre");
                     int liberados = 0;
-
+                    
                     for (Demogorgon d : demos) {
                         d.setParalizado();
                         d.interrupt();
@@ -217,7 +234,10 @@ public class GestorEventos extends Thread {
                 }
                 t1 = System.currentTimeMillis();
                 eventoActivo = "La Red Mental";
-
+                
+                if (!(tiempo - contador < tiempo)) { 
+                    logger.escribirLog("--------------Evento iniciado: Red Mental.--------------");
+                }
                 ArrayList<Demogorgon> demos = upsideDown.getDemogorgons();
                 for (Demogorgon d : demos) {
                     d.setConexionMindFlayer(true);
@@ -243,10 +263,12 @@ public class GestorEventos extends Thread {
 
     }
 
+    /** Devuelve el nombre del evento activo en este momento, o null si no hay ninguno. */
     public String getEvento() {
         return eventoActivo;
     }
 
+    /** Devuelve el nombre del último evento que terminó (para mostrarlo en la Interfaz). */
     public String getUltimoEventoActivo() {
         return ultimoEventoActivo;
     }
@@ -264,7 +286,7 @@ public class GestorEventos extends Thread {
                     }
                 }
                 t1Espera = System.currentTimeMillis();
-                System.out.println("Tiempo de espera gestor:" + (tiempoEspera - contadorEspera));
+
                 sleep(tiempoEspera - contadorEspera);
                 t2Espera = System.currentTimeMillis();
 
@@ -280,15 +302,19 @@ public class GestorEventos extends Thread {
             }
 
             switch (i) {
-                case 0 ->
+                case 0:
                     tormentaUpsideDown();
-                case 1 ->
+                    break;
+                case 1:
                     intervencionEleven();
-                case 2 ->
+                    break;
+                case 2:
                     apagonLaboratorio();
-                case 3 ->
+                    break;
+                case 3:
                     redMental();
-                default ->
+                    break;
+                default:
                     throw new AssertionError();
             }
 
@@ -301,11 +327,16 @@ public class GestorEventos extends Thread {
         }
     }
 
+    /**
+     * Punto de comprobación de pausa para el GestorEventos. Limpia el flag
+     * de interrupción antes del wait() para evitar que una interrupción
+     * previa cause que el wait() salga inmediatamente sin pausar.
+     */
     public void comprobarPausado() {
         try {
             synchronized (this) {
                 while (pausado.get()) {
-                    Thread.interrupted();   //Evita la interrupción en el wait por si acaso.
+                    Thread.interrupted();   // Evita la interrupción en el wait por si acaso.
                     this.wait();
                 }
             }
@@ -313,10 +344,14 @@ public class GestorEventos extends Thread {
         }
     }
 
+    /** Activa o desactiva la pausa del gestor de eventos. */
     public void setPausado(boolean b) {
         pausado.set(b);
     }
 
+    /**
+     * Calcula el tiempo restante del evento activo en milisegundos.
+     */
     public int getTiempoRestante() {
         return (int) (tiempo - (contador + System.currentTimeMillis() - t1));
     }

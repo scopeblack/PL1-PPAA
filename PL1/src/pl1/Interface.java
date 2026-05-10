@@ -5,6 +5,8 @@
 package pl1;
 
 /**
+ * Interface RMI compartida entre el servidor (GestorRemoto) y el cliente
+ * (ModuloRemoto en pl1_parte2). Todos los métodos deben declarar RemoteException 
  *
  * @author Alejandro
  */
@@ -14,11 +16,11 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface Interface extends Remote {
-    // Funciones de control
+    // Funciones de control remoto del sistema
     void Pausar() throws RemoteException;
     void Reanudar() throws RemoteException;
-    
-    // Funciones de consultas
+
+    // Consultas de estado en tiempo real
     int niñosHawkins() throws RemoteException;
     int niñosPortalBosque() throws RemoteException;
     int niñosPortalAlcantarillado() throws RemoteException;

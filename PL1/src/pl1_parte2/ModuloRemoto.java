@@ -5,6 +5,12 @@
 package pl1_parte2;
 
 /**
+ * Interfaz gráfica del cliente RMI (Parte 2). Se conecta al servidor
+ * GestorRemoto mediante Naming.lookup() al arrancar, y un hilo en
+ * PL1_parte2.main() llama a actualizarDatos() cada 100 ms para mantener
+ * la vista sincronizada sin interacción del usuario.
+ * El botón Parar/Reanudar invoca Pausar()/Reanudar() sobre el objeto remoto,
+ * que propaga el flag a todos los hilos del proceso servidor.
  *
  * @author Alejandro
  */
@@ -85,6 +91,8 @@ public class ModuloRemoto extends javax.swing.JFrame {
         top3Capturas.setForeground(rojoPeligro);
     }
 
+    // Busca el objeto remoto en el registro RMI local. Si el servidor (PL1)
+    // no está en ejecución, objetoRemoto queda null.
     private void conectarRemoto() {
         try {
             objetoRemoto = (Interface) Naming.lookup("//localhost/GestorRemoto");
@@ -455,9 +463,11 @@ public class ModuloRemoto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Consulta todos los datos al servidor y luego
+    // aplica los cambios con SwingUtilities.invokeLater()
     public void actualizarDatos(){
         try{
-            // Consultas
+            // Consultas al objeto remoto
             int niñosH1 = objetoRemoto.niñosHawkins();
             int portalB1 = objetoRemoto.niñosPortalBosque();
             int portalA1 = objetoRemoto.niñosPortalAlcantarillado();
@@ -552,11 +562,15 @@ public class ModuloRemoto extends javax.swing.JFrame {
         
     }
     
+    /**
+     * Alterna entre pausar y reanudar el sistema remoto. Si la conexión RMI
+     * se perdió, intenta reconectar antes de actuar. El flag estaPausado
+     * controla el texto del botón y el estado local.
+     */
     private void Parar_ReanudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Parar_ReanudarActionPerformed
-        // TODO add your handling code here:
-                try {
+        try {
             if (objetoRemoto == null) conectarRemoto();
-            
+
             if (!estaPausado) {
                 objetoRemoto.Pausar();
                 Parar_Reanudar.setText("REANUDAR");

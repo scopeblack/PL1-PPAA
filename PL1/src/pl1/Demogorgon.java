@@ -10,6 +10,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * Hilo que representa a un Demogorgon. Deambula entre las zonas inseguras
+ * del Upside Down atacando niños. Implementa Comparable para el ranking de
+ * capturas y Serializable para poder ser transferido por RMI en el top-3.
+ * Los campos transient (hawkins, upsideDown, zona, logger) se excluyen de la
+ * serialización porque son referencias locales no transmisibles por red.
  *
  * @author Alejandro
  */
@@ -29,6 +34,11 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
     private AtomicBoolean pausado = new AtomicBoolean(false);
     private transient SistemaLog logger;
 
+    /**
+     * Construye el Demogorgon con id numérico y genera el identificador "DXXXX"
+     * con ceros a la izquierda (por ejemplo id=0 → "D0000").
+     * El id=0 corresponde al Demogorgon Alpha creado al inicio del sistema.
+     */
     public Demogorgon(int id, Hawkins h, UpsideDown u, SistemaLog logger) {
         this.id = id;
         int digitos = contarDigitos(id);
@@ -39,6 +49,7 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
         this.logger = logger;
     }
 
+    /** Devuelve el identificador con formatoo "DXXXX" usado en logs e Interfaz. */
     public String getIdentificador() {
         return identificador;
     }
@@ -61,9 +72,11 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
             comprobarPausado();
             Nino niño = null;
             if (zona != null) {
-                zona.getDemogorgons().remove(this);
+                zona.getDemogorgons().remove(this);   // Salir de la zona anterior antes de calcular la próxima
             }
-            if (conexionMindFlayer.get()) { // Evento del MindFlayer. Se calcula el máximo de niños de las 4 zonas
+            // Evento La Red Mental: el Demogorgon ignora su ruta aleatoria y va
+            // directamente a la zona con más niños en ese instante
+            if (conexionMindFlayer.get()) {
                 String z1 = "";
                 int max1 = 0;
                 String z2 = "";
@@ -97,7 +110,7 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
             }
             zona.getDemogorgons().add(this);
 
-            // Dentro del run del Demogorgon
+
             comprobarPausado();
             try {
                 niño = zona.elegir();
@@ -106,25 +119,30 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
                     if (tormenta.get()) { // Si el evento tormenta del Upside Down está activo
                         tAtaque = tAtaque / 2; // Para simular que el tiempo entre ataques se reduce a la mitad
                     }
+                    // El tiempo de ataque se fija en el niño antes de interrumpirlo
+                    // para que cuando el niño despierte en esperar() ya tenga el valor correcto
                     niño.setTiempo(tAtaque);
                     boolean exito = (Math.random() <= 1.0 / 3.0);
 
+                    // La captura se marca antes del interrupt() y del sleep para que
+                    // si el niño llama a estaCapturado() durante el ataque, ya sepa su destino.
                     if (exito) {
-                        niño.setCapturado();
+                        niño.setCapturado();     //Determinamos la captura antes del sleep.
                     }
                     niño.interrupt();
                     sleep((long) tAtaque);
                     comprobarPausado();
 
                     if (exito) {
-                        niño.setCapturado();  //Determinamos la captura antes del sleep.
 
                         if (upsideDown.enviarNiñoColmena(niño, zona)) {
                             logger.escribirLog("----------------------------" + identificador + ": Ha capturado a " + niño.getIdentificador()
                                     + " en: " + zonaNombre + " (capturas: " + capturas.incrementAndGet() + ")" + "----------------------------");
                         }
                         sleep((long)(500 + 500*Math.random())); // Tiempo dejando al niño en la colmena
-                        niño.terminarAtaque();  //Determinamos su estado de persecución para evitar que otros demogorgons lo ataquen.
+                        // terminarAtaque() se llama después de depositar al niño en la Colmena
+                        // para evitar que ningún otro Demogorgon pueda atacarlo durante el traslado.
+                        niño.terminarAtaque();
 
                     } else {
                         niño.terminarAtaque();
@@ -132,18 +150,21 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
                         logger.escribirLog("----------------------------" + identificador + ": Ha fallado al capturar a " + niño.getIdentificador()
                                 + " en: " + zonaNombre + "----------------------------");
 
-                        // zona.devolverSiNoCapturado(niño, false);    //El demogorgon deja de perseguirlo
                     }
                 } else {
-                    System.out.println(identificador + " Ha agotado sus intentos de capturar niños. Se pira");
+                    //No encuentra ningún niño al que pueda perseguir.
+                    sleep((long) (4000 + 1000 * Math.random()));    //Descansa antes de volver a intentarlo.
                 }
             } catch (InterruptedException ex) {
                 Thread.interrupted(); // Limpiar flag
-                System.out.println(identificador + ": Ha sido paralizado por Eleven.");
+                logger.escribirLog(identificador + ": Ha sido paralizado por Eleven.");
                 if (niño != null) {
-                    zona.devolverSiNoCapturado(niño, false);    //El demogorgon deja de perseguirlo
-                    System.out.println("----------------------------" + identificador + ": Ha sido paralizado mientras capturaba a " + niño.getIdentificador()
+                    niño.terminarAtaque();    //El demogorgon deja de atacarlo
+                    logger.escribirLog("----------------------------" + identificador + ": Ha sido paralizado mientras atacaba a " + niño.getIdentificador()
                             + " en: " + zonaNombre + "----------------------------");
+                    if(niño.getCapturado()){
+                        niño.setLiberado();         //Si estaba planeado que lo capturase, ya no lo hará.
+                    }
                     continue;
                 }
             }
@@ -158,31 +179,58 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
         }
     }
 
+    /** Devuelve el número total de niños capturados por este Demogorgon. */
     public int getCapturas() {
         return capturas.get();
     }
 
+    /**
+     * Orden descendente por capturas para el ranking top-3.
+     * Se compara d.getCapturas() contra this.getCapturas() (invertido) para
+     * que Collections.sort() coloque al que más ha capturado en la posición 0.
+     */
     @Override
     public int compareTo(Demogorgon d) {
         return Integer.compare(d.getCapturas(), this.getCapturas());
     }
 
+    /**
+     * Activado por GestorEventos durante el Apagón del Laboratorio.
+     * Impide que el Demogorgon cambie de zona al final de cada ciclo.
+     */
     public void setParalizadoPortales(boolean b) {
         paralizadoPortales.set(b);
     }
 
+    /**
+     * Activado por GestorEventos durante la Tormenta del Upside Down.
+     * Reduce a la mitad el tiempo de ataque (mayor agresividad).
+     */
     public void setTormenta(boolean b) {
         tormenta.set(b);
     }
 
+    /**
+     * Activado por GestorEventos durante La Red Mental.
+     * Hace que el Demogorgon calcule en cada ciclo la zona con más niños
+     * en lugar de moverse aleatoriamente.
+     */
     public void setConexionMindFlayer(boolean b) {
         conexionMindFlayer.set(b);
     }
 
+    /**
+     * Paraliza al Demogorgon durante la Intervención de Eleven.
+     * El hilo entra en wait() al inicio del siguiente ciclo del run().
+     */
     public void setParalizado() {
         paralizado.set(true);
     }
 
+    /**
+     * Desparaliza al Demogorgon al terminar la Intervención de Eleven.
+     * El notify() desbloquea el wait() del run().
+     */
     public synchronized void Liberar() {
         paralizado.set(false);
         this.notify();
@@ -192,15 +240,28 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
         return identificador;
     }
 
+    /**
+     * Cuenta dígitos de n para calcular el relleno de ceros del identificador.
+     * Ejemplo: n=12 ->  2 dígitos -> 2 ceros de relleno -> "D0012".
+     */
     public int contarDigitos(int n) {
-        int k = 0;
-        while (n > 0) {
-            k++;
-            n = Math.floorDiv(n, 10);
+        if(n==0){
+            return 1;   // Valor para el Alpha
         }
-        return k;
+        else{
+            int k = 0;
+            while (n > 0) {
+                k++;
+                n = Math.floorDiv(n, 10);
+            }
+            return k;
+        }
     }
 
+    /**
+     * Punto de comprobación de pausa: bloquea al Demogorgon en wait()
+     * hasta que GestorRemoto.Reanudar() llame a notify().
+     */
     public void comprobarPausado() {
         try {
             synchronized (this) {
@@ -212,6 +273,7 @@ public class Demogorgon extends Thread implements Comparable<Demogorgon>, Serial
         }
     }
 
+    /** Activa o desactiva la pausa del Demogorgon. */
     public void setPausado(boolean b) {
         pausado.set(b);
     }

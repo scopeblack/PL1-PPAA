@@ -4,16 +4,15 @@
  */
 package pl1;
 
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 /**
+ * Interfaz gráfica local del sistema (Parte 1). Muestra en tiempo real el
+ * estado de todas las zonas, portales, niños, demogorgons y el evento activo.
+ * La actualización se realiza desde un hilo daemon en PL1.main() que llama
+ * a actualizarDatos() cada 100 ms mediante SwingUtilities.invokeLater().
  *
  * @author daniel
  */
@@ -26,7 +25,6 @@ public class Interfaz extends javax.swing.JFrame {
     private UpsideDown upsideDown;
     private GestorEventos gestor;
     private AtomicInteger contadorNiños;
-    private GestorRemoto gestorPausa;
     public Interfaz() {
         initComponents();
         this.getContentPane().setBackground(new java.awt.Color(15, 15, 15));
@@ -131,12 +129,17 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }
     
-    public void setInicial(Hawkins h, UpsideDown u, GestorEventos g, AtomicInteger a, GestorRemoto gp){
+    /**
+     * Introduce las referencias del modelo tras la construcción del JFrame.
+     * Se separa del constructor porque NetBeans genera initComponents() primero
+     * y las referencias del modelo aún no existen en ese momento.
+     * a es un contador atómico de niños creados hasta ahora (actualizado por PL1.main).
+     */
+    public void setInicial(Hawkins h, UpsideDown u, GestorEventos g, AtomicInteger a){
         this.hawkins = h;
         this.upsideDown = u;
         this.gestor = g;
         this.contadorNiños = a;
-        this.gestorPausa = gp;
     }
 
     /**
@@ -657,6 +660,7 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ultimoEventoActivoActionPerformed
     
+    // Refresca todas las JLists y etiquetas con el estado actual del sistema.
     public void actualizarDatos(){
         actualizarLista(callePrincipal, hawkins.getCallePrincipal().getNiños());
         actualizarLista(sotanoByers, hawkins.getSotanoByers().getNiños());
@@ -693,7 +697,11 @@ public class Interfaz extends javax.swing.JFrame {
         ultimoEventoActivo.setText(gestor.getUltimoEventoActivo());
     }
     
-    // Método auxiliar genérico para actualizar cualquier JList
+    /**
+     * Vacía el modelo de la JList dada y lo rellena con los elementos actuales.
+     *  lista es el JList de destino.
+     *  elementos es la lista del modelo (niños o demogorgons de una zona).
+     */
     private void actualizarLista(javax.swing.JList lista, List elementos) {
         DefaultListModel modelo = (DefaultListModel) lista.getModel();
         modelo.clear();
