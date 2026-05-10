@@ -119,11 +119,13 @@ public class Nino extends Thread {
                         }
                     }
                     try{
+                        comprobarPausado();
                         hawkins.getCallePrincipal().entrar(this);
                         sleep(1000);
                     }catch(InterruptedException e){
                         e.printStackTrace();
                     }finally{
+                        comprobarPausado();
                         hawkins.getCallePrincipal().salir(this);
                     }
                 }
